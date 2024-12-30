@@ -1,0 +1,31 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please verify your email address."
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_marginBottom="20dp" />
+
+    <!-- 이메일 인증 확인 버튼 -->
+    <Button
+        android:id="@+id/btnCheckVerification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="I have verified my email"
+        android:layout_marginBottom="16dp" />
+
+    <!-- 이메일 재전송 버튼 -->
+    <Button
+        android:id="@+id/btnResendEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Resend Email" />
+</LinearLayout>

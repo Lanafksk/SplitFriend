@@ -13,6 +13,12 @@
         android:theme="@style/Theme.SplitFriend"
         tools:targetApi="31">
         <activity
+            android:name=".AdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EmailVerificationActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
