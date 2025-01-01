@@ -4,17 +4,11 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- 기존 테마 설정 -->
         <item name="android:windowBackground">@color/white</item>
-    </style>
 
+    </style>
 
     <!-- 스플래시 스크린 전용 테마 -->
     <style name="Theme.Splash" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@color/white</item>
     </style>
-
-    <style name="ShapeAppearanceOverlay.Chip.RoundedCorners" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">8dp</item>
-    </style>
-
 </resources>
