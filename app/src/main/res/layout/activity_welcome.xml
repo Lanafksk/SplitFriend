@@ -1,0 +1,93 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <!-- 중앙 컨텐츠: 로고, 텍스트 -->
+    <LinearLayout
+        android:id="@+id/centerContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttonContainer"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <!-- 로고 이미지 -->
+        <ImageView
+            android:id="@+id/logoImage"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_logo"
+            android:contentDescription="App Logo" />
+
+        <!-- Welcome 텍스트 -->
+        <TextView
+            android:id="@+id/welcomeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Welcome to App Name !"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="@color/light_blue" />
+
+        <!-- App 설명 텍스트 -->
+        <TextView
+            android:id="@+id/appDescriptionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Manage Group Expenses Seamlessly"
+            android:textColor="@color/gray"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- 버튼 컨테이너 -->
+    <LinearLayout
+        android:id="@+id/buttonContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:orientation="vertical">
+
+        <!-- Login 버튼 -->
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="Log in"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:background="@drawable/lightblue_button_background"
+            android:layout_marginBottom="10dp" />
+
+        <!-- Register 버튼 -->
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="Register"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/light_blue"
+            android:background="@drawable/lightblue_button_stroke" />
+
+        <!-- Find my ID/Password 텍스트 -->
+        <TextView
+            android:id="@+id/findIdPasswordText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Find my Id/Passwords"
+            android:textColor="@color/dark_gray"
+            android:layout_gravity="center"
+            android:textSize="15sp"
+            android:layout_marginTop="15dp" />
+    </LinearLayout>
+</RelativeLayout>
