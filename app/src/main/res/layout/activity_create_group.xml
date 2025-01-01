@@ -55,7 +55,7 @@
         <EditText
             android:id="@+id/groupNameInput"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="55dp"
             android:hint="Enter the Group Name"
             android:background="@drawable/stroke_box_background"
             android:padding="12dp"
@@ -102,12 +102,11 @@
     <Button
         android:id="@+id/saveButton"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="55dp"
         android:layout_margin="16dp"
         android:text="Save"
         android:textSize="20sp"
         android:textStyle="bold"
         android:background="@drawable/lightblue_button_background"
-        android:textColor="@color/white"
-        android:padding="12dp" />
+        android:textColor="@color/white"/>
 </LinearLayout>
