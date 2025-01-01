@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- Delete Button -->
+    <LinearLayout
+        android:id="@+id/deleteButtonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="@color/red"
+        android:padding="16dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/deleteIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/baseline_delete_outline_24"
+            android:contentDescription="Delete Icon"/>
+
+        <TextView
+            android:id="@+id/deleteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Delete"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <!-- Main Group Item -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/groupCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        android:background="@drawable/card_with_bottom_stroke">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Group Title -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <ImageView
+                    android:id="@+id/groupIcon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/baseline_groups_24"
+                    android:contentDescription="Group Icon" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="8dp">
+
+                    <TextView
+                        android:id="@+id/groupName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black"
+                        android:text="Group Name" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" · "
+                        android:textStyle="bold"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:id="@+id/memberCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="24sp"
+                        android:textColor="@android:color/darker_gray"
+                        android:textStyle="bold"
+                        android:text="5" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Member List -->
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/memberChipGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                app:chipSpacingHorizontal="8dp"
+                app:chipSpacingVertical="8dp"
+                app:singleLine="true">
+
+                <!-- Example Chip without button behavior -->
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:minHeight="40dp"
+                    android:text="User Name"
+                    android:textSize="12sp"
+                    android:clickable="false"
+                    android:focusable="false"
+                    app:chipBackgroundColor="@color/dark_gray"
+                    android:textColor="@android:color/white"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Chip.RoundedCorners" />
+            </com.google.android.material.chip.ChipGroup>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/gray" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>
