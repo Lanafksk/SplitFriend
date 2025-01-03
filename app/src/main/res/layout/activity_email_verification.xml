@@ -1,31 +1,119 @@
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="16dp">
+    android:background="@color/light_blue">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- Header Section -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Please verify your email address."
-        android:textSize="16sp"
-        android:gravity="center"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@id/contentContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
-    <!-- 이메일 인증 확인 버튼 -->
-    <Button
-        android:id="@+id/btnCheckVerification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="I have verified my email"
-        android:layout_marginBottom="16dp" />
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please verify your email"
+            android:textColor="@android:color/white"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- 이메일 재전송 버튼 -->
-    <Button
-        android:id="@+id/btnResendEmail"
-        android:layout_width="wrap_content"
+    <!-- Main Content -->
+    <LinearLayout
+        android:id="@+id/contentContainer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Resend Email" />
-</LinearLayout>
+        android:layout_marginTop="16dp"
+        android:background="@drawable/card_top_corners"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Description -->
+        <TextView
+            android:id="@+id/descriptionText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="We sent an email to your email address!"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/instructionText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Just click on the link in that email and press the Register button to complete your registration."
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Resend Email Section -->
+        <TextView
+            android:id="@+id/resendPromptText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Still can’t find your email?"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/btnResendEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@null"
+            android:text="Resend Email"
+            android:background="@drawable/darkgray_stroke"
+            android:textColor="@color/dark_gray"
+            android:textSize="16sp"
+            android:layout_marginBottom="20dp"
+            android:padding="10dp"
+            android:layout_gravity="center" />
+
+        <!-- Register Button -->
+        <Button
+            android:id="@+id/btnCheckVerification"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="Register"
+            android:background="@drawable/lightblue_button_background"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
+
+        <!-- Go Back Text -->
+        <TextView
+            android:id="@+id/btnGoback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Go back to the previous page"
+            android:textColor="@color/gray"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
