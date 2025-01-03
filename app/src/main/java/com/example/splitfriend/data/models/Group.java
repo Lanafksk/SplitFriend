@@ -3,11 +3,12 @@ package com.example.splitfriend.data.models;
 import com.google.firebase.firestore.DocumentId;
 import com.google.firebase.firestore.Exclude;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Group {
+public class Group implements Serializable {
     @DocumentId private String id;
     private String name;
     private List<String> membersId;

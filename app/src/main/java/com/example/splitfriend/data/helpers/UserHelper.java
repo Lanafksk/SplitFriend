@@ -60,7 +60,8 @@ public class UserHelper {
                 "password", user.getPassword(),
                 "name", user.getName(),
                 "bankAccountNumber", user.getBankAccountNumber(),
-                "bankName", user.getBankName()
+                "bankName", user.getBankName(),
+                "role", user.getRole()
         ).addOnFailureListener(
                 e -> System.out.println("Error updating user: " + e.getMessage()));
     }

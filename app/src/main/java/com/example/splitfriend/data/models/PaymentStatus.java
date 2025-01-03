@@ -2,7 +2,9 @@ package com.example.splitfriend.data.models;
 
 import com.google.firebase.firestore.DocumentId;
 
-public class PaymentStatus {
+import java.io.Serializable;
+
+public class PaymentStatus implements Serializable {
     @DocumentId private String id;
     private String userId;
     private StatusEnum status;

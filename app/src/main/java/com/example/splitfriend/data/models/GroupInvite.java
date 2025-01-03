@@ -2,7 +2,9 @@ package com.example.splitfriend.data.models;
 
 import com.google.firebase.firestore.DocumentId;
 
-public class GroupInvite {
+import java.io.Serializable;
+
+public class GroupInvite implements Serializable {
     @DocumentId private String id;
     private String groupId;
     private String sendUserId;
