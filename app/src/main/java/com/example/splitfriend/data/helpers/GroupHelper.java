@@ -38,7 +38,8 @@ public class GroupHelper {
                 "name", group.getName(),
                 "membersId", group.getMembersId(),
                 "leaderId", group.getLeaderId(),
-                "activitiesId", group.getActivitiesId()
+                "activitiesId", group.getActivitiesId(),
+                "inviteCode", group.getInviteCode()
         ).addOnFailureListener(
                 e -> System.out.println("Error updating group: " + e.getMessage()));
     }
