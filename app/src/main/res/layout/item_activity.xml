@@ -32,86 +32,95 @@
             android:textSize="16sp" />
     </LinearLayout>
 
-    <!-- Main Group Item -->
+    <!-- Main Activity Item -->
     <androidx.cardview.widget.CardView
-        android:id="@+id/groupCardView"
+        android:id="@+id/activityCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
-        android:clipToPadding="false"
-        android:clipChildren="false"
-        android:background="@drawable/card_with_bottom_stroke">
-
+        android:background="@drawable/card_with_bottom_stroke"
+        android:layout_marginVertical="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="5dp">
 
-            <!-- Group Title -->
+            <!-- Activity Title Row -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingTop="8dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp">
+                android:gravity="center_vertical">
 
                 <ImageView
-                    android:id="@+id/groupIcon"
+                    android:id="@+id/activityIcon"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/baseline_groups_black_24"
-                    android:contentDescription="Group Icon" />
+                    android:src="@drawable/baseline_format_list_bulleted_24"
+                    android:contentDescription="Activity Icon" />
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/activityName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginStart="8dp">
+                    android:layout_marginStart="8dp"
+                    android:text="Activity Name"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/groupName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/black"
-                        android:text="Group Name" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" · "
+                    android:textSize="20sp"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" · "
-                        android:textStyle="bold"
-                        android:textSize="24sp" />
+                <TextView
+                    android:id="@+id/participantCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/darker_gray"
+                    android:text="4" />
 
-                    <TextView
-                        android:id="@+id/memberCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="24sp"
-                        android:textColor="@android:color/darker_gray"
-                        android:textStyle="bold"
-                        android:text="5" />
-                </LinearLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
 
+                <TextView
+                    android:id="@+id/activityDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="16sp"
+                    android:text="2024.12.25"/>
             </LinearLayout>
 
-            <!-- Member List -->
+            <!-- Amount -->
+            <TextView
+                android:id="@+id/amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/red"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:text="3,000,000 d"/>
+
+            <!-- Participant Chips -->
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/memberChipGroup"
+                android:id="@+id/participantChips"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
                 app:chipSpacingHorizontal="8dp"
-                app:chipSpacingVertical="8dp"
+                android:layout_marginTop="5dp"
                 app:singleLine="true">
 
-                <!-- Example Chip without button behavior -->
                 <com.google.android.material.chip.Chip
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
@@ -124,12 +133,7 @@
                     android:textColor="@android:color/white"
                     app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Chip.RoundedCorners" />
             </com.google.android.material.chip.ChipGroup>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:background="@color/gray" />
         </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 </FrameLayout>
