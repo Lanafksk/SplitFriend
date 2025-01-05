@@ -2,11 +2,12 @@ package com.example.splitfriend.data.models;
 
 import com.google.firebase.firestore.DocumentId;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Activity {
+public class Activity implements Serializable {
     @DocumentId private String id;
     private String name;
     private Double amount;

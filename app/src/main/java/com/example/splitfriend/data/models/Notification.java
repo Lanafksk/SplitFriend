@@ -2,9 +2,10 @@ package com.example.splitfriend.data.models;
 
 import com.google.firebase.firestore.DocumentId;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Notification {
+public class Notification implements Serializable {
     @DocumentId private String id;
     private String triggeredBy;
     private List<String> targetUsersId;

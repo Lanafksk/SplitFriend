@@ -57,10 +57,10 @@ public class UserHelper {
         return db.collection("users").document(user.getId()).update(
                 "email", user.getEmail(),
                 "userId", user.getUserId(),
-                "password", user.getPassword(),
                 "name", user.getName(),
                 "bankAccountNumber", user.getBankAccountNumber(),
-                "bankName", user.getBankName()
+                "bankName", user.getBankName(),
+                "role", user.getRole()
         ).addOnFailureListener(
                 e -> System.out.println("Error updating user: " + e.getMessage()));
     }

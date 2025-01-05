@@ -2,10 +2,11 @@ package com.example.splitfriend.data.models;
 
 import com.google.firebase.firestore.DocumentId;
 
+import java.io.Serializable;
 import java.util.List;
 
 // Bill for now wont have Image or we can use image URL instead for now
-public class Bill {
+public class Bill implements Serializable {
     @DocumentId private String id;
     private double billAmount;
     private String paidBy;
