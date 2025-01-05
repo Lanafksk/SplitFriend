@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.splitfriend.user.HomeActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -39,7 +40,7 @@ public class SplashActivity extends AppCompatActivity {
                                 startActivity(new Intent(SplashActivity.this, AdminActivity.class));
                             } else {
                                 // MainActivity로 이동
-                                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                                startActivity(new Intent(SplashActivity.this, HomeActivity.class));
                             }
                         } else {
                             // 역할 정보가 없을 경우 로그인 화면으로 이동
