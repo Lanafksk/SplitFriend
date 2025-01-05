@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/popup_background"
+    android:padding="16dp">
+
+    <!-- Close Button -->
+    <ImageView
+        android:id="@+id/closeButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="end"
+        android:src="@drawable/baseline_close_black_24"
+        android:contentDescription="Close" />
+
+    <!-- Text Content -->
+    <TextView
+        android:id="@+id/joinPromptText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Do you want to join [group name]?"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:gravity="center" />
+
+    <!-- Button Container -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center">
+
+        <!-- Decline Button -->
+        <Button
+            android:id="@+id/declineButton"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:text="Decline"
+            android:textColor="@color/dark_gray"
+            android:background="@drawable/darkgray_stroke" />
+
+        <!-- Join Button -->
+        <Button
+            android:id="@+id/joinButton"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:text="Join"
+            android:textColor="@android:color/white"
+            android:background="@drawable/lightblue_button_background" />
+    </LinearLayout>
+</LinearLayout>
