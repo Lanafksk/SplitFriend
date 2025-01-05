@@ -48,4 +48,10 @@ public class GroupHelper {
         return db.collection("groups").document(groupId).delete().addOnFailureListener(
                 e -> System.out.println("Error deleting group: " + e.getMessage()));
     }
+
+    public Task<QuerySnapshot> getGroupsByMemberId(String memberId) {
+        return db.collection("groups")
+                .whereArrayContains("membersId", memberId)
+                .get();
+    }
 }

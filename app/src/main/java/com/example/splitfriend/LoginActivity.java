@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.splitfriend.user.HomeActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -99,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                                             startActivity(new Intent(LoginActivity.this, AdminActivity.class));
                                         } else {
                                             // MainActivity로 이동
-                                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                                         }
                                         finish();
                                     } else {

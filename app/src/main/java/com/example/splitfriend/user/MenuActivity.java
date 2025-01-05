@@ -1,4 +1,4 @@
-package com.example.splitfriend.ui.user;
+package com.example.splitfriend.user;
 
 import android.os.Bundle;
 
