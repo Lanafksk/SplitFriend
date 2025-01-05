@@ -10,13 +10,13 @@
     <!-- Close Button -->
     <ImageButton
         android:id="@+id/closeButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_gravity="end"
+        android:padding="9dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/baseline_close_black_24"
         android:contentDescription="Close"/>
-
     <!-- Category Color Selection -->
     <LinearLayout
         android:layout_width="match_parent"
