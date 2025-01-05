@@ -2,14 +2,16 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- AppBarLayout -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar">
 
+        <!-- Header Layout -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,11 +50,12 @@
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Content -->
+    <!-- Content Area -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        android:background="@android:color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -63,7 +66,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="20dp">
+                android:layout_marginBottom="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -74,7 +77,6 @@
                     android:textColor="@android:color/black"
                     android:textSize="25sp"
                     android:textStyle="bold" />
-
                 <ImageButton
                     android:layout_width="48dp"
                     android:layout_height="48dp"
@@ -84,7 +86,6 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/baseline_edit_24"
                     android:contentDescription="Edit Group Name"/>
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -100,7 +101,6 @@
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp"
                 android:layout_marginBottom="15dp">
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -117,7 +117,6 @@
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp"
                 android:layout_marginBottom="20dp">
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -125,7 +124,6 @@
                     android:textColor="@color/black"
                     android:textSize="32sp"
                     android:textStyle="bold"/>
-
                 <ImageButton
                     android:layout_width="48dp"
                     android:layout_height="48dp"
@@ -142,7 +140,6 @@
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp"
                 android:layout_marginBottom="5dp">
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -151,7 +148,6 @@
                     android:textSize="15sp"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"/>
-
                 <ImageButton
                     android:layout_width="48dp"
                     android:layout_height="48dp"
@@ -177,7 +173,6 @@
                     android:layout_height="40dp"
                     android:minHeight="40dp"
                     android:text="User Name"
-                    android:layout_marginStart="16dp"
                     android:clickable="false"
                     android:focusable="false"
                     app:chipBackgroundColor="@color/dark_gray"
@@ -234,7 +229,6 @@
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp"
                 android:layout_marginBottom="5dp">
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -243,7 +237,6 @@
                     android:textSize="15sp"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"/>
-
                 <ImageButton
                     android:layout_width="48dp"
                     android:layout_height="48dp"
@@ -254,97 +247,107 @@
                     android:contentDescription="Edit Categories"/>
             </RelativeLayout>
 
-            <!-- Category Items -->
-            <GridLayout
+            <!-- Category Grid -->
+            <androidx.gridlayout.widget.GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:columnCount="2"
-                android:rowCount="3">
+                app:columnCount="2"
+                app:rowCount="3">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
+                    android:gravity="center_vertical">
+
+                    <View
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@color/gray"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Category"
+                        android:textColor="@android:color/black"
+                        android:layout_marginStart="8dp"/>
+                </LinearLayout>
+            </androidx.gridlayout.widget.GridLayout>
+
+            <!-- Category Items with Cards -->
+            <androidx.gridlayout.widget.GridLayout
+                android:id="@+id/categoryItemsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:visibility="gone"
+                app:columnCount="2"
+                app:rowCount="3"
+                app:alignmentMode="alignMargins"
+                app:useDefaultMargins="true">
+
+                <!-- Category Card -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="1"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="4dp"
                     android:layout_margin="8dp">
 
-                    <View
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:gravity="center_vertical">
+
+                        <View
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginStart="12dp"
+                            android:background="@color/gray"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="category"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp"
+                            android:layout_marginStart="12dp"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Add Button Card -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_columnWeight="1"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="4dp"
+                    android:layout_margin="8dp"
+                    app:cardBackgroundColor="@color/gray">
+
+                    <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:background="@color/gray"/>
+                        android:layout_gravity="center"
+                        android:src="@drawable/baseline_add_24"/>
+                </androidx.cardview.widget.CardView>
+            </androidx.gridlayout.widget.GridLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="category"
-                        android:textSize="16sp"
-                        android:textColor="@color/black"
-                        android:layout_marginStart="8dp"/>
-                </LinearLayout>
-            </GridLayout>
+            <!-- Save Button -->
+            <Button
+                android:id="@+id/saveCategoriesButton"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_margin="16dp"
+                android:visibility="gone"
+                android:background="@drawable/lightblue_button_background"
+                android:text="Save"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
         </LinearLayout>
-
-        <!-- Category Items with Cards (after click edit)-->
-        <androidx.gridlayout.widget.GridLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            app:columnCount="2"
-            app:rowCount="3"
-            app:alignmentMode="alignMargins"
-            app:useDefaultMargins="true"
-            tools:ignore="MissingClass">
-
-            <!-- Category Card -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_columnWeight="1"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp"
-                android:layout_margin="8dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical"
-                    android:padding="8dp">
-
-                    <View
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_margin="8dp"
-                        android:background="@color/gray"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="catetory"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        android:layout_marginStart="8dp"/>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- Add Button Card -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_columnWeight="1"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp"
-                android:layout_margin="8dp"
-                app:cardBackgroundColor="@color/gray">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="12dp"
-                    android:src="@drawable/baseline_add_24"/>
-            </androidx.cardview.widget.CardView>
-        </androidx.gridlayout.widget.GridLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
