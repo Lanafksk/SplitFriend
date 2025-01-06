@@ -1,6 +1,7 @@
 package com.example.splitfriend.user;
 
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -57,10 +58,25 @@ public class HomeActivity extends AppCompatActivity implements GroupAdapter.OnGr
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                // Handle full swipe to delete
                 int position = viewHolder.getAdapterPosition();
                 groupAdapter.notifyItemChanged(position);
                 groupAdapter.onBindViewHolder((GroupViewHolder) viewHolder, position);
                 viewHolder.itemView.findViewById(R.id.deleteButtonLayout).setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                    View itemView = viewHolder.itemView;
+                    float translationX = dX / 2; // Adjust this value to control the swipe distance
+                    itemView.setTranslationX(translationX);
+                    View deleteButton = itemView.findViewById(R.id.deleteButtonLayout);
+                    deleteButton.setTranslationX(translationX - deleteButton.getWidth()); // Move delete button with swipe
+                    deleteButton.setVisibility(View.VISIBLE); // Ensure delete button is visible
+                } else {
+                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                }
             }
         });
         itemTouchHelper.attachToRecyclerView(recyclerView);
@@ -68,11 +84,18 @@ public class HomeActivity extends AppCompatActivity implements GroupAdapter.OnGr
         loadGroups();
 
         // Set up the floating button click listener
-        findViewById(R.id.fabInclude).setOnClickListener(v -> {
+        findViewById(R.id.addGroupFab).setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, CreateGroupActivity.class);
             startActivity(intent);
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadGroups();
+    }
+
 
     private void loadGroups() {
         groupHelper.getGroupsByMemberId(userId)

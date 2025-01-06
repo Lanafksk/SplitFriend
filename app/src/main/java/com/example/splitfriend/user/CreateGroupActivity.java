@@ -6,6 +6,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.splitfriend.R;
@@ -15,6 +16,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.Random;
 
@@ -38,7 +41,6 @@ public class CreateGroupActivity extends AppCompatActivity {
         if (currentUser != null) {
             userId = currentUser.getUid();
         } else {
-            // Handle the case where the user is not logged in
             Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
             finish();
             return;
@@ -49,8 +51,14 @@ public class CreateGroupActivity extends AppCompatActivity {
         saveButton = findViewById(R.id.saveButton);
         groupHelper = new GroupHelper();
         db = FirebaseFirestore.getInstance();
-        inviteCode = generateInviteCode();
-        inviteCodeText.setText(inviteCode);
+
+        generateInviteCode(new InviteCodeCallback() {
+            @Override
+            public void onInviteCodeGenerated(String code) {
+                inviteCode = code;
+                inviteCodeText.setText(inviteCode);
+            }
+        });
 
         saveButton.setOnClickListener(v -> createGroup());
     }
@@ -73,17 +81,34 @@ public class CreateGroupActivity extends AppCompatActivity {
                 });
     }
 
-    private String generateInviteCode() {
-        String inviteCode;
-        do {
-            inviteCode = formatInviteCode(generateRandomNumber());
-        } while (!isInviteCodeUnique(inviteCode));
-        return inviteCode;
+    private void generateInviteCode(InviteCodeCallback callback) {
+        String inviteCode = formatInviteCode(generateRandomNumber());
+        isInviteCodeUnique(inviteCode, new InviteCodeUniqueCallback() {
+            @Override
+            public void onResult(boolean isUnique) {
+                if (isUnique) {
+                    callback.onInviteCodeGenerated(inviteCode);
+                } else {
+                    generateInviteCode(callback);
+                }
+            }
+        });
     }
 
-    private boolean isInviteCodeUnique(String inviteCode) {
-        QuerySnapshot snapshots = db.collection("groups").whereEqualTo("inviteCode", inviteCode).get().getResult();
-        return snapshots == null || snapshots.isEmpty();
+    private void isInviteCodeUnique(String inviteCode, InviteCodeUniqueCallback callback) {
+        db.collection("groups")
+                .whereEqualTo("inviteCode", inviteCode)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            callback.onResult(task.getResult().isEmpty());
+                        } else {
+                            callback.onResult(false);
+                        }
+                    }
+                });
     }
 
     private String generateRandomNumber() {
@@ -94,5 +119,13 @@ public class CreateGroupActivity extends AppCompatActivity {
 
     private String formatInviteCode(String number) {
         return number.substring(0, 4) + "-" + number.substring(4);
+    }
+
+    interface InviteCodeCallback {
+        void onInviteCodeGenerated(String code);
+    }
+
+    interface InviteCodeUniqueCallback {
+        void onResult(boolean isUnique);
     }
 }
