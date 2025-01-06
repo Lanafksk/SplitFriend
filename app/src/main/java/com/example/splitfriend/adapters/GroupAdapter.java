@@ -1,5 +1,6 @@
 package com.example.splitfriend.adapters;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.splitfriend.R;
 import com.example.splitfriend.data.helpers.GroupHelper;
+import com.example.splitfriend.data.models.Activity;
 import com.example.splitfriend.data.models.Group;
+import com.example.splitfriend.user.GroupDetailActivity;
 import com.example.splitfriend.viewHolders.GroupViewHolder;
 
 import java.util.List;
@@ -46,6 +49,12 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
         } else {
             holder.deleteText.setText("Leave");
         }
+
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(holder.itemView.getContext(), GroupDetailActivity.class);
+            intent.putExtra("groupId", group.getId());
+            holder.itemView.getContext().startActivity(intent);
+        });
 
         holder.deleteButtonLayout.setVisibility(View.GONE); // Hide delete button initially
 
