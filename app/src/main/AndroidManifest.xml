@@ -12,6 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SplitFriend"
         tools:targetApi="31">
+
+        <activity
+            android:name=".user.GroupSettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".user.GroupDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".user.CreateActivityActivity"
+            android:exported="false" />
         <activity
             android:name=".AdminActivity"
             android:exported="false" />
