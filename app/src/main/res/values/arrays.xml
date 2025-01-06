@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="currency_array">
+        <item>currency</item>
+        <item>Vietnam (dong)</item>
+        <item>Korea (won)</item>
+        <item>United State (Dollar)</item>
+        <item>Japanese (Yen)</item>
+    </string-array>
+</resources>

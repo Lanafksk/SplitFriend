@@ -38,7 +38,8 @@ public class GroupHelper {
                 "name", group.getName(),
                 "membersId", group.getMembersId(),
                 "leaderId", group.getLeaderId(),
-                "activitiesId", group.getActivitiesId()
+                "activitiesId", group.getActivitiesId(),
+                "inviteCode", group.getInviteCode()
         ).addOnFailureListener(
                 e -> System.out.println("Error updating group: " + e.getMessage()));
     }
@@ -46,5 +47,11 @@ public class GroupHelper {
     public Task<Void> deleteGroup(String groupId) {
         return db.collection("groups").document(groupId).delete().addOnFailureListener(
                 e -> System.out.println("Error deleting group: " + e.getMessage()));
+    }
+
+    public Task<QuerySnapshot> getGroupsByMemberId(String memberId) {
+        return db.collection("groups")
+                .whereArrayContains("membersId", memberId)
+                .get();
     }
 }

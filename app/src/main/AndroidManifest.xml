@@ -17,6 +17,15 @@
             android:name=".user.FindGroupActivity"
             android:exported="false" />
         <activity
+            android:name=".user.GroupSettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".user.GroupDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".user.CreateActivityActivity"
+            android:exported="false" />
+        <activity
             android:name=".AdminActivity"
             android:exported="false" />
         <activity
@@ -44,6 +53,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".user.HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".user.CreateGroupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".user.CreateGroupActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
