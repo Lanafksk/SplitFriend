@@ -46,10 +46,6 @@
         <activity
             android:name=".user.CreateGroupActivity"
             android:exported="false" />
-        <activity
-            android:name=".user.CreateGroupActivity"
-            android:exported="false" />
-
     </application>
 
 </manifest>
