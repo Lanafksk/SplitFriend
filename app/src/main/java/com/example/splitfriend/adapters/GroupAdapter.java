@@ -47,6 +47,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
             holder.deleteText.setText("Leave");
         }
 
+        holder.deleteButtonLayout.setVisibility(View.GONE); // Hide delete button initially
+
         holder.deleteButtonLayout.setOnClickListener(v -> {
             if (group.getLeaderId().equals(currentUserId)) {
                 groupHelper.deleteGroup(group.getId())
