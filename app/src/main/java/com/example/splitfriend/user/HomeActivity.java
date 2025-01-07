@@ -129,4 +129,12 @@ public class HomeActivity extends AppCompatActivity implements GroupAdapter.OnGr
     public void onGroupLeft() {
         Toast.makeText(this, "Left group successfully", Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
+        System.exit(0);
+    }
+
 }
