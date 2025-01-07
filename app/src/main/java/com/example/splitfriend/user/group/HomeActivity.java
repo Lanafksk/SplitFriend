@@ -1,4 +1,4 @@
-package com.example.splitfriend.user;
+package com.example.splitfriend.user.group;
 
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -18,6 +18,7 @@ import com.example.splitfriend.R;
 import com.example.splitfriend.adapters.GroupAdapter;
 import com.example.splitfriend.data.helpers.GroupHelper;
 import com.example.splitfriend.data.models.Group;
+import com.example.splitfriend.user.SettingsMenuActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.example.splitfriend.viewHolders.GroupViewHolder;
@@ -91,7 +92,7 @@ public class HomeActivity extends AppCompatActivity implements GroupAdapter.OnGr
         loadGroups();
 
         // Set up the floating button click listener
-        findViewById(R.id.addGroupFab).setOnClickListener(v -> {
+        findViewById(R.id.floatingButton).setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, CreateGroupActivity.class);
             startActivity(intent);
         });

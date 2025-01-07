@@ -1,4 +1,4 @@
-package com.example.splitfriend.user;
+package com.example.splitfriend.user.group;
 
 import android.os.Bundle;
 import android.widget.Button;

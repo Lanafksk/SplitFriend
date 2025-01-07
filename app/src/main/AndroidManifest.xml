@@ -25,10 +25,10 @@
             android:name=".user.GroupSettingActivity"
             android:exported="false" />
         <activity
-            android:name=".user.GroupDetailActivity"
+            android:name=".user.activity.GroupDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".user.CreateActivityActivity"
+            android:name=".user.activity.CreateActivityActivity"
             android:exported="false" />
         <activity
             android:name=".AdminActivity"
@@ -59,10 +59,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".user.HomeActivity"
+            android:name=".user.group.HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".user.CreateGroupActivity"
+            android:name=".user.group.CreateGroupActivity"
             android:exported="false" />
     </application>
 

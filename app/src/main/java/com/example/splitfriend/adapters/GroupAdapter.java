@@ -11,9 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.splitfriend.R;
 import com.example.splitfriend.data.helpers.GroupHelper;
-import com.example.splitfriend.data.models.Activity;
 import com.example.splitfriend.data.models.Group;
-import com.example.splitfriend.user.GroupDetailActivity;
+import com.example.splitfriend.user.activity.GroupDetailActivity;
 import com.example.splitfriend.viewHolders.GroupViewHolder;
 
 import java.util.List;
