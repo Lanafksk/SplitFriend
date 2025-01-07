@@ -23,12 +23,17 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
     private final GroupHelper groupHelper;
     private final String currentUserId;
     private final OnGroupActionListener onGroupActionListener;
+    private int swipedPosition = -1;
 
     public GroupAdapter(List<Group> groupList, GroupHelper groupHelper, String currentUserId, OnGroupActionListener onGroupActionListener) {
         this.groupList = groupList;
         this.groupHelper = groupHelper;
         this.currentUserId = currentUserId;
         this.onGroupActionListener = onGroupActionListener;
+    }
+
+    public void setSwipedPosition(int position) {
+        this.swipedPosition = position;
     }
 
     @NonNull
@@ -56,7 +61,6 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
             holder.itemView.getContext().startActivity(intent);
         });
 
-        holder.deleteButtonLayout.setVisibility(View.GONE); // Hide delete button initially
 
         holder.deleteButtonLayout.setOnClickListener(v -> {
             if (group.getLeaderId().equals(currentUserId)) {
@@ -78,6 +82,12 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
                         .addOnFailureListener(e -> Toast.makeText(holder.itemView.getContext(), "Error leaving group: " + e.getMessage(), Toast.LENGTH_SHORT).show());
             }
         });
+
+        if (position == swipedPosition) {
+            holder.itemView.findViewById(R.id.groupCardView).setTranslationX(-80 * holder.itemView.getResources().getDisplayMetrics().density);
+        } else {
+            holder.itemView.findViewById(R.id.groupCardView).setTranslationX(0);
+        }
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.example.splitfriend.user;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +31,7 @@ public class HomeActivity extends AppCompatActivity implements GroupAdapter.OnGr
     private GroupAdapter groupAdapter;
     private List<Group> groupList;
     private GroupHelper groupHelper;
+    private int swipedPosition =-1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,37 +53,6 @@ public class HomeActivity extends AppCompatActivity implements GroupAdapter.OnGr
         groupAdapter = new GroupAdapter(groupList, groupHelper, userId, this);
         recyclerView.setAdapter(groupAdapter);
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                // Handle full swipe to delete
-                int position = viewHolder.getAdapterPosition();
-                groupAdapter.notifyItemChanged(position);
-                groupAdapter.onBindViewHolder((GroupViewHolder) viewHolder, position);
-                viewHolder.itemView.findViewById(R.id.deleteButtonLayout).setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-                    View itemView = viewHolder.itemView;
-                    float translationX = dX / 2; // Adjust this value to control the swipe distance
-                    itemView.setTranslationX(translationX);
-                    View deleteButton = itemView.findViewById(R.id.deleteButtonLayout);
-                    deleteButton.setTranslationX(translationX - deleteButton.getWidth()); // Move delete button with swipe
-                    deleteButton.setVisibility(View.VISIBLE); // Ensure delete button is visible
-                } else {
-                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-                }
-            }
-        });
-        itemTouchHelper.attachToRecyclerView(recyclerView);
-
         loadGroups();
 
         // Set up the floating button click listener
@@ -88,14 +60,126 @@ public class HomeActivity extends AppCompatActivity implements GroupAdapter.OnGr
             Intent intent = new Intent(HomeActivity.this, CreateGroupActivity.class);
             startActivity(intent);
         });
+
+        setupSwipeToDelete(recyclerView);
     }
+
+    private void setupSwipeToDelete(RecyclerView recyclerView) {
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            private final float deleteButtonWidth = 80 * Resources.getSystem().getDisplayMetrics().density;
+
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                if (swipedPosition != position) {
+                    swipedPosition = position;
+                    groupAdapter.notifyItemChanged(position);
+                } else {
+                    swipedPosition = -1;
+                    groupAdapter.notifyItemChanged(position);
+                }
+            }
+
+            @Override
+            public int getSwipeDirs(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                int position = viewHolder.getAdapterPosition();
+                if (position == swipedPosition) {
+                    return ItemTouchHelper.RIGHT; // Only allow right swipe to close
+                }
+                return super.getSwipeDirs(recyclerView, viewHolder);
+            }
+
+            @Override
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView,
+                                    @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY,
+                                    int actionState, boolean isCurrentlyActive) {
+
+                View itemView = viewHolder.itemView;
+                CardView cardView = itemView.findViewById(R.id.groupCardView);
+                View deleteButton = itemView.findViewById(R.id.deleteButtonLayout);
+
+                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                    float itemWidth = itemView.getWidth();
+                    float maxSwipeDistance = deleteButtonWidth;
+
+                    if (dX < 0) { // Swiping to the left
+                        float swipeDistance = Math.max(-maxSwipeDistance, dX);
+                        cardView.setTranslationX(swipeDistance);
+                    } else { // Swiping to the right
+                        float swipeDistance = Math.min(maxSwipeDistance, dX);
+                        cardView.setTranslationX(swipeDistance - maxSwipeDistance);
+                    }
+                }
+
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            }
+
+            @Override
+            public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                super.clearView(recyclerView, viewHolder);
+
+                View itemView = viewHolder.itemView;
+                CardView cardView = itemView.findViewById(R.id.groupCardView);
+                View deleteButton = itemView.findViewById(R.id.deleteButtonLayout);
+
+                int position = viewHolder.getAdapterPosition();
+                float maxSwipeDistance = deleteButtonWidth;
+
+                if (position == swipedPosition) {
+                    cardView.setTranslationX(-maxSwipeDistance);
+                    setupDeleteButtonClickListener(deleteButton, position);
+                } else {
+                    cardView.setTranslationX(0);
+                }
+            }
+        });
+
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+    private void setupDeleteButtonClickListener(View deleteButton, int position) {
+        deleteButton.setOnClickListener(v -> {
+            Group group = groupList.get(position);
+            if (group.getLeaderId().equals(userId)) {
+                // Delete group logic
+                groupHelper.deleteGroup(group.getId())
+                        .addOnSuccessListener(aVoid -> {
+                            groupList.remove(position);
+                            groupAdapter.notifyItemRemoved(position);
+                            swipedPosition = -1;
+                            onGroupDeleted();
+                        })
+                        .addOnFailureListener(e -> Toast.makeText(HomeActivity.this,
+                                "Error deleting group: " + e.getMessage(),
+                                Toast.LENGTH_SHORT).show());
+            } else {
+                // Leave group logic
+                group.getMembersId().remove(userId);
+                groupHelper.updateGroup(group)
+                        .addOnSuccessListener(aVoid -> {
+                            groupList.remove(position);
+                            groupAdapter.notifyItemRemoved(position);
+                            swipedPosition = -1;
+                            onGroupLeft();
+                        })
+                        .addOnFailureListener(e -> Toast.makeText(HomeActivity.this,
+                                "Error leaving group: " + e.getMessage(),
+                                Toast.LENGTH_SHORT).show());
+            }
+        });
+    }
+
+
 
     @Override
     protected void onResume() {
         super.onResume();
         loadGroups();
     }
-
 
     private void loadGroups() {
         groupHelper.getGroupsByMemberId(userId)
