@@ -22,6 +22,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
     private final List<Group> groupList;
     private final GroupHelper groupHelper;
     private final String currentUserId;
+    private OnItemClickListener onItemClickListener;
     private final OnGroupActionListener onGroupActionListener;
 
     public GroupAdapter(List<Group> groupList, GroupHelper groupHelper, String currentUserId, OnGroupActionListener onGroupActionListener) {
@@ -51,9 +52,13 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
         }
 
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(holder.itemView.getContext(), GroupDetailActivity.class);
-            intent.putExtra("groupId", group.getId());
-            holder.itemView.getContext().startActivity(intent);
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(group);
+            } else {
+                Intent intent = new Intent(holder.itemView.getContext(), GroupDetailActivity.class);
+                intent.putExtra("groupId", group.getId());
+                holder.itemView.getContext().startActivity(intent);
+            }
         });
 
         holder.deleteButtonLayout.setVisibility(View.GONE); // Hide delete button initially
@@ -83,6 +88,14 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
     @Override
     public int getItemCount() {
         return groupList.size();
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Group group);
     }
 
     public interface OnGroupActionListener {
