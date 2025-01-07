@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -29,6 +30,7 @@ public class HomeActivity extends AppCompatActivity implements GroupAdapter.OnGr
     private GroupAdapter groupAdapter;
     private List<Group> groupList;
     private GroupHelper groupHelper;
+    private ImageButton menuButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,11 @@ public class HomeActivity extends AppCompatActivity implements GroupAdapter.OnGr
         userId = mAuth.getCurrentUser().getUid();
 
         RecyclerView recyclerView = findViewById(R.id.itemGroupRecyclerView);
+        menuButton = findViewById(R.id.menuButton);
+        menuButton.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, SettingsMenuActivity.class);
+            startActivity(intent);
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         groupList = new ArrayList<>();
         groupHelper = new GroupHelper();

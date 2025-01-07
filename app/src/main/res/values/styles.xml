@@ -6,10 +6,13 @@
         <item name="android:windowBackground">@color/white</item>
     </style>
 
-
     <!-- 스플래시 스크린 전용 테마 -->
     <style name="Theme.Splash" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@color/white</item>
+        <!-- 상태창 색상 -->
+        <item name="android:statusBarColor">@android:color/white</item>
+        <!-- 상태창 텍스트 색상 (Light 모드 활성화) -->
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="ShapeAppearanceOverlay.Chip.RoundedCorners" parent="">
