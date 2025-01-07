@@ -265,5 +265,6 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@android:color/white"
+        app:backgroundTint="@null"
         android:background="@drawable/red_button_background"/>
 </RelativeLayout>
