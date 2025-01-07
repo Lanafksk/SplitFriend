@@ -110,9 +110,13 @@ public class HomeActivity extends AppCompatActivity implements GroupAdapter.OnGr
                     if (dX < 0) { // Swiping to the left
                         float swipeDistance = Math.max(-maxSwipeDistance, dX);
                         cardView.setTranslationX(swipeDistance);
+                        deleteButton.setEnabled(true);
                     } else { // Swiping to the right
                         float swipeDistance = Math.min(maxSwipeDistance, dX);
                         cardView.setTranslationX(swipeDistance - maxSwipeDistance);
+                        if (swipeDistance == 0) {
+                            deleteButton.setEnabled(false);
+                        }
                     }
                 }
 
@@ -132,9 +136,11 @@ public class HomeActivity extends AppCompatActivity implements GroupAdapter.OnGr
 
                 if (position == swipedPosition) {
                     cardView.setTranslationX(-maxSwipeDistance);
+                    deleteButton.setEnabled(true);
                     setupDeleteButtonClickListener(deleteButton, position);
                 } else {
                     cardView.setTranslationX(0);
+                    deleteButton.setEnabled(false);
                 }
             }
         });
