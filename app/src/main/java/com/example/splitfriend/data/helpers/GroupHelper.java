@@ -16,7 +16,7 @@ public class GroupHelper {
         db = FirebaseFirestore.getInstance();
     }
 
-    // listeners
+    // Listeners
     public void setupRealtimeUpdates(EventListener<QuerySnapshot> listener) {
         this.listener = db.collection("groups").addSnapshotListener(listener);
     }
@@ -27,7 +27,7 @@ public class GroupHelper {
         }
     }
 
-    //crud
+    // CRUD
     public Task<DocumentReference> createGroup(Group group) {
         return db.collection("groups").add(group).addOnFailureListener(
                 e -> System.out.println("Error creating group: " + e.getMessage()));
@@ -42,6 +42,13 @@ public class GroupHelper {
                 "inviteCode", group.getInviteCode()
         ).addOnFailureListener(
                 e -> System.out.println("Error updating group: " + e.getMessage()));
+    }
+
+    // **새로운 메서드 추가** - 특정 필드 업데이트
+    public Task<Void> updateGroup(String groupId, String fieldName, Object value) {
+        return db.collection("groups").document(groupId).update(fieldName, value)
+                .addOnFailureListener(
+                        e -> System.out.println("Error updating group field: " + e.getMessage()));
     }
 
     public Task<Void> deleteGroup(String groupId) {
