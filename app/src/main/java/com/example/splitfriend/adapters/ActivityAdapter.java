@@ -49,7 +49,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
         String formattedDate = dateFormat.format(activity.getDate());
         holder.activityDate.setText(formattedDate);
 
-
         holder.activityAmount.setText(String.valueOf(activity.getTotalAmount()));
 
         if (activity.getCreatorId().equals(currentUserId)) {
@@ -64,7 +63,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
             intent.putExtra("activityId", activity.getId());
             holder.itemView.getContext().startActivity(intent);
         });
-
         holder.deleteButtonLayout.setVisibility(View.GONE); // Hide delete button initially
     }
 

@@ -2,6 +2,9 @@ package com.example.splitfriend.user.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -30,6 +33,8 @@ public class GroupDetailActivity extends AppCompatActivity implements ActivityAd
     private FirebaseAuth mAuth;
     private String userId;
     private String groupId;
+    private TextView groupNameTextView, memberCountTextView;
+    private ImageButton backButton;
     private ActivityAdapter activityAdapter;
     private ActivityHelper activityHelper;
     private List<Activity> activityList;
@@ -51,8 +56,17 @@ public class GroupDetailActivity extends AppCompatActivity implements ActivityAd
             return;
         }
 
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> finish());
+
         Intent i = getIntent();
         groupId = i.getStringExtra("groupId");
+
+        groupNameTextView = findViewById(R.id.groupNameTextView);
+        groupNameTextView.setText(i.getStringExtra("groupName"));
+
+        memberCountTextView = findViewById(R.id.memberCountTextView);
+        memberCountTextView.setText(" " + i.getStringExtra("memberCount"));
 
         // RecyclerView 초기화
         RecyclerView recyclerView = findViewById(R.id.activityRecyclerView);
@@ -67,7 +81,7 @@ public class GroupDetailActivity extends AppCompatActivity implements ActivityAd
         // Set up the floating button click listener
         findViewById(R.id.floatingButton).setOnClickListener(v -> {
             Intent intent = new Intent(GroupDetailActivity.this, CreateActivityActivity.class);
-            intent.putExtra("groupId", groupId); // 이후 처리 아직 안됨
+            intent.putExtra("groupId", groupId);
             startActivity(intent);
         });
     }
@@ -79,7 +93,7 @@ public class GroupDetailActivity extends AppCompatActivity implements ActivityAd
     }
 
     private void loadActivities() {
-        activityHelper.geActivityByMemberId(userId)
+        activityHelper.geActivityList(groupId)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         QuerySnapshot snapshots = task.getResult();
@@ -92,7 +106,7 @@ public class GroupDetailActivity extends AppCompatActivity implements ActivityAd
                             System.out.println("Loaded activities: " + snapshots.getDocuments());
                         }
                     } else {
-                        Toast.makeText(this, "Error loading groups: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        System.out.println("Error loading groups: " + task.getException().getMessage());
                     }
                 });
     }

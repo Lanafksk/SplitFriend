@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Activity implements Serializable {
     @DocumentId private String id;
+    private String groupId;
     private Date date;
     private String name;
     private String currency;
@@ -25,8 +26,9 @@ public class Activity implements Serializable {
     // Default constructor
     public Activity() {}
 
-    public Activity(String id, Date date, String name, String currency, String payee, String bankName, String bankAccount, List<Bill> bills, String creatorId) {
+    public Activity(String id, String groupId, Date date, String name, String currency, String payee, String bankName, String bankAccount, List<Bill> bills, String creatorId) {
         this.id = id;
+        this.groupId = groupId;
         this.date = date;
         this.name = name;
         this.currency = currency;
@@ -40,8 +42,9 @@ public class Activity implements Serializable {
         this.paymentStatusesId = new ArrayList<>();
     }
 
-    public Activity(String id, Date date, String name, String currency, String payee, String bankName, String bankAccount, List<Bill> bills, Double totalAmount, String creatorId, List<String> participantsId, List<String> paymentStatusesId) {
+    public Activity(String id, String groupId, Date date, String name, String currency, String payee, String bankName, String bankAccount, List<Bill> bills, Double totalAmount, String creatorId, List<String> participantsId, List<String> paymentStatusesId) {
         this.id = id;
+        this.groupId = groupId;
         this.date = date;
         this.name = name;
         this.currency = currency;
@@ -61,6 +64,14 @@ public class Activity implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 
     public Date getDate() {

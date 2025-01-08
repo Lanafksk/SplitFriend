@@ -35,6 +35,7 @@ public class ActivityHelper {
     public Task<DocumentReference> createActivity(Activity activity) {
         Map<String, Object> activityData = new HashMap<>();
         activityData.put("name", activity.getName());
+        activityData.put("groupId", activity.getGroupId());
         activityData.put("totalAmount", activity.getTotalAmount());
         activityData.put("date", activity.getDate());
         activityData.put("creatorId", activity.getCreatorId());
@@ -53,6 +54,7 @@ public class ActivityHelper {
         return db.collection("activities").document(activity.getId()).update(
                 "name", activity.getName(),
                 "totalAmount", activity.getTotalAmount(),
+                "groupId", activity.getGroupId(),
                 "date", activity.getDate(),
                 "creatorId", activity.getCreatorId(),
                 "participantsId", activity.getParticipantsId(),
@@ -70,10 +72,9 @@ public class ActivityHelper {
                 e -> System.out.println("Error deleting activity: " + e.getMessage()));
     }
 
-    public Task<QuerySnapshot> geActivityByMemberId(String memberId) {
-        System.out.println("Fetching activities for memberId: " + memberId);
+    public Task<QuerySnapshot> geActivityList(String groupId) {
         return db.collection("activities")
-                .whereArrayContains("participantsId", memberId)
+                .whereEqualTo("groupId", groupId)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
