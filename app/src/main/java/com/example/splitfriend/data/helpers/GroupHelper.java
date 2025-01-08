@@ -67,4 +67,11 @@ public class GroupHelper {
     public Task<DocumentSnapshot> getGroupById(String groupId) {
         return db.collection("groups").document(groupId).get();
     }
+
+    public Task<Void> updateGroupName(String groupId, String name) {
+        return db.collection("groups").document(groupId).update("name", name);
+    }
+    public Task<Void> updateMembersId(String groupId, List<String> membersId) {
+        return db.collection("groups").document(groupId).update("membersId", membersId);
+    }
 }

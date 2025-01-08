@@ -27,6 +27,7 @@ import com.example.splitfriend.data.helpers.ActivityHelper;
 import com.example.splitfriend.data.models.Activity;
 import com.example.splitfriend.data.models.Bill;
 
+import com.example.splitfriend.user.GroupSettingActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -50,6 +51,8 @@ public class CreateActivityActivity extends AppCompatActivity {
     private String selectedCurrency;
     private Button saveButton;
     private ActivityHelper activityHelper;
+    private ImageButton backButton;
+    private ImageButton menuButton;
 
     private LinearLayout billsContainer;
     private List<Bill> billList;
@@ -83,6 +86,8 @@ public class CreateActivityActivity extends AppCompatActivity {
         saveButton = findViewById(R.id.bottomButton);
         activityHelper = new ActivityHelper();
         billList = new ArrayList<>();
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> finish());
 
         // Initialize currency symbols
         initializeCurrencySymbols();

@@ -20,6 +20,7 @@ import com.example.splitfriend.data.helpers.UserHelper;
 import com.example.splitfriend.data.models.Activity;
 import com.example.splitfriend.data.models.Group;
 import com.example.splitfriend.data.models.User;
+import com.example.splitfriend.user.GroupSettingActivity;
 import com.example.splitfriend.user.group.CreateGroupActivity;
 import com.example.splitfriend.user.group.HomeActivity;
 import com.google.android.material.chip.Chip;
@@ -47,6 +48,7 @@ public class GroupDetailActivity extends AppCompatActivity implements ActivityAd
     private String groupId;
     private TextView groupNameTextView, memberCountTextView;
     private ImageButton backButton;
+    private ImageButton menuButton;
     private ActivityAdapter activityAdapter;
     private ActivityHelper activityHelper;
     private List<Activity> activityList;
@@ -71,6 +73,13 @@ public class GroupDetailActivity extends AppCompatActivity implements ActivityAd
 
         backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> finish());
+
+        menuButton = findViewById(R.id.menuButton);
+        menuButton.setOnClickListener(v -> {
+            Intent intent = new Intent(GroupDetailActivity.this, GroupSettingActivity.class);
+            intent.putExtra("groupId", groupId);
+            startActivity(intent);
+        });
 
         Intent i = getIntent();
         groupId = i.getStringExtra("groupId");
