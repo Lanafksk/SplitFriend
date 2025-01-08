@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -32,6 +33,7 @@ public class HomeActivity extends AppCompatActivity implements GroupAdapter.OnGr
     private List<Group> groupList;
     private GroupHelper groupHelper;
     private int swipedPosition =-1;
+    private ImageButton menuButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,11 @@ public class HomeActivity extends AppCompatActivity implements GroupAdapter.OnGr
         userId = mAuth.getCurrentUser().getUid();
 
         RecyclerView recyclerView = findViewById(R.id.itemGroupRecyclerView);
+        menuButton = findViewById(R.id.menuButton);
+        menuButton.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, SettingsMenuActivity.class);
+            startActivity(intent);
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         groupList = new ArrayList<>();
         groupHelper = new GroupHelper();
@@ -212,4 +219,12 @@ public class HomeActivity extends AppCompatActivity implements GroupAdapter.OnGr
     public void onGroupLeft() {
         Toast.makeText(this, "Left group successfully", Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
+        System.exit(0);
+    }
+
 }

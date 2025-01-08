@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <application
         android:allowBackup="true"
@@ -11,8 +11,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SplitFriend"
-        tools:targetApi="31">
-
+        tools:targetApi="31" >
+        <activity
+            android:name=".user.SettingsProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".user.SettingsMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".user.ActivityUserAmountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".user.ActivityTotalAmountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".user.ActivityDetailPayeeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".user.ActivityDetailSenderActivity"
+            android:exported="false" />
         <activity
             android:name=".user.FindGroupActivity"
             android:exported="false" />
@@ -46,7 +63,7 @@
         <activity
             android:name=".SplashActivity"
             android:exported="true"
-            android:theme="@style/Theme.Splash">
+            android:theme="@style/Theme.Splash" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -44,6 +44,12 @@ public class GroupHelper {
                 e -> System.out.println("Error updating group: " + e.getMessage()));
     }
 
+    public Task<Void> updateGroup(String groupId, String fieldName, Object value) {
+        return db.collection("groups").document(groupId).update(fieldName, value)
+                .addOnFailureListener(
+                        e -> System.out.println("Error updating group field: " + e.getMessage()));
+    }
+
     public Task<Void> deleteGroup(String groupId) {
         return db.collection("groups").document(groupId).delete().addOnFailureListener(
                 e -> System.out.println("Error deleting group: " + e.getMessage()));
