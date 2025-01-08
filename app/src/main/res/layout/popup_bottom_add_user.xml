@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/popup_background"
+    android:padding="16dp">
+
+    <!-- Close Button -->
+    <ImageView
+        android:id="@+id/closeButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="end"
+        android:src="@drawable/baseline_close_black_24"
+        android:contentDescription="Close" />
+
+    <EditText
+        android:id="@+id/userNameInput"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="24dp"
+        android:padding="16dp"
+        android:background="@drawable/stroke_box_background"
+        android:hint="User Name"
+        android:textColorHint="@color/dark_gray"/>
+
+    <EditText
+        android:id="@+id/userEmailInput"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"
+        android:background="@drawable/stroke_box_background"
+        android:hint="Email"
+        android:textColorHint="@color/dark_gray"/>
+
+    <EditText
+        android:id="@+id/userIdInput"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"
+        android:background="@drawable/stroke_box_background"
+        android:hint="Id"
+        android:textColorHint="@color/dark_gray"/>
+
+    <EditText
+        android:id="@+id/userPasswordInput"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"
+        android:background="@drawable/stroke_box_background"
+        android:hint="Password"
+        android:textColorHint="@color/dark_gray"/>
+
+    <!-- join Button -->
+    <Button
+        android:id="@+id/addUserButton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:text="Add User"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:background="@drawable/lightblue_button_background" />
+</LinearLayout>
