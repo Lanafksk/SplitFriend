@@ -61,7 +61,6 @@ public class GroupDetailActivity extends AppCompatActivity implements ActivityAd
         activityHelper = new ActivityHelper();
         activityAdapter = new ActivityAdapter(activityList, activityHelper, userId, this);
         recyclerView.setAdapter(activityAdapter);
-        System.out.println("RecyclerView initialized with adapter: " + (recyclerView.getAdapter() != null));
 
         loadActivities();
 
@@ -76,7 +75,7 @@ public class GroupDetailActivity extends AppCompatActivity implements ActivityAd
     @Override
     protected void onResume() {
         super.onResume();
-//        loadActivities();
+        loadActivities();
     }
 
     private void loadActivities() {
@@ -87,9 +86,10 @@ public class GroupDetailActivity extends AppCompatActivity implements ActivityAd
                         if (snapshots != null) {
                             activityList.clear();
                             activityList.addAll(snapshots.toObjects(Activity.class));
+                            System.out.println("Activity list size before notifyDataSetChanged: " + activityList.size());
+
                             activityAdapter.notifyDataSetChanged();
                             System.out.println("Loaded activities: " + snapshots.getDocuments());
-
                         }
                     } else {
                         Toast.makeText(this, "Error loading groups: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

@@ -95,6 +95,10 @@ public class CreateActivityActivity extends AppCompatActivity {
 
         // Set initial date
         Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
+        String formattedDate = dateFormat.format(calendar.getTime());
+        dateTextView.setText(formattedDate); // 초기 날짜 설정
+
         updateDateInView(calendar);
 
         // Set click listener for DatePicker
@@ -116,8 +120,9 @@ public class CreateActivityActivity extends AppCompatActivity {
     }
 
     private void updateDateInView(Calendar calendar) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd EEE", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
         dateTextView.setText(dateFormat.format(calendar.getTime()));
+
     }
 
     private void currencySpinnerSetting(){
@@ -271,7 +276,7 @@ public class CreateActivityActivity extends AppCompatActivity {
         String bankAccount = bankAccountInput.getText().toString().trim();
         Date activityDate;
         try {
-            activityDate = new SimpleDateFormat("yyyy.MM.dd EEE", Locale.getDefault()).parse(dateTextView.getText().toString());
+            activityDate = new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault()).parse(dateTextView.getText().toString());
         } catch (Exception e) {
             Toast.makeText(this, "Invalid date format", Toast.LENGTH_SHORT).show();
             return;

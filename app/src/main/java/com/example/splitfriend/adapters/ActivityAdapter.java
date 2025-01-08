@@ -14,7 +14,9 @@ import com.example.splitfriend.data.models.Activity;
 import com.example.splitfriend.user.group.HomeActivity;
 import com.example.splitfriend.viewHolders.ActivityViewHolder;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
     private final List<Activity> activityList;
@@ -41,10 +43,14 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
         Activity activity = activityList.get(position);
         holder.activityName.setText(activity.getName());
         holder.participantCount.setText(String.valueOf(activity.getParticipantsId().size()));
-        holder.activityDate.setText(activity.getDate().toString()); // 추후 포멧 수정 필요
-        holder.activityAmount.setText(String.valueOf(activity.getTotalAmount()));
-        System.out.println("Binding activity: " + activity.getName());
 
+        // Format the activity date
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
+        String formattedDate = dateFormat.format(activity.getDate());
+        holder.activityDate.setText(formattedDate);
+
+
+        holder.activityAmount.setText(String.valueOf(activity.getTotalAmount()));
 
         if (activity.getCreatorId().equals(currentUserId)) {
             holder.deleteText.setText("Delete");
