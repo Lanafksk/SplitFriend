@@ -3,6 +3,7 @@ package com.example.splitfriend.data.helpers;
 import com.example.splitfriend.data.models.User;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -68,6 +69,10 @@ public class UserHelper {
     public Task<Void> deleteUser(String userId) {
         return db.collection("users").document(userId).delete().addOnFailureListener(
                 e -> System.out.println("Error deleting user: " + e.getMessage()));
+    }
+
+    public Task<DocumentSnapshot> getUserById(String userId) {
+        return db.collection("users").document(userId).get();
     }
 
 }

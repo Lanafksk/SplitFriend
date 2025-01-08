@@ -11,10 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.splitfriend.R;
 import com.example.splitfriend.data.helpers.GroupHelper;
+import com.example.splitfriend.data.helpers.UserHelper;
 import com.example.splitfriend.data.models.Activity;
 import com.example.splitfriend.data.models.Group;
+import com.example.splitfriend.data.models.User;
 import com.example.splitfriend.user.GroupDetailActivity;
 import com.example.splitfriend.viewHolders.GroupViewHolder;
+import com.google.android.material.chip.Chip;
 
 import java.util.List;
 
@@ -61,7 +64,6 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
             holder.itemView.getContext().startActivity(intent);
         });
 
-
         holder.deleteButtonLayout.setOnClickListener(v -> {
             if (group.getLeaderId().equals(currentUserId)) {
                 groupHelper.deleteGroup(group.getId())
@@ -87,6 +89,28 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
             holder.itemView.findViewById(R.id.groupCardView).setTranslationX(-80 * holder.itemView.getResources().getDisplayMetrics().density);
         } else {
             holder.itemView.findViewById(R.id.groupCardView).setTranslationX(0);
+        }
+
+        // Clear existing chips
+        holder.memberChipGroup.removeAllViews();
+
+        // Add chips for each member
+        for (String memberId : group.getMembersId()) {
+            UserHelper userHelper = new UserHelper();
+            userHelper.getUserById(memberId).addOnSuccessListener(documentSnapshot -> {
+                User user = documentSnapshot.toObject(User.class);
+                if (user != null) {
+                    Chip chip = new Chip(holder.itemView.getContext());
+                    chip.setText(user.getName());
+                    chip.setClickable(false);
+                    chip.setFocusable(false);
+                    chip.setChipBackgroundColorResource(R.color.dark_gray);
+                    chip.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.white));
+                    holder.memberChipGroup.addView(chip);
+                }
+            }).addOnFailureListener(e -> {
+                Toast.makeText(holder.itemView.getContext(), "Error loading user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            });
         }
     }
 
