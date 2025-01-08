@@ -84,11 +84,7 @@ public class GroupDetailActivity extends AppCompatActivity implements ActivityAd
         Intent i = getIntent();
         groupId = i.getStringExtra("groupId");
 
-        groupNameTextView = findViewById(R.id.groupNameTextView);
-        groupNameTextView.setText(i.getStringExtra("groupName"));
-
-        memberCountTextView = findViewById(R.id.memberCountTextView);
-        memberCountTextView.setText(" " + i.getStringExtra("memberCount"));
+        updateGroupInfo();
 
         // RecyclerView 초기화
         RecyclerView recyclerView = findViewById(R.id.activityRecyclerView);
@@ -113,6 +109,22 @@ public class GroupDetailActivity extends AppCompatActivity implements ActivityAd
         super.onResume();
         loadActivities();
         loadMemberChip();
+        updateGroupInfo();
+    }
+
+    private void updateGroupInfo() {
+        GroupHelper groupHelper = new GroupHelper();
+        groupHelper.getGroupById(groupId).addOnSuccessListener(documentSnapshot -> {
+            Group group = documentSnapshot.toObject(Group.class);
+            if (group != null) {
+                groupNameTextView = findViewById(R.id.groupNameTextView);
+                groupNameTextView.setText(group.getName());
+                memberCountTextView = findViewById(R.id.memberCountTextView);
+                memberCountTextView.setText(String.valueOf(group.getMembersId().size()));
+            }
+        }).addOnFailureListener(e -> {
+            Toast.makeText(this, "Error getting group: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void loadMemberChip() {
