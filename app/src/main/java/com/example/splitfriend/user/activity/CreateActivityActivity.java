@@ -2,6 +2,7 @@ package com.example.splitfriend.user.activity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -24,10 +25,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.splitfriend.R;
 import com.example.splitfriend.data.helpers.ActivityHelper;
+import com.example.splitfriend.data.helpers.GroupHelper;
+import com.example.splitfriend.data.helpers.UserHelper;
 import com.example.splitfriend.data.models.Activity;
 import com.example.splitfriend.data.models.Bill;
 
+import com.example.splitfriend.data.models.Group;
+import com.example.splitfriend.data.models.User;
 import com.example.splitfriend.user.GroupSettingActivity;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -57,6 +64,8 @@ public class CreateActivityActivity extends AppCompatActivity {
     private LinearLayout billsContainer;
     private List<Bill> billList;
     private Map<String, String> currencySymbols;
+    private ChipGroup memberChipGroup;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,11 +95,14 @@ public class CreateActivityActivity extends AppCompatActivity {
         saveButton = findViewById(R.id.bottomButton);
         activityHelper = new ActivityHelper();
         billList = new ArrayList<>();
+        memberChipGroup = findViewById(R.id.chipGroupCreateActivity);
         backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> finish());
 
         // Initialize currency symbols
         initializeCurrencySymbols();
+
+//        loadMemberChip();
 
         datePickerSetting();
         currencySpinnerSetting();
@@ -101,6 +113,47 @@ public class CreateActivityActivity extends AppCompatActivity {
         saveButton.setOnClickListener(v -> saveActivity());
 //        saveButton.setOnClickListener(v -> saveBill());
     }
+
+//    private void loadMemberChip() {
+//        Intent i = getIntent();
+//        String groupId = i.getStringExtra("groupId");
+//        GroupHelper groupHelper = new GroupHelper();
+//        groupHelper.getGroupById(groupId).addOnSuccessListener(documentSnapshot -> {
+//            Group group = documentSnapshot.toObject(Group.class);
+//            if (group != null) {
+//                populateMemberChips(group);
+//            }
+//        }).addOnFailureListener(e -> {
+//            Toast.makeText(this, "Error getting group: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//        });
+//    }
+//
+//    private void populateMemberChips(Group group) {
+//        Map<String, Boolean> processedUserIds = new HashMap<>();
+//        for (String memberId : group.getMembersId()) {
+//            if (!processedUserIds.containsKey(memberId)) {
+//                processedUserIds.put(memberId, true);
+//                UserHelper userHelper = new UserHelper();
+//                userHelper.getUserById(memberId).addOnSuccessListener(documentSnapshot1 -> {
+//                    User user = documentSnapshot1.toObject(User.class);
+//                    if (user != null) {
+//                        Chip chip = new Chip(memberChipGroup.getContext());
+//                        chip.setText(user.getName());
+//                        chip.setTextSize(12);
+//                        chip.setTextColor(Color.DKGRAY);
+//                        chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor("#33FFFFFF")));
+//                        chip.setChipStrokeWidth(1);
+//                        chip.setChipStrokeColor(ColorStateList.valueOf(Color.DKGRAY));
+//
+//
+//                        memberChipGroup.addView(chip);
+//                    }
+//                }).addOnFailureListener(e -> {
+//                    Toast.makeText(this, "Error getting user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                });
+//            }
+//        }
+//    }
 
     private void datePickerSetting(){
         // Initialize views for date picker

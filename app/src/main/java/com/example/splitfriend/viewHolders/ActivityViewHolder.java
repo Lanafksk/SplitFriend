@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.splitfriend.R;
+import com.google.android.material.chip.ChipGroup;
 
 public class ActivityViewHolder extends RecyclerView.ViewHolder {
     public TextView activityName;
@@ -15,6 +16,7 @@ public class ActivityViewHolder extends RecyclerView.ViewHolder {
     public TextView activityAmount;
     public View deleteButtonLayout;
     public TextView deleteText;
+    public ChipGroup participantChips;
 
 
     public ActivityViewHolder(@NonNull View itemView) {
@@ -25,6 +27,7 @@ public class ActivityViewHolder extends RecyclerView.ViewHolder {
         activityAmount = itemView.findViewById(R.id.activityAmount);
         deleteButtonLayout = itemView.findViewById(R.id.deleteButtonLayout);
         deleteText = itemView.findViewById(R.id.deleteText);
+        participantChips = itemView.findViewById(R.id.participantChips);
     }
 
 }
