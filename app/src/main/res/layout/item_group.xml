@@ -67,6 +67,18 @@
                         android:text="5" />
                 </LinearLayout>
 
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:id="@+id/closeButton"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="end"
+                    android:src="@drawable/baseline_close_gray_24"
+                    android:contentDescription="Close" />
             </LinearLayout>
 
             <!-- Member List -->
