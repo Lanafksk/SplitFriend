@@ -1,22 +1,306 @@
 package com.example.splitfriend.user.activity;
 
+import android.app.DatePickerDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.PopupWindow;
+import android.widget.TextView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.Toast;
+import android.widget.ArrayAdapter;
 
-import androidx.activity.EdgeToEdge;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.splitfriend.R;
+import com.example.splitfriend.data.helpers.ActivityHelper;
+import com.example.splitfriend.data.models.Bill;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 public class CreateActivityActivity extends AppCompatActivity {
+    private FirebaseAuth mAuth;
+    private String userId;
+    private EditText activityNameInput, payeeInput, bankNameInput, bankAccountInput;
+    private TextView dateTextView;
+    private Spinner currencySpinner;
+    private String selectedCurrency;
+    private Button saveButton;
+    private ActivityHelper activityHelper;
+
+    private LinearLayout billsContainer;
+    private List<Bill> billList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_create_activity);
 
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            userId = currentUser.getUid();
+        } else {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        // Initialize views
+        activityNameInput = findViewById(R.id.activityNameInput);
+        payeeInput = findViewById(R.id.payeeInput);
+        bankNameInput = findViewById(R.id.bankNameInput);
+        bankAccountInput = findViewById(R.id.bankAccountInput);
+        currencySpinner = findViewById(R.id.currencySpinner);
+        saveButton = findViewById(R.id.bottomButton);
+        activityHelper = new ActivityHelper();
+        billList = new ArrayList<>();
+
+
+        datePickerSetting();
+        currencySpinnerSetting();
+        billCreateSetting();
+
+
+        // Set up Save Button click listener
+        // saveButton.setOnClickListener(v -> saveActivity());
+        saveButton.setOnClickListener(v -> saveBill());
+    }
+
+    private void datePickerSetting(){
+        // Initialize views for date picker
+        LinearLayout datePickerLayout = findViewById(R.id.datePickerLayout);
+        dateTextView = findViewById(R.id.dateTextView);
+
+        // Set initial date
+        Calendar calendar = Calendar.getInstance();
+        updateDateInView(calendar);
+
+        // Set click listener for DatePicker
+        datePickerLayout.setOnClickListener(v -> showDatePicker(calendar));
+    }
+
+    private void showDatePicker(Calendar calendar) {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                (view, year, month, dayOfMonth) -> {
+                    calendar.set(year, month, dayOfMonth);
+                    updateDateInView(calendar); // Update the displayed date
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+        );
+        datePickerDialog.show();
+    }
+
+    private void updateDateInView(Calendar calendar) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd EEE", Locale.getDefault());
+        dateTextView.setText(dateFormat.format(calendar.getTime()));
+    }
+
+    private void currencySpinnerSetting(){
+        // Initialize Spinner
+        currencySpinner = findViewById(R.id.currencySpinner);
+
+        // Create a list of currencies
+        String[] currencies = {"Vietnam (dong)", "Korea (won)", "United States (Dollar)", "Japanese (Yen)"};
+
+        // Set up Spinner adapter
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                currencies
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        currencySpinner.setAdapter(adapter);
+
+        // Set Spinner item selection listener
+        currencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedCurrency = currencies[position];
+                Toast.makeText(CreateActivityActivity.this, "Selected: " + selectedCurrency, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                selectedCurrency = null;
+            }
+        });
+    }
+
+    private void billCreateSetting(){
+        // Initialize Views
+        billsContainer = findViewById(R.id.billsContainer);
+        Button addBillButton = findViewById(R.id.addBillButton);
+
+        // Add Bill Button Listener
+        addBillButton.setOnClickListener(v -> addNewBill());
+    }
+
+    private void addNewBill() {
+        // Inflate a new bill item
+        View billItem = LayoutInflater.from(this).inflate(R.layout.bill_item, billsContainer, false);
+
+        // Set the index for the new item
+        TextView itemIndex = billItem.findViewById(R.id.itemIndex); // TextView의 ID가 itemIndex라고 가정
+        int index = billsContainer.getChildCount() + 1; // 현재 아이템 개수 + 1
+        itemIndex.setText(String.valueOf(index)); // 인덱스를 TextView에 설정
+
+        // Set click listener for category button
+        ImageButton categoryButton = billItem.findViewById(R.id.categoryButton); // ID 변경
+        categoryButton.setOnClickListener(v -> categoryPopupHandle(billItem)); // billItem 전달
+
+        // Add the new bill item to the container
+        billsContainer.addView(billItem);
+    }
+
+    private void categoryPopupHandle(View billItem) {
+        Log.d("PopupDebug", "showCategoryPopup 호출됨");
+
+        // 팝업 레이아웃 인플레이션
+        View popupView = LayoutInflater.from(this).inflate(R.layout.popup_category_list, null);
+
+        // PopupWindow 객체 생성
+        PopupWindow popupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
+
+        // 닫기 버튼 설정
+        ImageButton closeButton = popupView.findViewById(R.id.closeButton);
+        closeButton.setOnClickListener(v -> popupWindow.dismiss());
+
+        // 각 카테고리 선택 설정
+        popupView.findViewById(R.id.category_food).setOnClickListener(v -> {
+            setCategory(billItem, "Food");
+            popupWindow.dismiss();
+        });
+
+        popupView.findViewById(R.id.category_glossary).setOnClickListener(v -> {
+            setCategory(billItem, "Glossary");
+            popupWindow.dismiss();
+        });
+
+        popupView.findViewById(R.id.category_activity).setOnClickListener(v -> {
+            setCategory(billItem, "Activity");
+            popupWindow.dismiss();
+        });
+
+        popupView.findViewById(R.id.category_present).setOnClickListener(v -> {
+            setCategory(billItem, "Present");
+            popupWindow.dismiss();
+        });
+
+        popupView.findViewById(R.id.category_travel).setOnClickListener(v -> {
+            setCategory(billItem, "Travel");
+            popupWindow.dismiss();
+        });
+
+        // 팝업 위치 설정
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE)); // 배경 설정
+        popupWindow.setElevation(10); // 그림자 효과
+        popupWindow.showAsDropDown(billItem, 0, 0); // 클릭된 버튼 아래에 표시
+
+    }
+
+    private void setCategory(View billItem, String category) {
+        TextView categoryTitle = billItem.findViewById(R.id.categoryTitle);
+        if (categoryTitle != null) {
+            categoryTitle.setText(category);
+            Toast.makeText(this, "Selected category: " + category, Toast.LENGTH_SHORT).show();
+            Log.d("PopupDebug", "카테고리 설정됨: " + category);
+        } else {
+            Log.e("PopupDebug", "categoryTitle TextView를 찾을 수 없음");
+        }
+    }
+
+    private void saveBill(){
+        billList.clear(); // Clear previous bills to avoid duplicates
+
+        // Iterate through billsContainer to collect data
+        for (int i = 0; i < billsContainer.getChildCount(); i++) {
+            View billItem = billsContainer.getChildAt(i);
+
+            // Get fields from the current bill item
+            EditText noteInput = billItem.findViewById(R.id.noteInput);
+            EditText priceInput = billItem.findViewById(R.id.priceInput);
+            TextView categoryTitle = billItem.findViewById(R.id.categoryTitle);
+
+            // Get values
+            String note = noteInput.getText().toString().trim();
+            String priceText = priceInput.getText().toString().trim();
+            double price = priceText.isEmpty() ? 0.0 : Double.parseDouble(priceText);
+            String category = categoryTitle.getText().toString().trim();
+
+            // Validate fields (optional)
+            if (note.isEmpty() || price <= 0 ) {
+                Toast.makeText(this, "Please fill all fields in Bill " + (i + 1), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Create a new Bill object and add to the list
+            Bill bill = new Bill(note, price, category, userId);
+            billList.add(bill);
+        }
+
+        // 로그로 billList의 내용 출력
+        for (int i = 0; i < billList.size(); i++) {
+            Bill bill = billList.get(i);
+            Log.d("BillSaveDebug", "Bill " + (i + 1) + ": Note = " + bill.getNote()
+                    + ", Price = " + bill.getPrice() + ", Category = " + bill.getCategory());
+        }
+
+        // At this point, billList contains all bills added to the activity
+        Toast.makeText(this, "Activity saved with " + billList.size() + " bills.", Toast.LENGTH_SHORT).show();
+
+        // Here you can save the activity with the bills to Firebase or process it further
+
+    }
+
+    private void saveActivity() {
+        // Get input values
+        String activityName = activityNameInput.getText().toString().trim();
+        String payee = payeeInput.getText().toString().trim();
+        String bankName = bankNameInput.getText().toString().trim();
+        String bankAccount = bankAccountInput.getText().toString().trim();
+        String currency = currencySpinner.getSelectedItem().toString();
+
+        // Validate inputs
+        if (activityName.isEmpty() || payee.isEmpty() || bankName.isEmpty() || bankAccount.isEmpty()) {
+            Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Create a new Activity object
+        List<String> participants = new ArrayList<>();
+        participants.add(userId); // Add the current user as the default participant
+        Activity activity = new Activity(activityName, 0.0, new Date(), userId, participants, new ArrayList<>(), new ArrayList<>());
+        activity.setAmount(0.0); // Amount can be updated later
+
+        // Save activity to Firestore
+        activityHelper.createActivity(activity)
+                .addOnSuccessListener(documentReference -> {
+                    Toast.makeText(this, "Activity created successfully", Toast.LENGTH_SHORT).show();
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to create activity: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 }
