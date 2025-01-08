@@ -69,4 +69,18 @@ public class ActivityHelper {
         return db.collection("activities").document(activityId).delete().addOnFailureListener(
                 e -> System.out.println("Error deleting activity: " + e.getMessage()));
     }
+
+    public Task<QuerySnapshot> geActivityByMemberId(String memberId) {
+        System.out.println("Fetching activities for memberId: " + memberId);
+        return db.collection("activities")
+                .whereArrayContains("participantsId", memberId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        System.out.println("Activities fetched: " + task.getResult().size());
+                    } else {
+                        System.out.println("Error fetching activities: " + task.getException());
+                    }
+                });
+    }
 }

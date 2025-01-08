@@ -1,5 +1,6 @@
 package com.example.splitfriend.adapters;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.splitfriend.R;
 import com.example.splitfriend.data.helpers.ActivityHelper;
 import com.example.splitfriend.data.models.Activity;
+import com.example.splitfriend.user.group.HomeActivity;
 import com.example.splitfriend.viewHolders.ActivityViewHolder;
 
 import java.util.List;
@@ -39,21 +41,23 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
         Activity activity = activityList.get(position);
         holder.activityName.setText(activity.getName());
         holder.participantCount.setText(String.valueOf(activity.getParticipantsId().size()));
-        holder.activityDate.setText(activity.getDate().toString());
+        holder.activityDate.setText(activity.getDate().toString()); // 추후 포멧 수정 필요
         holder.activityAmount.setText(String.valueOf(activity.getTotalAmount()));
+        System.out.println("Binding activity: " + activity.getName());
 
-//        if (activity.getCreatorId().equals(currentUserId)) {
-//            holder.deleteText.setText("Delete");
-//        } else {
-//            holder.deleteText.setText("Leave");
-//        }
+
+        if (activity.getCreatorId().equals(currentUserId)) {
+            holder.deleteText.setText("Delete");
+        } else {
+            holder.deleteText.setText("Leave");
+        }
 
         // move to activity detail page
-//        holder.itemView.setOnClickListener(v -> {
-//            Intent intent = new Intent(holder.itemView.getContext(), ActivityHistoryDetailActivity.class);
-//            intent.putExtra("activityId", activity.getId());
-//            holder.itemView.getContext().startActivity(intent);
-//        });
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(holder.itemView.getContext(), HomeActivity.class);
+            intent.putExtra("activityId", activity.getId());
+            holder.itemView.getContext().startActivity(intent);
+        });
 
         holder.deleteButtonLayout.setVisibility(View.GONE); // Hide delete button initially
     }
