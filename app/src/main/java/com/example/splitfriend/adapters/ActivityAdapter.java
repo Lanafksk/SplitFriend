@@ -1,6 +1,5 @@
 package com.example.splitfriend.adapters;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +40,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
         holder.activityName.setText(activity.getName());
         holder.participantCount.setText(String.valueOf(activity.getParticipantsId().size()));
         holder.activityDate.setText(activity.getDate().toString());
-        holder.activityAmount.setText(String.valueOf(activity.getAmount()));
+        holder.activityAmount.setText(String.valueOf(activity.getTotalAmount()));
 
 //        if (activity.getCreatorId().equals(currentUserId)) {
 //            holder.deleteText.setText("Delete");
