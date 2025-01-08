@@ -19,6 +19,18 @@
             android:name=".user.SettingsMenuActivity"
             android:exported="false" />
         <activity
+            android:name=".user.ActivityUserAmountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".user.ActivityTotalAmountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".user.ActivityDetailPayeeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".user.ActivityDetailSenderActivity"
+            android:exported="false" />
+        <activity
             android:name=".user.FindGroupActivity"
             android:exported="false" />
         <activity
