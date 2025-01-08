@@ -10,6 +10,12 @@
     <color name="yellow">#FFB743</color>
     <color name="activity_background">#E8EEF0</color>
 
+    <color name="category1">#E8EEF0</color>
+    <color name="category2">#9970CE</color>
+    <color name="category3">#E190A3</color>
+    <color name="category4">#F3F3E0</color>
+    <color name="category5">#3478B5</color>
+
     <color name="main_color">#56CCF2</color>
     <color name="splash_description">#D3D3D3</color>
 </resources>

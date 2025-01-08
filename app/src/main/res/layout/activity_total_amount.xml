@@ -1,6 +1,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -46,82 +46,51 @@
         android:textStyle="bold"
         android:textColor="@color/blue" />
 
-    <!-- Activity and Category -->
+    <!-- Data Chart -->
+    <TextView
+        android:id="@+id/dataChartLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Data Chart"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black" />
+
+    <!-- Pie Chart -->
+    <!--    <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChart"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="16dp"
+            tools:ignore="MissingClass" />-->
+
+    <!-- Custom Pie Chart -->
+    <!--    <com.example.app.CustomPieChart
+            android:id="@+id/customPieChart"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="16dp"
+            tools:ignore="MissingClass" />-->
+
+    <!-- Pie Chart Legend Layout -->
     <LinearLayout
+        android:id="@+id/legendLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:layout_marginTop="16dp" />
 
-        <TextView
-            android:id="@+id/activityLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="Activity"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black" />
-
-        <!-- Dynamic Category -->
-        <TextView
-            android:id="@+id/categoryTag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="4dp"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/default_category_background"
-            android:text="Category"
-            android:textColor="@android:color/white"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <!-- Image Placeholder -->
-    <FrameLayout
-        android:id="@+id/imagePlaceholder"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/gray">
+        android:layout_height="1dp"
+        android:background="@color/gray"
+        android:layout_marginVertical="8dp" />
 
-        <ImageView
-            android:id="@+id/imageIcon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center"
-            android:src="@drawable/baseline_image_24"
-            android:contentDescription="Image Placeholder" />
-    </FrameLayout>
-
-    <!-- Memo and Amount -->
-    <LinearLayout
+    <!-- Dynamic bill List -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/memoText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="start"
-            android:text="Memo"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black" />
-
-        <TextView
-            android:id="@+id/priceText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:text="8,000,000 d"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/red" />
-    </LinearLayout>
+        android:layout_marginTop="16dp" />
 </LinearLayout>
