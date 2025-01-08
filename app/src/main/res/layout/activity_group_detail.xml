@@ -7,7 +7,8 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,6 +33,7 @@
                     android:contentDescription="Back"/>
 
                 <TextView
+                    android:id="@+id/groupNameTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -64,10 +66,11 @@
                     android:src="@drawable/baseline_groups_white_24"/>
 
                 <TextView
+                    android:id="@+id/memberCountTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:text="· 6"
+                    android:text="6"
                     android:textStyle="bold"
                     android:textColor="@android:color/white"
                     android:textSize="22sp"/>
@@ -131,17 +134,16 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/activityRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"/>
+                android:layout_height="match_parent" />
 
-            <TextView
-                android:id="@+id/emptyStateText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="The data does not exist"
-                android:textColor="@color/dark_gray"
-                android:textSize="16sp"/>
+<!--            <TextView-->
+<!--                android:id="@+id/emptyStateText"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:text="The data does not exist"-->
+<!--                android:textColor="@color/dark_gray"-->
+<!--                android:textSize="16sp"/>-->
 
         </FrameLayout>
     </LinearLayout>

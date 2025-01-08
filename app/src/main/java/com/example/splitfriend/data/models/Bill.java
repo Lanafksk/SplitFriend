@@ -6,45 +6,40 @@ import java.io.Serializable;
 import java.util.List;
 
 // Bill for now wont have Image or we can use image URL instead for now
-public class Bill implements Serializable {
-    @DocumentId private String id;
-    private double billAmount;
-    private String paidBy;
-    private List<String> sharedBy;
+public class Bill  {
+    private String note;
+    private double price;
+    private String category;
 
     public Bill() {}
 
-    public Bill(double billAmount, String paidBy, List<String> sharedBy) {
-        this.billAmount = billAmount;
-        this.paidBy = paidBy;
-        this.sharedBy = sharedBy;
+    public Bill(String note, double price, String category) {
+        this.note = note;
+        this.price = price;
+        this.category = category;
     }
 
-    public String getId() {
-        return id;
+    public String getNote() {
+        return note;
     }
 
-    public double getBillAmount() {
-        return billAmount;
+    public void setNote(String note) {
+        this.note = note;
     }
 
-    public void setBillAmount(double billAmount) {
-        this.billAmount = billAmount;
+    public double getPrice() {
+        return price;
     }
 
-    public String getPaidBy() {
-        return paidBy;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    public void setPaidBy(String paidBy) {
-        this.paidBy = paidBy;
+    public String getCategory() {
+        return category;
     }
 
-    public List<String> getSharedBy() {
-        return sharedBy;
-    }
-
-    public void setSharedBy(List<String> sharedBy) {
-        this.sharedBy = sharedBy;
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

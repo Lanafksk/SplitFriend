@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.splitfriend.R;
 import com.example.splitfriend.WelcomeActivity;
+import com.example.splitfriend.user.group.HomeActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SettingsMenuActivity extends AppCompatActivity {
