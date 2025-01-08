@@ -1,6 +1,8 @@
 package com.example.splitfriend.user.activity;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageButton;
@@ -13,10 +15,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.splitfriend.R;
 import com.example.splitfriend.adapters.ActivityAdapter;
 import com.example.splitfriend.data.helpers.ActivityHelper;
+import com.example.splitfriend.data.helpers.GroupHelper;
+import com.example.splitfriend.data.helpers.UserHelper;
 import com.example.splitfriend.data.models.Activity;
 import com.example.splitfriend.data.models.Group;
+import com.example.splitfriend.data.models.User;
 import com.example.splitfriend.user.group.CreateGroupActivity;
 import com.example.splitfriend.user.group.HomeActivity;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.shape.CornerTreatment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -25,7 +33,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 public class GroupDetailActivity extends AppCompatActivity implements ActivityAdapter.OnActivityActionListener {
@@ -38,6 +50,7 @@ public class GroupDetailActivity extends AppCompatActivity implements ActivityAd
     private ActivityAdapter activityAdapter;
     private ActivityHelper activityHelper;
     private List<Activity> activityList;
+    private ChipGroup memberChipGroup;
 
 
     @Override
@@ -90,8 +103,52 @@ public class GroupDetailActivity extends AppCompatActivity implements ActivityAd
     protected void onResume() {
         super.onResume();
         loadActivities();
+        loadMemberChip();
     }
 
+    private void loadMemberChip() {
+        Intent i = getIntent();
+        String groupId = i.getStringExtra("groupId");
+        GroupHelper groupHelper = new GroupHelper();
+        groupHelper.getGroupById(groupId).addOnSuccessListener(documentSnapshot -> {
+            Group group = documentSnapshot.toObject(Group.class);
+            if (group != null) {
+                populateMemberChips(group);
+            }
+        }).addOnFailureListener(e -> {
+            Toast.makeText(this, "Error getting group: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void populateMemberChips(Group group) {
+        ChipGroup memberChipGroup = findViewById(R.id.memberChips);
+        memberChipGroup.removeAllViews();
+        Map<String, Boolean> processedUserIds = new HashMap<>();
+        for (String memberId : group.getMembersId()) {
+            if (!processedUserIds.containsKey(memberId)) {
+                processedUserIds.put(memberId, true);
+                UserHelper userHelper = new UserHelper();
+                userHelper.getUserById(memberId).addOnSuccessListener(documentSnapshot1 -> {
+                    User user = documentSnapshot1.toObject(User.class);
+                    if (user != null) {
+                        Chip chip = new Chip(memberChipGroup.getContext());
+                        chip.setText(user.getName());
+                        chip.setTextSize(12);
+                        chip.setClickable(false);
+                        chip.setFocusable(false);
+                        chip.setTextColor(Color.DKGRAY);
+                        chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor("#33FFFFFF")));
+                        chip.setChipStrokeWidth(1);
+                        chip.setChipStrokeColor(ColorStateList.valueOf(Color.DKGRAY));
+
+                        memberChipGroup.addView(chip);
+                    }
+                }).addOnFailureListener(e -> {
+                    Toast.makeText(this, "Error getting user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+            }
+        }
+    }
     private void loadActivities() {
         activityHelper.geActivityList(groupId)
                 .addOnCompleteListener(task -> {
