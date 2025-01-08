@@ -13,7 +13,6 @@ public class Group implements Serializable {
     private String name;
     private List<String> membersId;
     private String leaderId;
-    private List<String> activitiesId;
     private String inviteCode;
 
     public Group() {}
@@ -22,14 +21,12 @@ public class Group implements Serializable {
         this.membersId = new ArrayList<>();
         membersId.add(leaderId);
         this.leaderId = leaderId;
-        this.activitiesId = new ArrayList<>();
         this.inviteCode = inviteCode;
     }
     public Group(String name, List<String> membersId, String leaderId, List<String> activitiesId, String inviteCode) {
         this.name = name;
         this.membersId = membersId;
         this.leaderId = leaderId;
-        this.activitiesId = activitiesId;
         this.inviteCode = inviteCode;
     }
 
@@ -69,11 +66,4 @@ public class Group implements Serializable {
         this.leaderId = leaderId;
     }
 
-    public List<String> getActivitiesId() {
-        return activitiesId;
-    }
-
-    public void setActivitiesId(List<String> activitiesId) {
-        this.activitiesId = activitiesId;
-    }
 }

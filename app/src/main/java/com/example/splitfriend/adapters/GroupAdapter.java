@@ -11,9 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.splitfriend.R;
 import com.example.splitfriend.data.helpers.GroupHelper;
+import com.example.splitfriend.data.helpers.UserHelper;
 import com.example.splitfriend.data.models.Group;
+import com.example.splitfriend.data.models.User;
 import com.example.splitfriend.user.activity.GroupDetailActivity;
 import com.example.splitfriend.viewHolders.GroupViewHolder;
+import com.google.android.material.chip.Chip;
 
 import java.util.List;
 
@@ -62,6 +65,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
             }
         });
 
+        //DeleteButton
         holder.deleteButtonLayout.setVisibility(View.GONE); // Hide delete button initially
 
         holder.deleteButtonLayout.setOnClickListener(v -> {
@@ -84,6 +88,25 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
                         .addOnFailureListener(e -> Toast.makeText(holder.itemView.getContext(), "Error leaving group: " + e.getMessage(), Toast.LENGTH_SHORT).show());
             }
         });
+
+        holder.memberChips.removeAllViews();
+        for (String memberId : group.getMembersId()) {
+            UserHelper userHelper = new UserHelper();
+            userHelper.getUserById(memberId).addOnSuccessListener(documentSnapshot -> {
+                User user = documentSnapshot.toObject(User.class);
+                if (user != null) {
+                    Chip chip = new Chip(holder.itemView.getContext());
+                    chip.setText(user.getName());
+                    chip.setClickable(false);
+                    chip.setFocusable(false);
+                    chip.setChipBackgroundColorResource(R.color.dark_gray);
+                    chip.setTextColor(holder.itemView.getContext().getResources().getColor(R.color.white));
+                    holder.memberChips.addView(chip);
+                }
+            }).addOnFailureListener(e -> {
+                Toast.makeText(holder.itemView.getContext(), "Error getting user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            });
+        }
     }
 
     @Override

@@ -84,6 +84,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:background="?attr/selectableItemBackgroundBorderless"
+                    android:id="@+id/editGroupNameButton"
                     android:src="@drawable/baseline_edit_24"
                     android:contentDescription="Edit Group Name"/>
                 <View
@@ -148,37 +149,7 @@
                     android:textSize="15sp"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"/>
-                <ImageButton
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/baseline_edit_24"
-                    android:contentDescription="Edit Categories"/>
             </RelativeLayout>
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/memberChips"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                app:chipSpacingHorizontal="8dp"
-                app:chipSpacingVertical="8dp">
-
-                <com.google.android.material.chip.Chip
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:minHeight="40dp"
-                    android:text="User Name"
-                    android:clickable="false"
-                    android:focusable="false"
-                    app:chipBackgroundColor="@color/dark_gray"
-                    android:textColor="@android:color/white"
-                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Chip.RoundedCorners" />
-            </com.google.android.material.chip.ChipGroup>
 
             <!-- Members Section -->
             <LinearLayout
@@ -186,8 +157,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp"
-                android:visibility="gone">
+                android:padding="16dp">
 
                 <!-- Member Items -->
                 <LinearLayout
@@ -223,131 +193,6 @@
                     android:background="@drawable/lightblue_button_background"/>
             </LinearLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp"
-                android:layout_marginBottom="5dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="Categories"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"/>
-                <ImageButton
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/baseline_edit_24"
-                    android:contentDescription="Edit Categories"/>
-            </RelativeLayout>
-
-            <!-- Category Grid -->
-            <androidx.gridlayout.widget.GridLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                app:columnCount="2"
-                app:rowCount="3">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical">
-
-                    <View
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:background="@color/gray"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Category"
-                        android:textColor="@android:color/black"
-                        android:layout_marginStart="8dp"/>
-                </LinearLayout>
-            </androidx.gridlayout.widget.GridLayout>
-
-            <!-- Category Items with Cards -->
-            <androidx.gridlayout.widget.GridLayout
-                android:id="@+id/categoryItemsLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:visibility="gone"
-                app:columnCount="2"
-                app:rowCount="3"
-                app:alignmentMode="alignMargins"
-                app:useDefaultMargins="true">
-
-                <!-- Category Card -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_columnWeight="1"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="4dp"
-                    android:layout_margin="8dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:gravity="center_vertical">
-
-                        <View
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_marginStart="12dp"
-                            android:background="@color/gray"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="category"
-                            android:textColor="@android:color/black"
-                            android:textSize="16sp"
-                            android:layout_marginStart="12dp"/>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- Add Button Card -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_columnWeight="1"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="4dp"
-                    android:layout_margin="8dp"
-                    app:cardBackgroundColor="@color/gray">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/baseline_add_24"/>
-                </androidx.cardview.widget.CardView>
-            </androidx.gridlayout.widget.GridLayout>
-
-            <!-- Save Button -->
-            <Button
-                android:id="@+id/saveCategoriesButton"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_margin="16dp"
-                android:visibility="gone"
-                android:background="@drawable/lightblue_button_background"
-                android:text="Save"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="20sp"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
