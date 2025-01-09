@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/popup_background"
+    android:gravity="center">
+
+    <!-- Close Button -->
+    <ImageView
+        android:id="@+id/closeButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="end"
+        android:src="@drawable/baseline_close_black_24"
+        android:contentDescription="Close" />
+
+    <TextView
+        android:id="@+id/confirmationText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PREMIUM"
+        android:textColor="@color/yellow"
+        android:layout_marginTop="16dp"
+        android:textSize="60sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Experience a smarter, ad-free environment packed \nwith diverse features"
+        android:textAlignment="center"
+        android:textColor="@color/dark_gray"
+        android:layout_marginBottom="24dp"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="230dp"
+        android:layout_height="230dp"
+        android:src="@drawable/ic_crown"
+        android:contentDescription="Created New Icon" />
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:backgroundTint="@null"
+        android:background="@drawable/yellow_button_background"
+        android:text="get Experience"
+        android:layout_marginTop="24dp"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"/>
+</LinearLayout>

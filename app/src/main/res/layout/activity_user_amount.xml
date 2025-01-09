@@ -55,6 +55,47 @@
                 android:textStyle="bold"
                 android:textColor="@color/blue" />
 
+            <!-- Data Chart -->
+            <TextView
+                android:id="@+id/dataChartLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Data Chart"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black" />
+
+            <!-- Pie Chart -->
+            <!--    <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginTop="16dp"
+                    tools:ignore="MissingClass" />-->
+
+            <!-- Custom Pie Chart -->
+            <!--    <com.example.app.CustomPieChart
+                    android:id="@+id/customPieChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginTop="16dp"
+                    tools:ignore="MissingClass" />-->
+
+            <!-- Pie Chart Legend Layout -->
+            <LinearLayout
+                android:id="@+id/legendLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="16dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray"
+                android:layout_marginVertical="8dp" />
+
             <!-- Activity and Category -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -68,51 +109,20 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:text="Expense Details"
-                    android:textSize="16sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="@android:color/black" />
 
             </LinearLayout>
 
             <!-- Memo and Price -->
-            <LinearLayout
+
+            <!-- Dynamic RecyclerView for Memo and Price -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <!-- Dynamic Category -->
-                <TextView
-                    android:id="@+id/categoryTag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="4dp"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/default_category_background"
-                    android:text="Category"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-                <TextView
-                    android:id="@+id/memoText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="start"
-                    android:text="Memo"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/black" />
-
-                <TextView
-                    android:id="@+id/priceText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="8,000,000 d"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/red" />
-            </LinearLayout>
+                android:layout_marginTop="16dp" />
         </LinearLayout>
     </ScrollView>
 
