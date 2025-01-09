@@ -45,7 +45,7 @@ public class CreateActivityActivity extends AppCompatActivity {
     private String groupId;
     private String userName;
     private EditText activityNameInput, payeeInput, bankNameInput, bankAccountInput;
-    private TextView dateTextView;
+    private TextView dateTextView, currencySymbol;
     private Spinner currencySpinner;
     private String selectedCurrency;
     private Button saveButton;
@@ -142,7 +142,7 @@ public class CreateActivityActivity extends AppCompatActivity {
         currencySymbols.put("Japanese (Yen)", "¥");
     }
 
-    private void currencySpinnerSetting(){
+    private void currencySpinnerSetting() {
         // Initialize Spinner
         currencySpinner = findViewById(R.id.currencySpinner);
 
@@ -163,6 +163,22 @@ public class CreateActivityActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedCurrency = currencies[position];
+                String symbol = currencySymbols.get(selectedCurrency); // Get symbol from the map
+
+                // Update all existing bill items with the new currency symbol
+                updateCurrencySymbol(symbol);
+            }
+
+            private void updateCurrencySymbol(String symbol) {
+                // Iterate through billsContainer to update all currency symbols
+                for (int i = 0; i < billsContainer.getChildCount(); i++) {
+                    View billItem = billsContainer.getChildAt(i);
+
+                    TextView currencySymbol = billItem.findViewById(R.id.currencySymbol);
+                    if (currencySymbol != null) {
+                        currencySymbol.setText(symbol); // Update the currency symbol
+                    }
+                }
             }
 
             @Override
