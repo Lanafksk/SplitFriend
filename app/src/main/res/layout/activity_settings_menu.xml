@@ -77,7 +77,7 @@
                 android:text="Premium"
                 android:textSize="50sp"
                 android:textStyle="bold"
-                android:textColor="#FFDA56"
+                android:textColor="@color/yellow"
                 android:layout_toEndOf="@id/crownIcon"
                 android:layout_marginStart="30dp"
                 android:layout_centerVertical="true" />
