@@ -45,7 +45,7 @@ public class CreateActivityActivity extends AppCompatActivity {
     private String groupId;
     private String userName;
     private EditText activityNameInput, payeeInput, bankNameInput, bankAccountInput;
-    private TextView dateTextView, currencySymbol;
+    private TextView dateTextView;
     private Spinner currencySpinner;
     private String selectedCurrency;
     private Button saveButton;
