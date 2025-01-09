@@ -102,7 +102,7 @@ public class CreateActivityActivity extends AppCompatActivity {
         // Initialize currency symbols
         initializeCurrencySymbols();
 
-//        loadMemberChip();
+        loadMemberChip();
 
         datePickerSetting();
         currencySpinnerSetting();
@@ -114,46 +114,66 @@ public class CreateActivityActivity extends AppCompatActivity {
 //        saveButton.setOnClickListener(v -> saveBill());
     }
 
-//    private void loadMemberChip() {
-//        Intent i = getIntent();
-//        String groupId = i.getStringExtra("groupId");
-//        GroupHelper groupHelper = new GroupHelper();
-//        groupHelper.getGroupById(groupId).addOnSuccessListener(documentSnapshot -> {
-//            Group group = documentSnapshot.toObject(Group.class);
-//            if (group != null) {
-//                populateMemberChips(group);
-//            }
-//        }).addOnFailureListener(e -> {
-//            Toast.makeText(this, "Error getting group: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-//        });
-//    }
-//
-//    private void populateMemberChips(Group group) {
-//        Map<String, Boolean> processedUserIds = new HashMap<>();
-//        for (String memberId : group.getMembersId()) {
-//            if (!processedUserIds.containsKey(memberId)) {
-//                processedUserIds.put(memberId, true);
-//                UserHelper userHelper = new UserHelper();
-//                userHelper.getUserById(memberId).addOnSuccessListener(documentSnapshot1 -> {
-//                    User user = documentSnapshot1.toObject(User.class);
-//                    if (user != null) {
-//                        Chip chip = new Chip(memberChipGroup.getContext());
-//                        chip.setText(user.getName());
-//                        chip.setTextSize(12);
-//                        chip.setTextColor(Color.DKGRAY);
-//                        chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor("#33FFFFFF")));
-//                        chip.setChipStrokeWidth(1);
-//                        chip.setChipStrokeColor(ColorStateList.valueOf(Color.DKGRAY));
-//
-//
-//                        memberChipGroup.addView(chip);
-//                    }
-//                }).addOnFailureListener(e -> {
-//                    Toast.makeText(this, "Error getting user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-//                });
-//            }
-//        }
-//    }
+    private void loadMemberChip() {
+        Intent i = getIntent();
+        String groupId = i.getStringExtra("groupId");
+        GroupHelper groupHelper = new GroupHelper();
+        groupHelper.getGroupById(groupId).addOnSuccessListener(documentSnapshot -> {
+            Group group = documentSnapshot.toObject(Group.class);
+            if (group != null) {
+                populateMemberChips(group);
+            }
+        }).addOnFailureListener(e -> {
+            Toast.makeText(this, "Error getting group: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void populateMemberChips(Group group) {
+        memberChipGroup.removeAllViews();
+        Chip allchip = new Chip(memberChipGroup.getContext());
+        allchip.setText("All");
+        allchip.setTextSize(12);
+        allchip.setTextColor(Color.WHITE);
+        allchip.setCheckable(true);
+        allchip.setChipBackgroundColorResource(R.drawable.chip_background);
+        allchip.setChipStrokeWidth(1);
+        allchip.setChipStrokeColor(ColorStateList.valueOf(Color.WHITE));
+
+//        allchip.setOnCheckedChangeListener();
+
+
+        memberChipGroup.addView(allchip);
+        Map<String, Boolean> processedUserIds = new HashMap<>();
+        for (String memberId : group.getMembersId()) {
+            if (!processedUserIds.containsKey(memberId)) {
+                processedUserIds.put(memberId, true);
+                UserHelper userHelper = new UserHelper();
+                userHelper.getUserById(memberId).addOnSuccessListener(documentSnapshot1 -> {
+                    User user = documentSnapshot1.toObject(User.class);
+                    if (user != null) {
+                        Chip chip = new Chip(memberChipGroup.getContext());
+                        chip.setText(user.getName());
+                        chip.setTextSize(12);
+                        chip.setTextColor(Color.DKGRAY);
+                        chip.setCheckable(true);
+                        chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor("#33FFFFFF")));
+                        chip.setChipStrokeWidth(1);
+                        chip.setChipStrokeColor(ColorStateList.valueOf(Color.DKGRAY));
+
+
+
+//                        chip.setOnCheckedChangeListener();
+
+
+
+                        memberChipGroup.addView(chip);
+                    }
+                }).addOnFailureListener(e -> {
+                    Toast.makeText(this, "Error getting user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+            }
+        }
+    }
 
     private void datePickerSetting(){
         // Initialize views for date picker
