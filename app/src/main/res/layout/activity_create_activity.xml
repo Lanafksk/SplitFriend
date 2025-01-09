@@ -7,7 +7,9 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottomButton">
+        android:layout_above="@id/bottomButton"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -277,7 +279,6 @@
                     android:textSize="16sp" />
                 </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <!-- Fixed Bottom Button -->

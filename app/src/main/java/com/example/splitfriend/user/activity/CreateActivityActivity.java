@@ -6,8 +6,11 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +30,7 @@ import com.example.splitfriend.data.helpers.ActivityHelper;
 import com.example.splitfriend.data.models.Activity;
 import com.example.splitfriend.data.models.Bill;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -215,49 +219,44 @@ public class CreateActivityActivity extends AppCompatActivity {
     }
 
     private void categoryPopupHandle(View billItem) {
-        Log.d("PopupDebug", "showCategoryPopup 호출됨");
+        // BottomSheetDialog 초기화
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this, R.style.CustomBottomSheetDialogTheme);
 
-        // 팝업 레이아웃 인플레이션
+        // 팝업 레이아웃 설정
         View popupView = LayoutInflater.from(this).inflate(R.layout.popup_category_list, null);
-
-        // PopupWindow 객체 생성
-        PopupWindow popupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
+        bottomSheetDialog.setContentView(popupView);
 
         // 닫기 버튼 설정
         ImageButton closeButton = popupView.findViewById(R.id.closeButton);
-        closeButton.setOnClickListener(v -> popupWindow.dismiss());
+        closeButton.setOnClickListener(v -> bottomSheetDialog.dismiss());
 
-        // 각 카테고리 선택 설정
         popupView.findViewById(R.id.category_food).setOnClickListener(v -> {
             setCategory(billItem, "Food");
-            popupWindow.dismiss();
+            bottomSheetDialog.dismiss();
         });
 
         popupView.findViewById(R.id.category_glossary).setOnClickListener(v -> {
             setCategory(billItem, "Glossary");
-            popupWindow.dismiss();
+            bottomSheetDialog.dismiss();
         });
 
         popupView.findViewById(R.id.category_activity).setOnClickListener(v -> {
             setCategory(billItem, "Activity");
-            popupWindow.dismiss();
+            bottomSheetDialog.dismiss();
         });
 
         popupView.findViewById(R.id.category_present).setOnClickListener(v -> {
             setCategory(billItem, "Present");
-            popupWindow.dismiss();
+            bottomSheetDialog.dismiss();
         });
 
         popupView.findViewById(R.id.category_travel).setOnClickListener(v -> {
             setCategory(billItem, "Travel");
-            popupWindow.dismiss();
+            bottomSheetDialog.dismiss();
         });
 
-        // 팝업 위치 설정
-        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE)); // 배경 설정
-        popupWindow.setElevation(10); // 그림자 효과
-        popupWindow.showAsDropDown(billItem, 0, 0); // 클릭된 버튼 아래에 표시
-
+        // BottomSheetDialog 표시
+        bottomSheetDialog.show();
     }
 
     private void setCategory(View billItem, String category) {
