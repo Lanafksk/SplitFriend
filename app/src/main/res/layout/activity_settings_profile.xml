@@ -5,219 +5,190 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/headerLayout"
+    <!-- AppBarLayout -->
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@color/light_blue">
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
+        android:fitsSystemWindows="true">
 
-        <!-- 뒤로가기 버튼 -->
-        <ImageView
-            android:id="@+id/backIcon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="16dp"
-            android:contentDescription="Back"
-            android:src="@drawable/baseline_arrow_back_24" />
-
-        <!-- 타이틀 -->
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- Header Layout -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Edit Profile"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-    </RelativeLayout>
+            android:orientation="vertical"
+            android:background="@color/light_blue">
+
+            <!-- Top Bar -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="center_vertical">
+
+                <ImageButton
+                    android:id="@+id/backIcon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/baseline_arrow_back_24"
+                    android:contentDescription="Back"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Edit Profile"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"/>
+
+                <View
+                    android:layout_width="48dp"
+                    android:layout_height="48dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:paddingHorizontal="16dp">
 
+        <!--  personal information  -->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp">
-
+            android:layout_height="48dp"
+            android:layout_marginBottom="5dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="Personal Information"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <ImageView
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"/>
+            <ImageButton
                 android:id="@+id/editButton"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:contentDescription="Edit"
-                android:src="@drawable/baseline_edit_24" />
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/baseline_edit_24"
+                android:contentDescription="Edit Categories"/>
         </RelativeLayout>
 
-        <com.google.android.material.card.MaterialCardView
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nameEditText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
+            android:background="@drawable/stroke_box_background"
+            android:enabled="false"
+            android:hint="[user name]"
             android:layout_marginBottom="8dp"
-            app:cardCornerRadius="12dp"
-            app:strokeColor="#E0E0E0"
-            app:strokeWidth="1dp">
+            android:padding="16dp" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/nameEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:enabled="false"
-                android:hint="[user name]"
-                android:padding="16dp" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/emailEditText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
+            android:background="@drawable/stroke_box_background"
+            android:enabled="false"
+            android:hint="1234@gmail.com"
             android:layout_marginBottom="8dp"
-            app:cardCornerRadius="12dp"
-            app:strokeColor="#E0E0E0"
-            app:strokeWidth="1dp">
+            android:padding="16dp" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/emailEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:enabled="false"
-                android:hint="1234@gmail.com"
-                android:padding="16dp" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/userIdEditText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="12dp"
-            app:strokeColor="#E0E0E0"
-            app:strokeWidth="1dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/userIdEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:enabled="false"
-                android:hint="Id"
-                android:padding="16dp" />
-        </com.google.android.material.card.MaterialCardView>
+            android:layout_height="55dp"
+            android:background="@drawable/stroke_box_background"
+            android:enabled="false"
+            android:hint="Id"
+            android:layout_marginBottom="30dp"
+            android:padding="16dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/saveButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginBottom="32dp"
-            android:backgroundTint="#5CD5EB"
-            android:padding="12dp"
+            app:backgroundTint="@null"
+            android:background="@drawable/red_button_background"
             android:text="Save"
             android:textSize="16sp"
             android:visibility="gone"
             app:cornerRadius="24dp" />
 
+    <!--    Edit password    -->
+        <!--  personal information  -->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp">
-
+            android:layout_height="48dp"
+            android:layout_marginBottom="5dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="Edit password"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <ImageView
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"/>
+            <ImageButton
                 android:id="@+id/editPasswordButton"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:contentDescription="Edit Password"
-                android:src="@drawable/baseline_edit_24" />
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/baseline_edit_24"
+                android:contentDescription="Edit Categories"/>
         </RelativeLayout>
 
-        <com.google.android.material.card.MaterialCardView
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/currentPasswordEditText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:layout_marginBottom="8dp"
-            app:cardCornerRadius="12dp"
-            app:strokeColor="#E0E0E0"
-            app:strokeWidth="1dp">
+            android:background="@drawable/stroke_box_background"
+            android:enabled="false"
+            android:hint="Enter Current Password"
+            android:inputType="textPassword"
+            android:padding="16dp" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/currentPasswordEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:enabled="false"
-                android:hint="Enter Current Password"
-                android:inputType="textPassword"
-                android:padding="16dp" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/newPasswordEditText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:layout_marginBottom="8dp"
-            app:cardCornerRadius="12dp"
-            app:strokeColor="#E0E0E0"
-            app:strokeWidth="1dp">
+            android:background="@drawable/stroke_box_background"
+            android:enabled="false"
+            android:hint="Enter new password"
+            android:inputType="textPassword"
+            android:padding="16dp" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/newPasswordEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:enabled="false"
-                android:hint="Enter new password"
-                android:inputType="textPassword"
-                android:padding="16dp" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/confirmPasswordEditText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="12dp"
-            app:strokeColor="#E0E0E0"
-            app:strokeWidth="1dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/confirmPasswordEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:enabled="false"
-                android:hint="Confirm password"
-                android:inputType="textPassword"
-                android:padding="16dp" />
-        </com.google.android.material.card.MaterialCardView>
+            android:layout_height="55dp"
+            android:background="@drawable/stroke_box_background"
+            android:enabled="false"
+            android:layout_marginBottom="30dp"
+            android:hint="Confirm password"
+            android:inputType="textPassword"
+            android:padding="16dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/savePasswordButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#5CD5EB"
-            android:padding="12dp"
+            android:layout_height="50dp"
+            app:backgroundTint="@null"
+            android:background="@drawable/red_button_background"
             android:text="Save"
             android:textSize="16sp"
-            android:visibility="gone"
-            app:cornerRadius="24dp" />
-
+            android:visibility="gone"/>
     </LinearLayout>
 </LinearLayout>
