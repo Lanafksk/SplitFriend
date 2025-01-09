@@ -37,11 +37,12 @@
                         android:contentDescription="Back" />
 
                     <TextView
+                        android:id="@+id/titleTextView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="[Activity Name]"
+                        android:text="[Activity Name - payee]"
                         android:textStyle="bold"
                         android:textColor="@android:color/white"
                         android:textSize="20sp" />
@@ -64,6 +65,7 @@
                         android:src="@drawable/baseline_calendar_month_24" />
 
                     <TextView
+                        android:id="@+id/dateTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -121,6 +123,7 @@
                         android:textColor="@color/black" />
 
                     <TextView
+                        android:id="@+id/totalAmountTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"

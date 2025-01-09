@@ -14,6 +14,8 @@ import com.example.splitfriend.data.helpers.ActivityHelper;
 import com.example.splitfriend.data.helpers.UserHelper;
 import com.example.splitfriend.data.models.Activity;
 import com.example.splitfriend.data.models.User;
+import com.example.splitfriend.user.ActivityDetailPayeeActivity;
+import com.example.splitfriend.user.ActivityDetailSenderActivity;
 import com.example.splitfriend.user.group.HomeActivity;
 import com.example.splitfriend.viewHolders.ActivityViewHolder;
 import com.google.android.material.chip.Chip;
@@ -82,7 +84,15 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
 
         // move to activity detail page
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(holder.itemView.getContext(), HomeActivity.class);
+            Intent intent;
+            if (activity.getCreatorId().equals(currentUserId)) {
+                // 유저의 ID와 Creator ID가 같을 때 Payee 뷰로 이동
+                intent = new Intent(holder.itemView.getContext(), ActivityDetailPayeeActivity.class);
+            } else {
+                // 유저의 ID와 Creator ID가 다를 때 Sender 뷰로 이동
+                intent = new Intent(holder.itemView.getContext(), ActivityDetailSenderActivity.class);
+            }
+            // Activity ID를 Intent에 전달
             intent.putExtra("activityId", activity.getId());
             holder.itemView.getContext().startActivity(intent);
         });

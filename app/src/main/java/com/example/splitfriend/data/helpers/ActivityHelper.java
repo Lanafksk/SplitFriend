@@ -4,6 +4,7 @@ import com.example.splitfriend.data.models.Activity;
 import com.example.splitfriend.data.models.Bill;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -21,6 +22,10 @@ public class ActivityHelper {
     }
 
     // Listeners
+    public Task<DocumentSnapshot> getActivityById(String activityId) {
+        return db.collection("activities").document(activityId).get();
+    }
+
     public void setupRealtimeUpdates(EventListener<QuerySnapshot> listener) {
         this.listener = db.collection("activities").addSnapshotListener(listener);
     }
