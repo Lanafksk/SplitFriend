@@ -146,13 +146,13 @@ public class SettingsMenuActivity extends AppCompatActivity {
             if (currentUser != null) {
                 String userId = currentUser.getUid();
 
-                // [3] Update the "role" field to "superuser"
+                // [3] Update the "role" field to "premiumUser"
                 db.collection("users")
                         .document(userId)
-                        .update("role", "superuser")
+                        .update("role", "premiumUser")
                         .addOnSuccessListener(aVoid -> {
                             // Logic after successful update
-                            Toast.makeText(this, "The role has been updated to superuser.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "The role has been updated to premiumUser.", Toast.LENGTH_SHORT).show();
                         })
                         .addOnFailureListener(e -> {
                             // Error handling
