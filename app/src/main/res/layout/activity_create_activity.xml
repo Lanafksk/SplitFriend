@@ -7,7 +7,9 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottomButton">
+        android:layout_above="@id/bottomButton"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -207,13 +209,22 @@
 <!--                        android:background="@color/gray"/>-->
 <!--                </LinearLayout>-->
 
-                    <HorizontalScrollView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="48dp"
-                        android:layout_marginTop="8dp"
-                        android:scrollbars="none">
-                    </HorizontalScrollView>
+                <!-- Activities Section -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bills"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:layout_marginTop="16dp"/>
+
+                <!-- Bills Section -->
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:scrollbars="none">
 
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/chipGroupCreateActivity"
@@ -224,42 +235,33 @@
                         <com.google.android.material.chip.Chip
                             android:layout_width="wrap_content"
                             android:layout_height="55dp"
-                            android:text="All"
-                            android:textSize="15sp"
                             android:checkable="true"
+                            android:text="All"
                             android:textColor="@android:color/white"
+                            android:textSize="15sp"
                             app:chipBackgroundColor="@drawable/chip_background"
-                            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Chip.RoundedCorners"/>
+                            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Chip.RoundedCorners" />
 
                         <com.google.android.material.chip.Chip
                             android:layout_width="wrap_content"
                             android:layout_height="55dp"
-                            android:text="User Name"
-                            android:textSize="15sp"
                             android:checkable="true"
+                            android:text="User Name"
                             android:textColor="@color/dark_gray"
+                            android:textSize="15sp"
                             app:chipBackgroundColor="#33FFFFFF"
-                            app:chipStrokeWidth="2dp"
                             app:chipStrokeColor="@color/dark_gray"
-                            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Chip.RoundedCorners"/>
+                            app:chipStrokeWidth="2dp"
+                            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Chip.RoundedCorners" />
                     </com.google.android.material.chip.ChipGroup>
+                </HorizontalScrollView>
 
-                <!-- Activities Section -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Bills"
-                    android:textSize="18sp"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="16dp"/>
-
-                <!-- Bills Section -->
                 <LinearLayout
                     android:id="@+id/billsContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="16dp">
 
                     <!-- 기존 Bills 리스트는 여기서 동적으로 추가됩니다 -->
@@ -268,16 +270,16 @@
                 <Button
                     android:id="@+id/addBillButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
+                    android:layout_height="50dp"
+                    android:textStyle="bold"
                     android:layout_marginTop="16dp"
-                    android:backgroundTint="@color/blue"
+                    app:backgroundTint="@null"
+                    android:background="@drawable/gray_button_background"
                     android:text="Add Bill"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
                 </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <!-- Fixed Bottom Button -->

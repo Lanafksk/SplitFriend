@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -35,6 +35,7 @@ import com.example.splitfriend.data.models.User;
 import com.example.splitfriend.user.GroupSettingActivity;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -243,7 +244,7 @@ public class CreateActivityActivity extends AppCompatActivity {
         currencySymbols.put("Japanese (Yen)", "¥");
     }
 
-    private void currencySpinnerSetting(){
+    private void currencySpinnerSetting() {
         // Initialize Spinner
         currencySpinner = findViewById(R.id.currencySpinner);
 
@@ -264,6 +265,22 @@ public class CreateActivityActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedCurrency = currencies[position];
+                String symbol = currencySymbols.get(selectedCurrency); // Get symbol from the map
+
+                // Update all existing bill items with the new currency symbol
+                updateCurrencySymbol(symbol);
+            }
+
+            private void updateCurrencySymbol(String symbol) {
+                // Iterate through billsContainer to update all currency symbols
+                for (int i = 0; i < billsContainer.getChildCount(); i++) {
+                    View billItem = billsContainer.getChildAt(i);
+
+                    TextView currencySymbol = billItem.findViewById(R.id.currencySymbol);
+                    if (currencySymbol != null) {
+                        currencySymbol.setText(symbol); // Update the currency symbol
+                    }
+                }
             }
 
             @Override
@@ -300,49 +317,44 @@ public class CreateActivityActivity extends AppCompatActivity {
     }
 
     private void categoryPopupHandle(View billItem) {
-        Log.d("PopupDebug", "showCategoryPopup 호출됨");
+        // BottomSheetDialog 초기화
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this, R.style.CustomBottomSheetDialogTheme);
 
-        // 팝업 레이아웃 인플레이션
+        // 팝업 레이아웃 설정
         View popupView = LayoutInflater.from(this).inflate(R.layout.popup_category_list, null);
-
-        // PopupWindow 객체 생성
-        PopupWindow popupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
+        bottomSheetDialog.setContentView(popupView);
 
         // 닫기 버튼 설정
         ImageButton closeButton = popupView.findViewById(R.id.closeButton);
-        closeButton.setOnClickListener(v -> popupWindow.dismiss());
+        closeButton.setOnClickListener(v -> bottomSheetDialog.dismiss());
 
-        // 각 카테고리 선택 설정
         popupView.findViewById(R.id.category_food).setOnClickListener(v -> {
             setCategory(billItem, "Food");
-            popupWindow.dismiss();
+            bottomSheetDialog.dismiss();
         });
 
         popupView.findViewById(R.id.category_glossary).setOnClickListener(v -> {
             setCategory(billItem, "Glossary");
-            popupWindow.dismiss();
+            bottomSheetDialog.dismiss();
         });
 
         popupView.findViewById(R.id.category_activity).setOnClickListener(v -> {
             setCategory(billItem, "Activity");
-            popupWindow.dismiss();
+            bottomSheetDialog.dismiss();
         });
 
         popupView.findViewById(R.id.category_present).setOnClickListener(v -> {
             setCategory(billItem, "Present");
-            popupWindow.dismiss();
+            bottomSheetDialog.dismiss();
         });
 
         popupView.findViewById(R.id.category_travel).setOnClickListener(v -> {
             setCategory(billItem, "Travel");
-            popupWindow.dismiss();
+            bottomSheetDialog.dismiss();
         });
 
-        // 팝업 위치 설정
-        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE)); // 배경 설정
-        popupWindow.setElevation(10); // 그림자 효과
-        popupWindow.showAsDropDown(billItem, 0, 0); // 클릭된 버튼 아래에 표시
-
+        // BottomSheetDialog 표시
+        bottomSheetDialog.show();
     }
 
     private void setCategory(View billItem, String category) {
