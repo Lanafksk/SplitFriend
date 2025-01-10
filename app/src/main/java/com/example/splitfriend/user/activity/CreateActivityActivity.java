@@ -361,6 +361,23 @@ public class CreateActivityActivity extends AppCompatActivity {
         TextView categoryTitle = billItem.findViewById(R.id.categoryTitle);
         if (categoryTitle != null) {
             categoryTitle.setText(category);
+            switch (category) {
+                case "Food":
+                    categoryTitle.setBackgroundResource(R.color.category1);
+                    break;
+                case "Glossary":
+                    categoryTitle.setBackgroundResource(R.color.category2);
+                    break;
+                case "Activity":
+                    categoryTitle.setBackgroundResource(R.color.category3);
+                    break;
+                case "Present":
+                    categoryTitle.setBackgroundResource(R.color.category4);
+                    break;
+                case "Travel":
+                    categoryTitle.setBackgroundResource(R.color.category5);
+                    break;
+            }
             Toast.makeText(this, "Selected category: " + category, Toast.LENGTH_SHORT).show();
             Log.d("PopupDebug", "카테고리 설정됨: " + category);
         } else {
