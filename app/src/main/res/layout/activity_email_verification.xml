@@ -44,29 +44,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Description -->
+        <!-- Resend Email Section -->
         <TextView
             android:id="@+id/descriptionText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="We sent an email to your email address!"
             android:textColor="@android:color/black"
+            android:textStyle="bold"
             android:textSize="16sp"
             android:gravity="center"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="30dp" />
 
-        <TextView
-            android:id="@+id/instructionText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Just click on the link in that email and press the Register button to complete your registration."
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:gravity="center"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Resend Email Section -->
         <TextView
             android:id="@+id/resendPromptText"
             android:layout_width="match_parent"
@@ -80,22 +70,33 @@
         <Button
             android:id="@+id/btnResendEmail"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:backgroundTint="@null"
             android:text="Resend Email"
+            app:backgroundTint="@null"
             android:background="@drawable/darkgray_stroke"
             android:textColor="@color/dark_gray"
-            android:textSize="16sp"
-            android:layout_marginBottom="20dp"
-            android:padding="10dp"
+            android:textSize="12sp"
+            android:layout_marginBottom="50dp"
             android:layout_gravity="center" />
+
+        <!-- Description -->
+        <TextView
+            android:id="@+id/instructionText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Click on the link in that email and press the \nConfirm button to complete your registration."
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_marginBottom="8dp" />
 
         <!-- Register Button -->
         <Button
             android:id="@+id/btnCheckVerification"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:text="Register"
+            android:text="Confirm"
             android:background="@drawable/lightblue_button_background"
             android:textColor="@android:color/white"
             android:textSize="20sp"
@@ -108,7 +109,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Go back to the previous page"
+            android:text="Go back to the Register page"
             android:textColor="@color/gray"
             android:textSize="15sp"
             android:textStyle="bold"

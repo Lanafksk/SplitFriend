@@ -7,8 +7,9 @@
     <color name="dark_gray">#A9A9A9</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="yellow">#FFB743</color>
     <color name="activity_background">#E8EEF0</color>
-
+  
     <color name="category1">#1E90FF</color>
     <color name="category2">#9970CE</color>
     <color name="category3">#E190A3</color>
