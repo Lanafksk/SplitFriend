@@ -3,10 +3,14 @@ package com.example.splitfriend.data.helpers;
 import com.example.splitfriend.data.models.Group;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GroupHelper {
     private final FirebaseFirestore db;
@@ -38,7 +42,6 @@ public class GroupHelper {
                 "name", group.getName(),
                 "membersId", group.getMembersId(),
                 "leaderId", group.getLeaderId(),
-                "activitiesId", group.getActivitiesId(),
                 "inviteCode", group.getInviteCode()
         ).addOnFailureListener(
                 e -> System.out.println("Error updating group: " + e.getMessage()));
@@ -59,5 +62,16 @@ public class GroupHelper {
         return db.collection("groups")
                 .whereArrayContains("membersId", memberId)
                 .get();
+    }
+
+    public Task<DocumentSnapshot> getGroupById(String groupId) {
+        return db.collection("groups").document(groupId).get();
+    }
+
+    public Task<Void> updateGroupName(String groupId, String name) {
+        return db.collection("groups").document(groupId).update("name", name);
+    }
+    public Task<Void> updateMembersId(String groupId, List<String> membersId) {
+        return db.collection("groups").document(groupId).update("membersId", membersId);
     }
 }

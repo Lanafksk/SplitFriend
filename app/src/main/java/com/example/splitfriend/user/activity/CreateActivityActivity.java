@@ -2,6 +2,10 @@ package com.example.splitfriend.user.activity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,9 +25,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.splitfriend.R;
 import com.example.splitfriend.data.helpers.ActivityHelper;
+import com.example.splitfriend.data.helpers.GroupHelper;
+import com.example.splitfriend.data.helpers.UserHelper;
 import com.example.splitfriend.data.models.Activity;
 import com.example.splitfriend.data.models.Bill;
 
+import com.example.splitfriend.data.models.Group;
+import com.example.splitfriend.data.models.User;
+import com.example.splitfriend.user.GroupSettingActivity;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,9 +44,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 public class CreateActivityActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -48,10 +61,15 @@ public class CreateActivityActivity extends AppCompatActivity {
     private String selectedCurrency;
     private Button saveButton;
     private ActivityHelper activityHelper;
+    private ImageButton backButton;
+    private ImageButton menuButton;
 
     private LinearLayout billsContainer;
     private List<Bill> billList;
     private Map<String, String> currencySymbols;
+    private ChipGroup memberChipGroup;
+    private Set<String> participantsId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +90,8 @@ public class CreateActivityActivity extends AppCompatActivity {
         Intent i = getIntent();
         groupId = i.getStringExtra("groupId");
 
+        participantsId = new HashSet<>();
+
         // Initialize views
         activityNameInput = findViewById(R.id.activityNameInput);
         payeeInput = findViewById(R.id.payeeInput);
@@ -81,9 +101,14 @@ public class CreateActivityActivity extends AppCompatActivity {
         saveButton = findViewById(R.id.bottomButton);
         activityHelper = new ActivityHelper();
         billList = new ArrayList<>();
+        memberChipGroup = findViewById(R.id.chipGroupCreateActivity);
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> finish());
 
         // Initialize currency symbols
         initializeCurrencySymbols();
+
+        loadMemberChip();
 
         datePickerSetting();
         currencySpinnerSetting();
@@ -93,6 +118,85 @@ public class CreateActivityActivity extends AppCompatActivity {
         // Set up Save Button click listener
         saveButton.setOnClickListener(v -> saveActivity());
 //        saveButton.setOnClickListener(v -> saveBill());
+    }
+
+    private void loadMemberChip() {
+        Intent i = getIntent();
+        String groupId = i.getStringExtra("groupId");
+        GroupHelper groupHelper = new GroupHelper();
+        groupHelper.getGroupById(groupId).addOnSuccessListener(documentSnapshot -> {
+            Group group = documentSnapshot.toObject(Group.class);
+            if (group != null) {
+                populateMemberChips(group);
+            }
+        }).addOnFailureListener(e -> {
+            Toast.makeText(this, "Error getting group: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void populateMemberChips(Group group) {
+        memberChipGroup.removeAllViews();
+        Chip allchip = new Chip(memberChipGroup.getContext());
+        allchip.setText("All");
+        allchip.setTextSize(12);
+        allchip.setTextColor(Color.WHITE);
+        allchip.setCheckable(true);
+        allchip.setChipBackgroundColorResource(R.drawable.chip_background);
+        allchip.setChipStrokeWidth(1);
+        allchip.setChipStrokeColor(ColorStateList.valueOf(Color.WHITE));
+        allchip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                for (int i = 0; i < memberChipGroup.getChildCount(); i++) {
+                    Chip chip = (Chip) memberChipGroup.getChildAt(i);
+                    allchip.setChecked(true);
+                    chip.setChecked(true);
+                }
+            } else {
+                for (int i = 0; i < memberChipGroup.getChildCount(); i++) {
+                    Chip chip = (Chip) memberChipGroup.getChildAt(i);
+                    chip.setChecked(false);
+                    allchip.setChecked(false);
+                }
+            }
+        });
+
+
+        memberChipGroup.addView(allchip);
+        Map<String, Boolean> processedUserIds = new HashMap<>();
+        for (String memberId : group.getMembersId()) {
+            if (!processedUserIds.containsKey(memberId)) {
+                processedUserIds.put(memberId, true);
+                UserHelper userHelper = new UserHelper();
+                userHelper.getUserById(memberId).addOnSuccessListener(documentSnapshot1 -> {
+                    User user = documentSnapshot1.toObject(User.class);
+                    if (user != null) {
+                        Chip chip = new Chip(memberChipGroup.getContext());
+                        chip.setText(user.getName());
+                        chip.setTextSize(12);
+                        chip.setTextColor(Color.DKGRAY);
+                        chip.setCheckable(true);
+                        chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor("#33FFFFFF")));
+                        chip.setChipStrokeWidth(1);
+                        chip.setChipStrokeColor(ColorStateList.valueOf(Color.DKGRAY));
+                        chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                            if (!isChecked) {
+                                allchip.setChecked(false);
+                                participantsId.remove(user.getId());
+                            }
+                            else {
+                                participantsId.add(user.getId());
+                            }
+                        });
+
+
+
+                        memberChipGroup.addView(chip);
+                    }
+                }).addOnFailureListener(e -> {
+                    Toast.makeText(this, "Error getting user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+            }
+        }
     }
 
     private void datePickerSetting(){
@@ -321,8 +425,14 @@ public class CreateActivityActivity extends AppCompatActivity {
         }
 
         // Collect participant data
-        List<String> participants = new ArrayList<>();
-        participants.add(userId); // Add the current user as the default participant
+        if (participantsId.isEmpty()) {
+            Toast.makeText(this, "Please select at least one participant", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (!participantsId.contains(userId)) {
+            participantsId.add(userId);
+        }
+
+        List<String> participants = new ArrayList<>(participantsId);
 
         // Create a new Activity object
         Activity activity = new Activity(

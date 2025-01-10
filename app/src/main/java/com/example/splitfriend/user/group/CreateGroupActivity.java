@@ -3,6 +3,7 @@ package com.example.splitfriend.user.group;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ public class CreateGroupActivity extends AppCompatActivity {
     private GroupHelper groupHelper;
     private FirebaseFirestore db;
     private String inviteCode;
+    private ImageView backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,10 @@ public class CreateGroupActivity extends AppCompatActivity {
             finish();
             return;
         }
+
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> finish());
+
 
         groupNameInput = findViewById(R.id.groupNameInput);
         inviteCodeText = findViewById(R.id.inviteCodeText);

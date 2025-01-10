@@ -10,9 +10,6 @@ public class User implements Serializable {
     private String email;
     private String userId;
     private String name;
-    private String bankAccountNumber;
-    private String bankName;
-
     private String role;
 
     public User() {}
@@ -20,8 +17,6 @@ public class User implements Serializable {
         this.email = email;
         this.userId = userId;
         this.name = name;
-        this.bankAccountNumber = "";
-        this.bankName = "";
         this.role = "user";
     }
 
@@ -30,8 +25,6 @@ public class User implements Serializable {
         this.email = email;
         this.userId = userId;
         this.name = name;
-        this.bankAccountNumber = "";
-        this.bankName = "";
         this.role = "user";
     }
 
@@ -39,8 +32,6 @@ public class User implements Serializable {
         this.email = email;
         this.userId = userId;
         this.name = name;
-        this.bankAccountNumber = bankAccountNumber;
-        this.bankName = bankName;
         this.role = role;
     }
 
@@ -71,23 +62,6 @@ public class User implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getBankAccountNumber() {
-        return bankAccountNumber;
-    }
-
-    public void setBankAccountNumber(String bankAccountNumber) {
-        this.bankAccountNumber = bankAccountNumber;
-    }
-
-    public String getBankName() {
-        return bankName;
-    }
-
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
-    }
-
     public String getRole() {
         return role;
     }
