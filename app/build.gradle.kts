@@ -47,5 +47,7 @@ dependencies {
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore)
-
+    implementation(libs.stripe.android)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
 }
