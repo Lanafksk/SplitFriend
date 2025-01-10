@@ -43,9 +43,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 public class CreateActivityActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -65,6 +67,7 @@ public class CreateActivityActivity extends AppCompatActivity {
     private List<Bill> billList;
     private Map<String, String> currencySymbols;
     private ChipGroup memberChipGroup;
+    private Set<String> participantsId;
 
 
     @Override
@@ -85,6 +88,8 @@ public class CreateActivityActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         groupId = i.getStringExtra("groupId");
+
+        participantsId = new HashSet<>();
 
         // Initialize views
         activityNameInput = findViewById(R.id.activityNameInput);
@@ -138,8 +143,21 @@ public class CreateActivityActivity extends AppCompatActivity {
         allchip.setChipBackgroundColorResource(R.drawable.chip_background);
         allchip.setChipStrokeWidth(1);
         allchip.setChipStrokeColor(ColorStateList.valueOf(Color.WHITE));
-
-//        allchip.setOnCheckedChangeListener();
+        allchip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                for (int i = 0; i < memberChipGroup.getChildCount(); i++) {
+                    Chip chip = (Chip) memberChipGroup.getChildAt(i);
+                    allchip.setChecked(true);
+                    chip.setChecked(true);
+                }
+            } else {
+                for (int i = 0; i < memberChipGroup.getChildCount(); i++) {
+                    Chip chip = (Chip) memberChipGroup.getChildAt(i);
+                    chip.setChecked(false);
+                    allchip.setChecked(false);
+                }
+            }
+        });
 
 
         memberChipGroup.addView(allchip);
@@ -159,10 +177,15 @@ public class CreateActivityActivity extends AppCompatActivity {
                         chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor("#33FFFFFF")));
                         chip.setChipStrokeWidth(1);
                         chip.setChipStrokeColor(ColorStateList.valueOf(Color.DKGRAY));
-
-
-
-//                        chip.setOnCheckedChangeListener();
+                        chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                            if (!isChecked) {
+                                allchip.setChecked(false);
+                                participantsId.remove(user.getId());
+                            }
+                            else {
+                                participantsId.add(user.getId());
+                            }
+                        });
 
 
 
@@ -390,8 +413,14 @@ public class CreateActivityActivity extends AppCompatActivity {
         }
 
         // Collect participant data
-        List<String> participants = new ArrayList<>();
-        participants.add(userId); // Add the current user as the default participant
+        if (participantsId.isEmpty()) {
+            Toast.makeText(this, "Please select at least one participant", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (!participantsId.contains(userId)) {
+            participantsId.add(userId);
+        }
+
+        List<String> participants = new ArrayList<>(participantsId);
 
         // Create a new Activity object
         Activity activity = new Activity(

@@ -219,8 +219,7 @@
                         android:id="@+id/chipGroupCreateActivity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:singleLine="true"
-                        app:singleSelection="true">
+                        app:singleLine="true">
 
                         <com.google.android.material.chip.Chip
                             android:layout_width="wrap_content"
