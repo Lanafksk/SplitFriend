@@ -2,6 +2,7 @@ package com.example.splitfriend.user;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ public class ActivityDetailPayeeActivity extends AppCompatActivity {
     private String bankAccount, bankName;
     private TextView activityName, activityDate, activityAmount;
     private ImageButton backButton;
+    private Button bankButton;
     private ActivityAdapter activityAdapter;
     private ActivityHelper activityHelper;
 
@@ -82,6 +84,10 @@ public class ActivityDetailPayeeActivity extends AppCompatActivity {
             bankAccount = documentSnapshot.getString("bankAccount");
             bankName = documentSnapshot.getString("bankName");
         });
+
+        bankButton.setOnClickListener(v -> {
+            Toast.makeText(this, "Bank Account: " + bankAccount + "\nBank Name: " + bankName, Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void initializeViews() {
@@ -89,5 +95,6 @@ public class ActivityDetailPayeeActivity extends AppCompatActivity {
         activityDate = findViewById(R.id.dateTextView);
         activityAmount = findViewById(R.id.totalAmountTextView);
         backButton = findViewById(R.id.backButton);
+        bankButton = findViewById(R.id.bankAccountButton);
     }
 }
