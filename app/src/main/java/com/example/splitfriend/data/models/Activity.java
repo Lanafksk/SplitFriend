@@ -5,10 +5,13 @@ import com.google.firebase.firestore.DocumentId;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Activity implements Serializable {
-    @DocumentId private String id;
+    @DocumentId
+    private String id;
     private String groupId;
     private Date date;
     private String name;
@@ -17,16 +20,17 @@ public class Activity implements Serializable {
     private String bankName;
     private String bankAccount;
     private List<Bill> bills;
-
     private Double totalAmount;
     private String creatorId;
     private List<String> participantsId;
-    private List<String> paymentStatusesId;
+    private List<Map<String, String>> paymentStatusesId; // Updated type
 
     // Default constructor
     public Activity() {}
 
-    public Activity(String id, String groupId, Date date, String name, String currency, String payee, String bankName, String bankAccount, List<Bill> bills, String creatorId) {
+    // Constructor without paymentStatusesId
+    public Activity(String id, String groupId, Date date, String name, String currency, String payee, String bankName,
+                    String bankAccount, List<Bill> bills, String creatorId) {
         this.id = id;
         this.groupId = groupId;
         this.date = date;
@@ -42,7 +46,10 @@ public class Activity implements Serializable {
         this.paymentStatusesId = new ArrayList<>();
     }
 
-    public Activity(String id, String groupId, Date date, String name, String currency, String payee, String bankName, String bankAccount, List<Bill> bills, Double totalAmount, String creatorId, List<String> participantsId, List<String> paymentStatusesId) {
+    // Constructor with paymentStatusesId
+    public Activity(String id, String groupId, Date date, String name, String currency, String payee, String bankName,
+                    String bankAccount, List<Bill> bills, Double totalAmount, String creatorId,
+                    List<String> participantsId, List<Map<String, String>> paymentStatusesId) {
         this.id = id;
         this.groupId = groupId;
         this.date = date;
@@ -58,6 +65,7 @@ public class Activity implements Serializable {
         this.paymentStatusesId = paymentStatusesId;
     }
 
+    // Getters and setters
     public String getId() {
         return id;
     }
@@ -150,14 +158,39 @@ public class Activity implements Serializable {
         this.participantsId = participantsId;
     }
 
-    public List<String> getPaymentStatusesId() {
+    public List<Map<String, String>> getPaymentStatusesId() {
         return paymentStatusesId;
     }
 
-    public void setPaymentStatusesId(List<String> paymentStatusesId) {
+    public void setPaymentStatusesId(List<Map<String, String>> paymentStatusesId) {
         this.paymentStatusesId = paymentStatusesId;
     }
 
+    // Add a participant with a default status
+    public void addParticipantWithStatus(String userId, String status) {
+        if (this.paymentStatusesId == null) {
+            this.paymentStatusesId = new ArrayList<>();
+        }
+
+        Map<String, String> statusMap = new HashMap<>();
+        statusMap.put("userId", userId);
+        statusMap.put("status", status);
+        this.paymentStatusesId.add(statusMap);
+    }
+
+    // Update payment status for a specific user
+    public void updatePaymentStatus(String userId, String status) {
+        if (this.paymentStatusesId != null) {
+            for (Map<String, String> statusMap : this.paymentStatusesId) {
+                if (statusMap.get("userId").equals(userId)) {
+                    statusMap.put("status", status);
+                    break;
+                }
+            }
+        }
+    }
+
+    // Calculate total amount
     private Double calculateTotalAmount() {
         if (bills == null || bills.isEmpty()) {
             return 0.0;
