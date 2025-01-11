@@ -25,17 +25,25 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
     @Override
     public BillViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_billfortotal, parent, false);
+                .inflate(R.layout.item_activity_total_amount, parent, false);
         return new BillViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull BillViewHolder holder, int position) {
         Bill bill = billList.get(position);
-        String billInfo = bill.getCategory() + " "
-                + bill.getNote() + " "
-                + formatPrice(bill.getPrice());
-        holder.tvBillInfo.setText(billInfo);
+
+        // Set sequential numbering for activityLabel
+        String activityLabelText = (position + 1) + ". Bill";
+        holder.activityLabel.setText(activityLabelText);
+
+        // Set category tag
+        holder.categoryTag.setText(bill.getCategory());
+        holder.categoryTag.setBackgroundResource(getCategoryBackground(bill.getCategory()));
+
+        // Set memo and price
+        holder.memoText.setText(bill.getNote());
+        holder.priceText.setText(formatPrice(bill.getPrice()));
     }
 
     @Override
@@ -44,15 +52,38 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
     }
 
     public static class BillViewHolder extends RecyclerView.ViewHolder {
-        TextView tvBillInfo;
+        TextView activityLabel;
+        TextView categoryTag;
+        TextView memoText;
+        TextView priceText;
 
         public BillViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvBillInfo = itemView.findViewById(R.id.tvBillInfo);
+            activityLabel = itemView.findViewById(R.id.activityLabel);
+            categoryTag = itemView.findViewById(R.id.categoryTag);
+            memoText = itemView.findViewById(R.id.memoText);
+            priceText = itemView.findViewById(R.id.priceText);
         }
     }
 
     private String formatPrice(double price) {
-        return String.format("%,.0f", price);
+        return String.format("%,.0f", price) + " d";
+    }
+
+    private int getCategoryBackground(String category) {
+        switch (category) {
+            case "Food":
+                return R.color.category1;
+            case "Glossary":
+                return R.color.category2;
+            case "Activity":
+                return R.color.category3;
+            case "Present":
+                return R.color.category4;
+            case "Travel":
+                return R.color.category5;
+            default:
+                return R.drawable.default_category_background;
+        }
     }
 }

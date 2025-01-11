@@ -63,6 +63,7 @@ public class ActivityTotalAmountActivity extends AppCompatActivity {
         closeIcon.setOnClickListener(view -> finish());
 
         fetchDataFromFirestore(docId);
+
     }
 
     private void initViews() {
@@ -152,15 +153,18 @@ public class ActivityTotalAmountActivity extends AppCompatActivity {
         }
 
         List<PieEntry> entries = new ArrayList<>();
+        List<Integer> colors = new ArrayList<>();
+
         for (String cat : CATEGORIES) {
             double value = categoryTotals.get(cat);
             if (value > 0) {
                 entries.add(new PieEntry((float) value, cat));
+                colors.add(getCategoryColor(cat)); // 각 카테고리별 색상 추가
             }
         }
 
         PieDataSet dataSet = new PieDataSet(entries, "Categories");
-        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        dataSet.setColors(colors); // 색상 리스트 설정
         dataSet.setValueTextSize(12f);
 
         PieData data = new PieData(dataSet);
@@ -199,15 +203,15 @@ public class ActivityTotalAmountActivity extends AppCompatActivity {
     private int getCategoryColor(String category) {
         switch (category) {
             case "Food":
-                return Color.parseColor("#FFA726"); // 오렌지
+                return Color.parseColor("#1E90FF");
             case "Glossary":
-                return Color.parseColor("#66BB6A"); // 초록
+                return Color.parseColor("#9970CE");
             case "Activity":
-                return Color.parseColor("#29B6F6"); // 파랑
+                return Color.parseColor("#E190A3");
             case "Present":
-                return Color.parseColor("#AB47BC"); // 보라
+                return Color.parseColor("#FF9800");
             case "Travel":
-                return Color.parseColor("#EC407A"); // 핑크
+                return Color.parseColor("#EC407A");
             default:
                 return Color.GRAY;
         }
