@@ -14,6 +14,8 @@ import com.example.splitfriend.data.helpers.ActivityHelper;
 import com.example.splitfriend.data.helpers.UserHelper;
 import com.example.splitfriend.data.models.Activity;
 import com.example.splitfriend.data.models.User;
+import com.example.splitfriend.user.ActivityDetailSenderActivity;
+import com.example.splitfriend.user.ActivityTotalAmountActivity;
 import com.example.splitfriend.user.group.HomeActivity;
 import com.example.splitfriend.viewHolders.ActivityViewHolder;
 import com.google.android.material.chip.Chip;
@@ -82,7 +84,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
 
         // move to activity detail page
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(holder.itemView.getContext(), HomeActivity.class);
+            Intent intent = new Intent(holder.itemView.getContext(), ActivityDetailSenderActivity.class);
             intent.putExtra("activityId", activity.getId());
             holder.itemView.getContext().startActivity(intent);
         });

@@ -58,20 +58,12 @@
         android:textColor="@android:color/black" />
 
     <!-- Pie Chart -->
-    <!--    <com.github.mikephil.charting.charts.PieChart
+    <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pieChart"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginTop="16dp"
-            tools:ignore="MissingClass" />-->
-
-    <!-- Custom Pie Chart -->
-    <!--    <com.example.app.CustomPieChart
-            android:id="@+id/customPieChart"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="16dp"
-            tools:ignore="MissingClass" />-->
+            tools:ignore="MissingClass" />
 
     <!-- Pie Chart Legend Layout -->
     <LinearLayout
