@@ -38,38 +38,38 @@ public class FindGroupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_group);
 
-        // UI 초기화
+        // Initialize UI
         ImageButton backButton = findViewById(R.id.backButton);
         searchEditText = findViewById(R.id.searchEditText);
         groupRecyclerView = findViewById(R.id.groupRecyclerView);
 
-        // Firestore 초기화
+        // Initialize Firestore
         db = FirebaseFirestore.getInstance();
         groupHelper = new GroupHelper();
 
-        // Firebase Auth 초기화
+        // Initialize Firebase Auth
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        // RecyclerView 설정
+        // RecyclerView Setting
         groupList = new ArrayList<>();
         groupAdapter = new GroupAdapter(groupList, groupHelper, userId, null);
         groupRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         groupRecyclerView.setAdapter(groupAdapter);
 
-        // 뒤로가기 버튼 동작
+        // Back button functionality
         backButton.setOnClickListener(v -> finish());
 
-        // 그룹 클릭 리스너 설정
+        // Set click listener for group items
         groupAdapter.setOnItemClickListener(group -> showJoinGroupDialog(group));
 
-        // 검색 입력 감지
+        // Detect changes in search input
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() == 9) { // 초대 코드 길이가 "XXXX-XXXX"인지 확인
+                if (s.length() == 9) { // Check if the invite code length is "XXXX-XXXX"
                     searchGroupByInviteCode(s.toString());
                 } else {
                     groupList.clear();

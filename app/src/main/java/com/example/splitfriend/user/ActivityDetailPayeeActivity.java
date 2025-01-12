@@ -37,13 +37,13 @@ public class ActivityDetailPayeeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_payee);
 
-        // Firestore 초기화
+        // Initialize Firestore
         db = FirebaseFirestore.getInstance();
 
-        // Intent로 activityId 받기
+        // Acceptance Id receive an Integrated
         activityId = getIntent().getStringExtra("activityId");
 
-        // View 초기화
+        // View initialization
         activityNameTextView = findViewById(R.id.activityNameTextView);
         totalAmountTextView = findViewById(R.id.totalAmountTextView);
         otherMembersRecyclerView = findViewById(R.id.otherMembersRecyclerView);
@@ -51,20 +51,21 @@ public class ActivityDetailPayeeActivity extends AppCompatActivity {
 
         totalAmountSection = findViewById(R.id.totalAmountSection);
         totalAmountSection.setOnClickListener(v -> {
-            // ActivityTotalAmountActivity로 이동, docId로 activityId를 넘김
+            // Navigate to ActivityTotalAmountActivity
             Intent intent = new Intent(ActivityDetailPayeeActivity.this, ActivityTotalAmountActivity.class);
+            // Pass the Firestore document ID to the next Activity
             intent.putExtra("docId", activityId);
             startActivity(intent);
         });
 
-        // 데이터 불러오기
+        // Import Data
         loadActivityDetails();
 
         backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> finish());
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(getResources().getColor(R.color.dark_blue)); // AppBar 배경색과 동일
+            getWindow().setStatusBarColor(getResources().getColor(R.color.dark_blue));
         }
     }
 
@@ -77,7 +78,7 @@ public class ActivityDetailPayeeActivity extends AppCompatActivity {
                     }
 
                     if (documentSnapshot != null && documentSnapshot.exists()) {
-                        // Firebase에서 데이터 가져오기
+                        // Retrieve data from Firebase
                         String activityName = documentSnapshot.getString("name");
                         Double totalAmount = documentSnapshot.getDouble("totalAmount");
                         List<Map<String, String>> paymentStatuses =
@@ -85,7 +86,7 @@ public class ActivityDetailPayeeActivity extends AppCompatActivity {
                         List<String> participantsId =
                                 (List<String>) documentSnapshot.get("participantsId");
 
-                        // TextView 업데이트
+                        // Update the TextView
                         activityNameTextView.setText(activityName != null ? activityName : "Unknown Activity");
                         // Safely format totalAmount as an integer with commas
                         String formattedTotalAmount = totalAmount != null
@@ -94,7 +95,7 @@ public class ActivityDetailPayeeActivity extends AppCompatActivity {
                         totalAmountTextView.setText(formattedTotalAmount);
 
 
-                        // RecyclerView에 Adapter 연결
+                        // Connect RecyclerView with Adapter
                         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                         List<Map<String, String>> filteredStatuses = new ArrayList<>();
@@ -112,7 +113,7 @@ public class ActivityDetailPayeeActivity extends AppCompatActivity {
                                 activityId,
                                 totalAmount != null ? totalAmount : 0,
                                 participantsId.size(),
-                                userId -> {} // Payee 페이지에서는 클릭 이벤트 없음
+                                userId -> {}  // No click event on the Payee page
                         );
                         otherMembersRecyclerView.setAdapter(adapter);
                     }

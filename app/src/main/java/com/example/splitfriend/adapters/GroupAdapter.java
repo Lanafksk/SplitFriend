@@ -55,6 +55,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull GroupViewHolder holder, int position) {
         Group group = groupList.get(position);
+
+        // Display the group name and member count
         holder.groupName.setText(group.getName());
         holder.memberCount.setText(String.valueOf(group.getMembersId().size()));
 
@@ -195,6 +197,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
             dialog.show();
         });
 
+        // Handle navigation to group detail page
         holder.itemView.setOnClickListener(v -> {
             if (onItemClickListener != null) {
                 onItemClickListener.onItemClick(group);

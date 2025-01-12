@@ -1,3 +1,9 @@
+/**
+ * Adapter for displaying a list of bills in a RecyclerView.
+ * Each bill includes a category, memo, and price, with a background
+ * color for the category tag depending on the category type.
+ */
+
 package com.example.splitfriend.adapters;
 
 import android.view.LayoutInflater;
@@ -14,7 +20,6 @@ import com.example.splitfriend.data.models.Bill;
 import java.util.List;
 
 public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder> {
-
     private List<Bill> billList;
 
     public BillAdapter(List<Bill> billList) {
@@ -46,16 +51,22 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
         holder.priceText.setText(formatPrice(bill.getPrice()));
     }
 
+
+    /**
+     * Returns the total number of items in the bill list.
+     * @return The size of the bill list.
+     */
     @Override
     public int getItemCount() {
         return billList.size();
     }
 
+    //  ViewHolder class for holding the views associated with a single bill item.
     public static class BillViewHolder extends RecyclerView.ViewHolder {
-        TextView activityLabel;
-        TextView categoryTag;
-        TextView memoText;
-        TextView priceText;
+        TextView activityLabel;  // Label showing the sequential number of the bill
+        TextView categoryTag;    // TextView for displaying the bill's category
+        TextView memoText;       // TextView for displaying the bill's memo
+        TextView priceText;      // TextView for displaying the bill's price
 
         public BillViewHolder(@NonNull View itemView) {
             super(itemView);

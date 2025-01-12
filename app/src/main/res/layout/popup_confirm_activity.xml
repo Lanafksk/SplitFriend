@@ -40,6 +40,6 @@
         android:textStyle="bold"
         android:text="Confirm"
         android:gravity="center"
-        android:textColor="@android:color/black"
-        android:background="@color/yellow" />
+        android:textColor="@android:color/white"
+        android:background="@drawable/lightblue_button_background"/>
 </LinearLayout>
