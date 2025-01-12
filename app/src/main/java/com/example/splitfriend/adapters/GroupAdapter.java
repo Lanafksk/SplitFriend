@@ -28,6 +28,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
     private final List<Group> groupList;
@@ -115,12 +117,29 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
 
                     if (isOwner) {
                         groupHelper.deleteGroup(group.getId()).addOnSuccessListener(aVoid -> {
+                            for (Activity activity : relatedActivities) {
+                                activityHelper.deleteActivity(activity.getId()).addOnFailureListener(e -> {
+                                    Toast.makeText(holder.itemView.getContext(), "Error deleting activity: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
+                            }
                             onGroupActionListener.onGroupDeleted();
                             dialog.dismiss();
                         }).addOnFailureListener(e -> {
                             Toast.makeText(holder.itemView.getContext(), "Error deleting group: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         });
                     } else {
+                        for (Activity activity : relatedActivities) {
+                            List<String> participantsId = activity.getParticipantsId();
+                            participantsId.remove(userId);
+                            activity.setTotalAmount(activity.getTotalAmount() * (activity.getParticipantsId().size() / participantsId.size()));
+                            activity.setParticipantsId(participantsId);
+                            List<Map<String, String>> paymentStatusesId = activity.getPaymentStatusesId();
+                            paymentStatusesId.removeIf(map -> Objects.equals(map.get("userId"), userId));
+                            activity.setPaymentStatusesId(paymentStatusesId);
+                            activityHelper.updateActivity(activity).addOnFailureListener(e -> {
+                                Toast.makeText(holder.itemView.getContext(), "Error updating activity: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
+                        }
                         List<String> newGroupList = group.getMembersId();
                         newGroupList.remove(userId);
                         group.setMembersId(newGroupList);

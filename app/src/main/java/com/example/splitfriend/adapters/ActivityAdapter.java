@@ -27,6 +27,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 
 public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
     private final List<Activity> activityList;
@@ -153,6 +155,9 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
                     participantsId.remove(currentUserId);
                     activity.setTotalAmount(activity.getTotalAmount() * (activity.getParticipantsId().size() / participantsId.size()));
                     activity.setParticipantsId(participantsId);
+                    List<Map<String, String>> paymentStatusesId = activity.getPaymentStatusesId();
+                    paymentStatusesId.removeIf(map -> Objects.equals(map.get("userId"), currentUserId));
+                    activity.setPaymentStatusesId(paymentStatusesId);
                     activityHelper.updateActivity(activity).addOnSuccessListener(aVoid -> {
                         onActivityActionListener.onActivityLeave(activity.getId());
                         onActivityActionListener.reloadActivities();
