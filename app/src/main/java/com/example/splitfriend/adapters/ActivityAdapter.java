@@ -31,14 +31,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
     private final String currentUserId;
     private final OnActivityActionListener onActivityActionListener;
 
-    /**
-     * Constructor for ActivityAdapter.
-     * @param activityList The list of Activity objects to display.
-     * @param activityHelper Helper class for performing activity-related operations.
-     * @param currentUserId The ID of the current user.
-     * @param onActivityActionListener Callback interface for handling delete or leave actions.
-     */
-
     public ActivityAdapter(List<Activity> activityList, ActivityHelper activityHelper, String currentUserId, OnActivityActionListener onActivityActionListener) {
         this.activityList = activityList;
         this.activityHelper = activityHelper;

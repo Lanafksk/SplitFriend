@@ -44,15 +44,19 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull GroupViewHolder holder, int position) {
         Group group = groupList.get(position);
+
+        // Display the group name and member count
         holder.groupName.setText(group.getName());
         holder.memberCount.setText(String.valueOf(group.getMembersId().size()));
 
+        // Set action text based on whether the user is the group leader
         if (group.getLeaderId().equals(currentUserId)) {
             holder.deleteText.setText("Delete");
         } else {
             holder.deleteText.setText("Leave");
         }
 
+        // Handle navigation to group detail page
         holder.itemView.setOnClickListener(v -> {
             if (onItemClickListener != null) {
                 onItemClickListener.onItemClick(group);
@@ -65,11 +69,13 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
             }
         });
 
-        //DeleteButton
+        // Hide delete button by default
         holder.deleteButtonLayout.setVisibility(View.GONE); // Hide delete button initially
 
+        // Set up delete/leave button logic
         holder.deleteButtonLayout.setOnClickListener(v -> {
             if (group.getLeaderId().equals(currentUserId)) {
+                // Handle group deletion for leaders
                 groupHelper.deleteGroup(group.getId())
                         .addOnSuccessListener(aVoid -> {
                             groupList.remove(position);
@@ -78,6 +84,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
                         })
                         .addOnFailureListener(e -> Toast.makeText(holder.itemView.getContext(), "Error deleting group: " + e.getMessage(), Toast.LENGTH_SHORT).show());
             } else {
+                // Handle leaving the group for members
                 group.getMembersId().remove(currentUserId);
                 groupHelper.updateGroup(group)
                         .addOnSuccessListener(aVoid -> {
@@ -89,6 +96,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
             }
         });
 
+        // Dynamically create chips for each group member
         holder.memberChips.removeAllViews();
         for (String memberId : group.getMembersId()) {
             UserHelper userHelper = new UserHelper();
