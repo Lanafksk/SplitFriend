@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +57,17 @@ public class ActivityDetailSenderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_detail_sender);
+
+        LinearLayout totalAmountSection = findViewById(R.id.totalAmountSection);
+
+        totalAmountSection.setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    ActivityDetailSenderActivity.this,
+                    ActivityTotalAmountActivity.class
+            );
+            intent.putExtra("docId", activityId);
+            startActivity(intent);
+        });
 
         db = FirebaseFirestore.getInstance();
 

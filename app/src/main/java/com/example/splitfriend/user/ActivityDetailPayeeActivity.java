@@ -1,6 +1,8 @@
 package com.example.splitfriend.user;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ public class ActivityDetailPayeeActivity extends AppCompatActivity {
     private String activityId;
     private RecyclerView otherMembersRecyclerView;
     private TextView activityNameTextView, totalAmountTextView;
+    private LinearLayout totalAmountSection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,14 @@ public class ActivityDetailPayeeActivity extends AppCompatActivity {
         totalAmountTextView = findViewById(R.id.totalAmountTextView);
         otherMembersRecyclerView = findViewById(R.id.otherMembersRecyclerView);
         otherMembersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        totalAmountSection = findViewById(R.id.totalAmountSection);
+        totalAmountSection.setOnClickListener(v -> {
+            // ActivityTotalAmountActivity로 이동, docId로 activityId를 넘김
+            Intent intent = new Intent(ActivityDetailPayeeActivity.this, ActivityTotalAmountActivity.class);
+            intent.putExtra("docId", activityId);
+            startActivity(intent);
+        });
 
         // 데이터 불러오기
         loadActivityDetails();

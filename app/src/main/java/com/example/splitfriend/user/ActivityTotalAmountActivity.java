@@ -48,8 +48,6 @@ public class ActivityTotalAmountActivity extends AppCompatActivity {
             "Food", "Glossary", "Activity", "Present", "Travel"
     };
 
-    private String docId = "FlkSRz14S9oK1KqCdmWr";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +60,14 @@ public class ActivityTotalAmountActivity extends AppCompatActivity {
 
         closeIcon.setOnClickListener(view -> finish());
 
+        String docId = getIntent().getStringExtra("docId");
+        if (docId == null || docId.isEmpty()) {
+            Toast.makeText(this, "Invalid Activity ID.", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        // 해당 docId로 Firestore에서 데이터 가져오기
         fetchDataFromFirestore(docId);
 
     }

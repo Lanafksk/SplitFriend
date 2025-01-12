@@ -50,5 +50,5 @@ dependencies {
     implementation(libs.stripe.android)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
-    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation(libs.mpandroidchart)
 }
