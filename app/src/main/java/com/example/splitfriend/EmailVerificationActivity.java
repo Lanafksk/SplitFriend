@@ -27,40 +27,40 @@ public class EmailVerificationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email_verification);
 
-        // Initialize Firebase
+        // Firebase 초기화
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        // Data passed via Intent
+        // Intent로 전달받은 데이터
         Intent intent = getIntent();
         userId = intent.getStringExtra("userId");
         name = intent.getStringExtra("name");
         userIdCustom = intent.getStringExtra("userIdCustom");
         email = intent.getStringExtra("email");
 
-        // Connect views
+        // 뷰 연결
         btnCheckVerification = findViewById(R.id.btnCheckVerification);
         btnResendEmail = findViewById(R.id.btnResendEmail);
 
-        // Show "Check your email" message
+        // "이메일을 확인하세요" 메시지 표시
         Toast.makeText(this, "Please verify your email. A verification email has been sent to " + email, Toast.LENGTH_LONG).show();
 
-        // Email verification check button click event
+        // 이메일 인증 확인 버튼 클릭 이벤트
         btnCheckVerification.setOnClickListener(v -> checkEmailVerification());
 
-        // Resend verification email button click event
+        // 이메일 재전송 버튼 클릭 이벤트
         btnResendEmail.setOnClickListener(v -> resendVerificationEmail());
     }
 
     private void checkEmailVerification() {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
-            btnCheckVerification.setEnabled(false); // Disable the button
+            btnCheckVerification.setEnabled(false); // 버튼 비활성화
             Toast.makeText(this, "Checking email verification status...", Toast.LENGTH_SHORT).show();
 
             user.reload()
                     .addOnCompleteListener(task -> {
-                        btnCheckVerification.setEnabled(true); // Enable the button again
+                        btnCheckVerification.setEnabled(true); // 버튼 다시 활성화
                         if (task.isSuccessful()) {
                             if (user.isEmailVerified()) {
                                 saveUserDataToFirestore();

@@ -38,13 +38,13 @@ public class SettingsProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_profile);
 
-        // Initialize Firebase
+        // Firebase 초기화
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
         userRef = db.collection("users").document(currentUser.getUid());
 
-        // Initialize View
+        // View 초기화
         nameEditText = findViewById(R.id.nameEditText);
         emailEditText = findViewById(R.id.emailEditText);
         userIdEditText = findViewById(R.id.userIdEditText);
@@ -59,26 +59,26 @@ public class SettingsProfileActivity extends AppCompatActivity {
         backButton = findViewById(R.id.backIcon);
         editPasswordButton = findViewById(R.id.editPasswordButton);
 
-        // Initialize state
+        // 초기 상태 설정
         setFieldsEditable(false);
         saveButton.setVisibility(View.GONE);
         setPasswordFieldsVisibility(false);
 
         loadUserData();
 
-        // Edit button click event
+        // Edit 버튼 클릭 이벤트
         editButton.setOnClickListener(v -> {
             setFieldsEditable(true);
             saveButton.setVisibility(View.VISIBLE);
         });
 
-        // Save button click event
+        // Save 버튼 클릭 이벤트
         saveButton.setOnClickListener(v -> saveUserInfo());
 
-        // Edit Password button click event
+        // Edit Password 버튼 클릭 이벤트
         editPasswordButton.setOnClickListener(v -> setPasswordFieldsVisibility(true));
 
-        // Save Password button click event
+        // Save Password 버튼 클릭 이벤트
         savePasswordButton.setOnClickListener(v -> {
             String currentPassword = currentPasswordEditText.getText().toString().trim();
             String newPassword = newPasswordEditText.getText().toString().trim();
@@ -89,7 +89,7 @@ public class SettingsProfileActivity extends AppCompatActivity {
             }
         });
 
-        // Back button click event
+        // Back 버튼 클릭 이벤트
         backButton.setOnClickListener(v -> finish());
     }
 
@@ -126,7 +126,7 @@ public class SettingsProfileActivity extends AppCompatActivity {
             return;
         }
 
-        // Update Firestore
+        // Firestore에 업데이트
         Map<String, Object> userData = new HashMap<>();
         userData.put("name", name);
         userData.put("email", email);
@@ -183,13 +183,13 @@ public class SettingsProfileActivity extends AppCompatActivity {
         if (currentUser != null) {
             String userEmail = currentUser.getEmail();
 
-            // Create credentials for user authentication
+            // 사용자 인증용 Credential 생성
             AuthCredential credential = EmailAuthProvider.getCredential(userEmail, currentPassword);
 
-            // Re-authenticate the user
+            // 최근 인증(Re-authenticate)
             currentUser.reauthenticate(credential).addOnCompleteListener(authTask -> {
                 if (authTask.isSuccessful()) {
-                    // Update password if re-authentication is successful
+                    // 인증 성공 시 비밀번호 업데이트
                     currentUser.updatePassword(newPassword).addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             Toast.makeText(this, "Password updated successfully.", Toast.LENGTH_SHORT).show();
