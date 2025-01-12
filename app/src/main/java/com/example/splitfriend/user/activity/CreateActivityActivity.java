@@ -361,7 +361,6 @@ public class CreateActivityActivity extends AppCompatActivity {
         TextView categoryTitle = billItem.findViewById(R.id.categoryTitle);
         if (categoryTitle != null) {
             categoryTitle.setText(category);
-
             // Change background color based on the category
             int backgroundColor;
             switch (category) {
@@ -388,6 +387,7 @@ public class CreateActivityActivity extends AppCompatActivity {
             categoryTitle.setTextColor(Color.WHITE); // Set text color to white for better visibility
 
             // Display a Toast for feedback
+
             Toast.makeText(this, "Selected category: " + category, Toast.LENGTH_SHORT).show();
             Log.d("PopupDebug", "Category set: " + category);
         } else {
