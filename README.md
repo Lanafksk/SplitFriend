@@ -1,12 +1,12 @@
 # SplitFriend
-[COSC2657] Android Dev project for team Oatmeal_Cookie
-</br>s3768999-JungSanghwa
+#### [COSC2657] Android Dev project for team Oatmeal_Cookie
+s3768999-JungSanghwa**
 </br>s3866724-KimMinsung
 </br>s3912055-HanYeeun
 </br>s3977947- Do Nhat Thanh
 
-**[Distribution]**
-</br>25% for all members equally
+#### **[Distribution]**
+25% for all members equally
 
 ## Functionalities
 Basically, our app is an app for the users who want to calculate the money shared in their community. For example, it would be quite hard to calculate the amount of spent money when people go to travel or hold the party. Usually a person pay for all then seperate, but our app allows users to pay whatever they want to or able to. 
@@ -24,8 +24,8 @@ Basically, our app is an app for the users who want to calculate the money share
 6. [Payer] Pay with Stripe
 
 [Admin]
-1. CRUD group data
-2. ??
+1. Read user list
+2. Update user information
 
 #### Test account for admin
 id: admin
@@ -37,6 +37,7 @@ To manage the data, Firebase Database is implemented.
 To manage the payment, Stripe SDK is implemented with the server of NodeJS.
 
 ## Known issues  (can't fixed)
+
 
 
 # Backend for paying with "Stripe"
