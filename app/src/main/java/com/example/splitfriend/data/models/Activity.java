@@ -197,4 +197,8 @@ public class Activity implements Serializable {
         }
         return bills.stream().mapToDouble(Bill::getPrice).sum();
     }
+
+    public void setTotalAmount(Double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
 }

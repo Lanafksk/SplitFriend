@@ -47,12 +47,6 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
         holder.groupName.setText(group.getName());
         holder.memberCount.setText(String.valueOf(group.getMembersId().size()));
 
-        if (group.getLeaderId().equals(currentUserId)) {
-            holder.deleteText.setText("Delete");
-        } else {
-            holder.deleteText.setText("Leave");
-        }
-
         holder.itemView.setOnClickListener(v -> {
             if (onItemClickListener != null) {
                 onItemClickListener.onItemClick(group);
@@ -62,30 +56,6 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
                 intent.putExtra("groupName", group.getName());
                 intent.putExtra("memberCount", String.valueOf(group.getMembersId().size()));
                 holder.itemView.getContext().startActivity(intent);
-            }
-        });
-
-        //DeleteButton
-        holder.deleteButtonLayout.setVisibility(View.GONE); // Hide delete button initially
-
-        holder.deleteButtonLayout.setOnClickListener(v -> {
-            if (group.getLeaderId().equals(currentUserId)) {
-                groupHelper.deleteGroup(group.getId())
-                        .addOnSuccessListener(aVoid -> {
-                            groupList.remove(position);
-                            notifyItemRemoved(position);
-                            onGroupActionListener.onGroupDeleted();
-                        })
-                        .addOnFailureListener(e -> Toast.makeText(holder.itemView.getContext(), "Error deleting group: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-            } else {
-                group.getMembersId().remove(currentUserId);
-                groupHelper.updateGroup(group)
-                        .addOnSuccessListener(aVoid -> {
-                            groupList.remove(position);
-                            notifyItemRemoved(position);
-                            onGroupActionListener.onGroupLeft();
-                        })
-                        .addOnFailureListener(e -> Toast.makeText(holder.itemView.getContext(), "Error leaving group: " + e.getMessage(), Toast.LENGTH_SHORT).show());
             }
         });
 
