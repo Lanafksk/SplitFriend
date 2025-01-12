@@ -61,6 +61,10 @@ public class ActivityDetailPayeeActivity extends AppCompatActivity {
 
         backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> finish());
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.dark_blue)); // AppBar 배경색과 동일
+        }
     }
 
     private void loadActivityDetails() {
