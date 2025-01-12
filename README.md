@@ -1,11 +1,11 @@
 # SplitFriend
-[COSC2657] Android Dev project for team Oatmeal_Cookie
-</br>s3768999-JungSanghwa
+#### [COSC2657] Android Dev project for team Oatmeal_Cookie
+</br>s3768999-JungSanghwa**
 </br>s3866724-KimMinsung
 </br>s3912055-HanYeeun
 </br>s3977947- Do Nhat Thanh
 
-**[Distribution]**
+#### **[Distribution]**
 </br>25% for all members equally
 
 ## Functionalities
