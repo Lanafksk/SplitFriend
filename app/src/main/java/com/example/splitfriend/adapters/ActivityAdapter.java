@@ -31,6 +31,14 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
     private final String currentUserId;
     private final OnActivityActionListener onActivityActionListener;
 
+    /**
+     * Constructor for ActivityAdapter.
+     * @param activityList The list of Activity objects to display.
+     * @param activityHelper Helper class for performing activity-related operations.
+     * @param currentUserId The ID of the current user.
+     * @param onActivityActionListener Callback interface for handling delete or leave actions.
+     */
+
     public ActivityAdapter(List<Activity> activityList, ActivityHelper activityHelper, String currentUserId, OnActivityActionListener onActivityActionListener) {
         this.activityList = activityList;
         this.activityHelper = activityHelper;
@@ -64,12 +72,14 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
             holder.deleteText.setText("Leave");
         }
 
-        holder.participantChips.removeAllViews(); // Clear all chips
+        // Clear any existing chips and add a new Chip for each participant
+        holder.participantChips.removeAllViews();
         for (String participantId : activity.getParticipantsId()) {
             UserHelper userHelper = new UserHelper();
             userHelper.getUserById(participantId).addOnSuccessListener(documentSnapshot -> {
                 User user = documentSnapshot.toObject(User.class);
                 if (user != null) {
+                    // Dynamically create a Chip for each participant and set its properties
                     Chip chip = new Chip(holder.itemView.getContext());
                     chip.setText(user.getName());
                     chip.setClickable(false);
@@ -79,19 +89,20 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
                     holder.participantChips.addView(chip);
                 }
             }).addOnFailureListener(e -> {
+                // Handle failure to load user data
                 Toast.makeText(holder.itemView.getContext(), "Failed to load user data", Toast.LENGTH_SHORT).show();
             });
         }
 
-        // move to activity detail page
+        // Navigate to activity detail page
         holder.itemView.setOnClickListener(v -> {
 
             Intent intent;
             if (activity.getCreatorId().equals(currentUserId)) {
-                // If current user is the creator
+                // Navigate to payee's activity detail page
                 intent = new Intent(holder.itemView.getContext(), ActivityDetailPayeeActivity.class);
             } else {
-                // If current user is a member
+                // Navigate to sender's activity detail page
                 intent = new Intent(holder.itemView.getContext(), ActivityDetailSenderActivity.class);
             }
             intent.putExtra("activityId", activity.getId());
@@ -103,9 +114,11 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
 
     @Override
     public int getItemCount() {
+        // Returns the total number of activities in the list
         return activityList.size();
     }
 
+    //  Interface for handling actions related to an activity item
     public interface OnActivityActionListener {
         void onActivityDelete(String activityId);
         void onActivityLeave(String activityId);
