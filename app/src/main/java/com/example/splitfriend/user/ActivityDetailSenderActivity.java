@@ -199,10 +199,10 @@ public class ActivityDetailSenderActivity extends AppCompatActivity {
 
     private void startStripePayment(double amount) {
 
-        int amountInCents = (int) (amount * 100);
+        int amountInVND = (int) Math.round(amount);
 
         ApiService api = ApiClient.getClient().create(ApiService.class);
-        CreatePaymentIntentRequest requestBody = new CreatePaymentIntentRequest(amountInCents, "usd");
+        CreatePaymentIntentRequest requestBody = new CreatePaymentIntentRequest(amountInVND, "vnd");
 
         api.createPaymentIntent(requestBody).enqueue(new Callback<CreatePaymentIntentResponse>() {
             @Override
