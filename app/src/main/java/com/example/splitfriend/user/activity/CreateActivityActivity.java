@@ -1,5 +1,6 @@
 package com.example.splitfriend.user.activity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -14,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -49,6 +51,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.zip.Inflater;
 
 public class CreateActivityActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -116,8 +119,30 @@ public class CreateActivityActivity extends AppCompatActivity {
 
 
         // Set up Save Button click listener
-        saveButton.setOnClickListener(v -> saveActivity());
+//        saveButton.setOnClickListener(v -> saveActivity());
+
+        saveButton.setOnClickListener(v -> openConfirmPopup());
 //        saveButton.setOnClickListener(v -> saveBill());
+    }
+
+    private void openConfirmPopup() {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View popupView = inflater.inflate(R.layout.popup_confirm_activity, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(popupView);
+        AlertDialog dialog = builder.create();
+
+        Button confirmButton = popupView.findViewById(R.id.confirmButtonActivity);
+        confirmButton.setOnClickListener(v -> {
+            saveActivity();
+            dialog.dismiss();
+        });
+
+        ImageView closeButton = popupView.findViewById(R.id.closeButton);
+        closeButton.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
     }
 
     private void loadMemberChip() {
@@ -141,19 +166,20 @@ public class CreateActivityActivity extends AppCompatActivity {
         allchip.setTextSize(12);
         allchip.setTextColor(Color.WHITE);
         allchip.setCheckable(true);
-        allchip.setChipBackgroundColorResource(R.drawable.chip_background);
         allchip.setChipStrokeWidth(1);
         allchip.setChipStrokeColor(ColorStateList.valueOf(Color.WHITE));
         allchip.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 for (int i = 0; i < memberChipGroup.getChildCount(); i++) {
                     Chip chip = (Chip) memberChipGroup.getChildAt(i);
+                    allchip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor("#56CCF2")));
                     allchip.setChecked(true);
                     chip.setChecked(true);
                 }
             } else {
                 for (int i = 0; i < memberChipGroup.getChildCount(); i++) {
                     Chip chip = (Chip) memberChipGroup.getChildAt(i);
+                    allchip.setChipBackgroundColor(ColorStateList.valueOf(Color.DKGRAY));
                     chip.setChecked(false);
                     allchip.setChecked(false);
                 }
