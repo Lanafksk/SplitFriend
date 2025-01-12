@@ -80,7 +80,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
 
                     // Different color for the activity leader (creator)
                     if (participantId.equals(creatorId)) {
-                        chip.setChipBackgroundColorResource(R.color.red);
+                        chip.setChipBackgroundColorResource(R.color.dark_blue);
                         chip.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.white));
                     } else {
                         chip.setChipBackgroundColorResource(R.color.dark_gray);

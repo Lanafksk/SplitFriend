@@ -160,7 +160,7 @@ public class GroupDetailActivity extends AppCompatActivity implements ActivityAd
                         chip.setFocusable(false);
 
                         if (memberId.equals(leaderId)) {
-                            chip.setChipBackgroundColor(ColorStateList.valueOf(getResources().getColor(R.color.red)));
+                            chip.setChipBackgroundColor(ColorStateList.valueOf(getResources().getColor(R.color.dark_blue)));
                             chip.setTextColor(getResources().getColor(android.R.color.white));
                         } else {
                             chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor("#33FFFFFF")));

@@ -80,7 +80,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
                     chip.setFocusable(false);
 
                     if (Objects.equals(memberId, leaderId)) {
-                        chip.setChipBackgroundColorResource(R.color.red);
+                        chip.setChipBackgroundColorResource(R.color.dark_blue);
                     } else {
                         chip.setChipBackgroundColorResource(R.color.dark_gray);
                     }
