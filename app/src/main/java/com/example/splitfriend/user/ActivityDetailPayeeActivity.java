@@ -2,6 +2,8 @@ package com.example.splitfriend.user;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +29,7 @@ public class ActivityDetailPayeeActivity extends AppCompatActivity {
     private RecyclerView otherMembersRecyclerView;
     private TextView activityNameTextView, totalAmountTextView;
     private LinearLayout totalAmountSection;
+    private ImageButton backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,13 @@ public class ActivityDetailPayeeActivity extends AppCompatActivity {
 
         // 데이터 불러오기
         loadActivityDetails();
+
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> finish());
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.dark_blue)); // AppBar 배경색과 동일
+        }
     }
 
     private void loadActivityDetails() {

@@ -361,10 +361,37 @@ public class CreateActivityActivity extends AppCompatActivity {
         TextView categoryTitle = billItem.findViewById(R.id.categoryTitle);
         if (categoryTitle != null) {
             categoryTitle.setText(category);
+
+            // Change background color based on the category
+            int backgroundColor;
+            switch (category) {
+                case "Food":
+                    backgroundColor = Color.parseColor("#1E90FF");
+                    break;
+                case "Glossary":
+                    backgroundColor = Color.parseColor("#9970CE");
+                    break;
+                case "Activity":
+                    backgroundColor = Color.parseColor("#E190A3");
+                    break;
+                case "Present":
+                    backgroundColor = Color.parseColor("#FF9800");
+                    break;
+                case "Travel":
+                    backgroundColor = Color.parseColor("#EC407A");
+                    break;
+                default:
+                    backgroundColor = Color.parseColor("#A9A9A9");
+                    break;
+            }
+            categoryTitle.setBackgroundColor(backgroundColor); // Set the background color
+            categoryTitle.setTextColor(Color.WHITE); // Set text color to white for better visibility
+
+            // Display a Toast for feedback
             Toast.makeText(this, "Selected category: " + category, Toast.LENGTH_SHORT).show();
-            Log.d("PopupDebug", "카테고리 설정됨: " + category);
+            Log.d("PopupDebug", "Category set: " + category);
         } else {
-            Log.e("PopupDebug", "categoryTitle TextView를 찾을 수 없음");
+            Log.e("PopupDebug", "categoryTitle TextView not found");
         }
     }
 

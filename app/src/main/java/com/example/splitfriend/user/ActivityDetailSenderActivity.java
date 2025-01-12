@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +46,7 @@ public class ActivityDetailSenderActivity extends AppCompatActivity {
     private TextView activityNameTextView, totalAmountTextView, amountTextView;
     private RecyclerView otherMembersRecyclerView;
     private MaterialButton actionButton;
+    private ImageButton backButton;
 
     private Activity activityDetails;
     private PaymentSheet paymentSheet;
@@ -85,6 +87,9 @@ public class ActivityDetailSenderActivity extends AppCompatActivity {
         paymentSheet = new PaymentSheet(this, this::onPaymentSheetResult);
 
         loadActivityDetails();
+
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> finish());
     }
 
     private void loadActivityDetails() {
