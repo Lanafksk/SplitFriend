@@ -51,11 +51,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             });
         }
 
-        holder.deleteButton.setOnClickListener(v -> {
-            // delete user
-            // Wait for implementation
-        });
-
         holder.saveButton.setOnClickListener(v -> {
             String userId = holder.etUserId.getText().toString();
             String name = holder.etUserName.getText().toString();
