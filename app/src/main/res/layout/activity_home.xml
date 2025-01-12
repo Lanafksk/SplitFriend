@@ -34,16 +34,7 @@
                 android:src="@drawable/baseline_menu_24"
                 android:contentDescription="Menu" />
 
-            <!-- Right Notification Button -->
-            <ImageButton
-                android:id="@+id/notificationButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginEnd="16dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/baseline_notifications_24"
-                android:contentDescription="Notifications" />
+
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
