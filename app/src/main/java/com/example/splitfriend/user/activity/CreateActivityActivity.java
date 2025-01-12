@@ -428,11 +428,25 @@ public class CreateActivityActivity extends AppCompatActivity {
         if (participantsId.isEmpty()) {
             Toast.makeText(this, "Please select at least one participant", Toast.LENGTH_SHORT).show();
             return;
-        } else if (!participantsId.contains(userId)) {
+        }
+
+        // 항상 액티비티 생성자를 참가자로 포함
+        if (!participantsId.contains(userId)) {
             participantsId.add(userId);
         }
 
         List<String> participants = new ArrayList<>(participantsId);
+
+        // Initialize paymentStatusesId without the creator
+        List<Map<String, String>> paymentStatusesId = new ArrayList<>();
+        for (String participantId : participants) {
+            if (!participantId.equals(userId)) { // 생성자 제외
+                Map<String, String> statusMap = new HashMap<>();
+                statusMap.put("userId", participantId);
+                statusMap.put("status", "unpaid");
+                paymentStatusesId.add(statusMap);
+            }
+        }
 
         // Create a new Activity object
         Activity activity = new Activity(
@@ -448,7 +462,7 @@ public class CreateActivityActivity extends AppCompatActivity {
                 userId
         );
         activity.setParticipantsId(participants);
-
+        activity.setPaymentStatusesId(paymentStatusesId); // Add paymentStatusesId
 
         // Save activity to Firestore
         activityHelper.createActivity(activity)
@@ -460,4 +474,6 @@ public class CreateActivityActivity extends AppCompatActivity {
                     Toast.makeText(this, "Failed to create activity: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
+
+
 }

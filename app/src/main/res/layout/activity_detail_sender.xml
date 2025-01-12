@@ -37,6 +37,7 @@
                         android:contentDescription="Back" />
 
                     <TextView
+                        android:id="@+id/activityNameTextView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -122,6 +123,7 @@
                         android:textColor="@color/black" />
 
                     <TextView
+                        android:id="@+id/totalAmountTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -158,61 +160,61 @@
                         android:orientation="vertical">
 
                         <!-- Single Member Item -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical"
-                            android:padding="8dp"
-                            android:layout_marginBottom="8dp">
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:gravity="center_vertical"-->
+<!--                            android:padding="8dp"-->
+<!--                            android:layout_marginBottom="8dp">-->
 
-                            <!-- Profile Icon and Name -->
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:gravity="center">
+<!--                            &lt;!&ndash; Profile Icon and Name &ndash;&gt;-->
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:orientation="vertical"-->
+<!--                                android:gravity="center">-->
 
-                                <ImageView
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
-                                    android:src="@drawable/baseline_person_black_24" />
+<!--                                <ImageView-->
+<!--                                    android:layout_width="40dp"-->
+<!--                                    android:layout_height="40dp"-->
+<!--                                    android:src="@drawable/baseline_person_black_24" />-->
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:text="Me"
-                                    android:textStyle="bold"
-                                    android:textSize="15sp"
-                                    android:textColor="@color/black" />
-                            </LinearLayout>
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:gravity="center"-->
+<!--                                    android:text="Me"-->
+<!--                                    android:textStyle="bold"-->
+<!--                                    android:textSize="15sp"-->
+<!--                                    android:textColor="@color/black" />-->
+<!--                            </LinearLayout>-->
 
-                            <!-- Member Amount -->
-                            <TextView
-                                android:id="@+id/amountTextView"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:layout_marginStart="16dp"
-                                android:gravity="start"
-                                android:text="8,000,000 d"
-                                android:textSize="20sp"
-                                android:textStyle="bold"
-                                android:textColor="@color/black" />
+<!--                            &lt;!&ndash; Member Amount &ndash;&gt;-->
+<!--                            <TextView-->
+<!--                                android:id="@+id/amountTextView"-->
+<!--                                android:layout_width="0dp"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_weight="1"-->
+<!--                                android:layout_marginStart="16dp"-->
+<!--                                android:gravity="start"-->
+<!--                                android:text="8,000,000 d"-->
+<!--                                android:textSize="20sp"-->
+<!--                                android:textStyle="bold"-->
+<!--                                android:textColor="@color/black" />-->
 
-                            <!-- PAY Button -->
-                            <com.google.android.material.button.MaterialButton
-                                android:id="@+id/actionButton"
-                                android:layout_width="wrap_content"
-                                android:layout_height="40dp"
-                                android:background="@drawable/red_button_background"
-                                android:text="PAY"
-                                android:textColor="@android:color/white"
-                                android:textSize="15sp"
-                                android:textStyle="bold"
-                                app:backgroundTint="@null" />
-                        </LinearLayout>
+<!--                            &lt;!&ndash; PAY Button &ndash;&gt;-->
+<!--                            <com.google.android.material.button.MaterialButton-->
+<!--                                android:id="@+id/actionButton"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="40dp"-->
+<!--                                android:background="@drawable/red_button_background"-->
+<!--                                android:text="PAY"-->
+<!--                                android:textColor="@android:color/white"-->
+<!--                                android:textSize="15sp"-->
+<!--                                android:textStyle="bold"-->
+<!--                                app:backgroundTint="@null" />-->
+<!--                        </LinearLayout>-->
 
                         <!-- Other Members -->
                         <androidx.recyclerview.widget.RecyclerView
