@@ -31,6 +31,7 @@ import com.stripe.android.paymentsheet.PaymentSheetResult;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -111,8 +112,12 @@ public class ActivityDetailSenderActivity extends AppCompatActivity {
                         TextView activityNameTextView = findViewById(R.id.activityNameTextView);
                         TextView totalAmountTextView = findViewById(R.id.totalAmountTextView);
                         activityNameTextView.setText(activityName != null ? activityName : "Unknown Activity");
-                        totalAmountTextView.setText(totalAmount != null
-                                ? String.format("%.2f ₫", totalAmount) : "0 ₫");
+                        // Safely format totalAmount as an integer with commas
+                        String formattedTotalAmount = totalAmount != null
+                                ? String.format(Locale.getDefault(), "%,d ₫", Math.round(totalAmount))
+                                : "0 ₫";
+                        totalAmountTextView.setText(formattedTotalAmount);
+
 
                         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -199,10 +204,10 @@ public class ActivityDetailSenderActivity extends AppCompatActivity {
 
     private void startStripePayment(double amount) {
 
-        int amountInCents = (int) (amount * 100);
+        int amountInVND = (int) Math.round(amount);
 
         ApiService api = ApiClient.getClient().create(ApiService.class);
-        CreatePaymentIntentRequest requestBody = new CreatePaymentIntentRequest(amountInCents, "usd");
+        CreatePaymentIntentRequest requestBody = new CreatePaymentIntentRequest(amountInVND, "vnd");
 
         api.createPaymentIntent(requestBody).enqueue(new Callback<CreatePaymentIntentResponse>() {
             @Override

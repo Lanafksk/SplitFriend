@@ -62,7 +62,11 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
         String formattedDate = dateFormat.format(activity.getDate());
         holder.activityDate.setText(formattedDate);
 
-        holder.activityAmount.setText(String.valueOf(activity.getTotalAmount()));
+        // Safely convert Double to int using Math.round()
+        String formattedAmount = String.format(Locale.getDefault(), "%,d", Math.round(activity.getTotalAmount()));
+        holder.activityAmount.setText(formattedAmount + " d");
+
+
 
         holder.participantChips.removeAllViews(); // Clear all chips
 

@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class ActivityDetailPayeeActivity extends AppCompatActivity {
@@ -87,9 +88,12 @@ public class ActivityDetailPayeeActivity extends AppCompatActivity {
 
                         // Update the TextView
                         activityNameTextView.setText(activityName != null ? activityName : "Unknown Activity");
-                        totalAmountTextView.setText(totalAmount != null
-                                ? String.format("%.2f ₫", totalAmount)
-                                : "0 ₫");
+                        // Safely format totalAmount as an integer with commas
+                        String formattedTotalAmount = totalAmount != null
+                                ? String.format(Locale.getDefault(), "%,d ₫", Math.round(totalAmount))
+                                : "0 ₫";
+                        totalAmountTextView.setText(formattedTotalAmount);
+
 
                         // Connect RecyclerView with Adapter
                         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();

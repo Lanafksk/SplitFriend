@@ -42,6 +42,7 @@
                 android:hint="Enter the note"
                 android:textSize="20sp"
                 android:textColorHint="@color/gray"/>
+
             <ImageButton
                 android:id="@+id/categoryButton"
                 android:layout_width="55dp"

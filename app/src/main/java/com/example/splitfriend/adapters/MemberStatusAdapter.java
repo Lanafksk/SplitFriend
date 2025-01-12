@@ -57,8 +57,12 @@ public class MemberStatusAdapter extends RecyclerView.Adapter<MemberStatusAdapte
                     if (documentSnapshot.exists()) {
                         // Calculate the per-person amount and display it with the member's name
                         String userName = documentSnapshot.getString("name");
-                        double amountPerPerson = totalAmount / participantCount;
-                        holder.memberNameTextView.setText(userName != null ? userName + " - " + String.format("%.2f ₫", amountPerPerson) : "Unknown");
+
+                        double amountPerPerson = totalAmount / participantCount; // calculate
+
+                        // Safely format the amountPerPerson as an integer with commas
+                        String formattedAmount = String.format("%,d ₫", Math.round(amountPerPerson));
+                        holder.memberNameTextView.setText(userName != null ? userName + " - " + formattedAmount : "Unknown");
                     } else {
                         holder.memberNameTextView.setText("Unknown");
                     }
