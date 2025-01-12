@@ -42,8 +42,8 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         // Connect View
-        etUserId = findViewById(R.id.etUserId); // userId 입력 필드
-        etPassword = findViewById(R.id.etPassword); // 비밀번호 입력 필드
+        etUserId = findViewById(R.id.etUserId); // userId input field
+        etPassword = findViewById(R.id.etPassword); // password input field
         btnLogin = findViewById(R.id.btnLogin);
 
         // Initialize ProgressDialog
@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Query Firestore to find the email using userId
         db.collection("users")
-                .whereEqualTo("userId", userId) // userId로 조회
+                .whereEqualTo("userId", userId) // inquiry userId
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null && !task.getResult().isEmpty()) {
