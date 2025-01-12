@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,11 +20,8 @@ import com.example.splitfriend.data.models.Activity;
 import com.example.splitfriend.data.models.Group;
 import com.example.splitfriend.data.models.User;
 import com.example.splitfriend.user.GroupSettingActivity;
-import com.example.splitfriend.user.group.CreateGroupActivity;
-import com.example.splitfriend.user.group.HomeActivity;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import com.google.android.material.shape.CornerTreatment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -35,10 +31,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 
 public class GroupDetailActivity extends AppCompatActivity implements ActivityAdapter.OnActivityActionListener {
@@ -110,6 +104,11 @@ public class GroupDetailActivity extends AppCompatActivity implements ActivityAd
         loadActivities();
         loadMemberChip();
         updateGroupInfo();
+    }
+
+    @Override
+    public void reloadActivities(){
+        loadActivities();
     }
 
     private void updateGroupInfo() {
