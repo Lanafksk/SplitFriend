@@ -265,9 +265,6 @@ public class CreateActivityActivity extends AppCompatActivity {
     private void initializeCurrencySymbols() {
         currencySymbols = new HashMap<>();
         currencySymbols.put("Vietnam (dong)", "₫");
-        currencySymbols.put("Korea (won)", "₩");
-        currencySymbols.put("United States (Dollar)", "$");
-        currencySymbols.put("Japanese (Yen)", "¥");
     }
 
     private void currencySpinnerSetting() {
@@ -275,7 +272,7 @@ public class CreateActivityActivity extends AppCompatActivity {
         currencySpinner = findViewById(R.id.currencySpinner);
 
         // Create a list of currencies
-        String[] currencies = {"Vietnam (dong)", "Korea (won)", "United States (Dollar)", "Japanese (Yen)"};
+        String[] currencies = {"Vietnam (dong)"};
 
         // Set up Spinner adapter
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
