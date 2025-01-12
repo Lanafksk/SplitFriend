@@ -95,11 +95,13 @@ public class HomeActivity extends AppCompatActivity implements GroupAdapter.OnGr
     @Override
     public void onGroupDeleted() {
         Toast.makeText(this, "Group deleted successfully", Toast.LENGTH_SHORT).show();
+        loadGroups();
     }
 
     @Override
     public void onGroupLeft() {
         Toast.makeText(this, "Left group successfully", Toast.LENGTH_SHORT).show();
+        loadGroups();
     }
 
     @Override

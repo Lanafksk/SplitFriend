@@ -1,23 +1,32 @@
 package com.example.splitfriend.adapters;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.splitfriend.R;
+import com.example.splitfriend.data.helpers.ActivityHelper;
 import com.example.splitfriend.data.helpers.GroupHelper;
 import com.example.splitfriend.data.helpers.UserHelper;
+import com.example.splitfriend.data.models.Activity;
 import com.example.splitfriend.data.models.Group;
 import com.example.splitfriend.data.models.User;
 import com.example.splitfriend.user.activity.GroupDetailActivity;
 import com.example.splitfriend.viewHolders.GroupViewHolder;
 import com.google.android.material.chip.Chip;
+import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
@@ -47,6 +56,90 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
         holder.groupName.setText(group.getName());
         holder.memberCount.setText(String.valueOf(group.getMembersId().size()));
 
+        ImageView closeButton = holder.itemView.findViewById(R.id.closeButton);
+        closeButton.setOnClickListener(v -> {
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            if (mAuth.getCurrentUser() == null) {
+                Toast.makeText(holder.itemView.getContext(), "You are not logged in", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            String userId = mAuth.getCurrentUser().getUid();
+            boolean isOwner = group.getLeaderId().equals(userId);
+
+            LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
+            View popupView = inflater.inflate(R.layout.popup_leave_group, null);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(holder.itemView.getContext());
+            builder.setView(popupView);
+            AlertDialog dialog = builder.create();
+
+            TextView leaveGroupPromt = popupView.findViewById(R.id.leavePromptText);
+            Button leaveGroupButton = popupView.findViewById(R.id.leaveButton);
+
+            if (isOwner){
+                leaveGroupPromt.setText("Are you sure you want to delete this group?");
+                leaveGroupButton.setText("Delete");
+            } else {
+                leaveGroupPromt.setText("Are you sure you want to leave this group?");
+                leaveGroupButton.setText("Leave");
+            }
+
+            leaveGroupButton.setOnClickListener(v1 -> {
+                    ActivityHelper activityHelper = new ActivityHelper();
+                    List<Activity> relatedActivities = new ArrayList<>();
+                    activityHelper.geActivityList(group.getId()).addOnSuccessListener(queryDocumentSnapshots -> {
+                        for (int i = 0; i < queryDocumentSnapshots.size(); i++) {
+                            relatedActivities.add(queryDocumentSnapshots.getDocuments().get(i).toObject(Activity.class));
+                        }
+                    }).addOnFailureListener(e -> {
+                        Toast.makeText(holder.itemView.getContext(), "Error getting activities: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+                    for (Activity activity : relatedActivities) {
+                        if (activity.getPaymentStatusesId() != null) {
+                            for (int i = 0; i < activity.getPaymentStatusesId().size(); i++) {
+                                if (activity.getPaymentStatusesId().get(i).get("userId").equals(currentUserId) &&
+                                        activity.getPaymentStatusesId().get(i).get("status").equals("unpaid")) {
+                                    Toast.makeText(holder.itemView.getContext(), "You cannot leave the group with unpaid bills", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                            }
+                        } else if (activity.getCreatorId().equals(currentUserId)) {
+                            for (int i = 0; i < activity.getParticipantsId().size(); i++) {
+                                if (activity.getPaymentStatusesId().get(i).get("status").equals("unpaid")) {
+                                    Toast.makeText(holder.itemView.getContext(), "You cannot leave the group with unpaid bills", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                            }
+                        }
+                    }
+
+                    if (isOwner) {
+                        groupHelper.deleteGroup(group.getId()).addOnSuccessListener(aVoid -> {
+                            onGroupActionListener.onGroupDeleted();
+                            dialog.dismiss();
+                        }).addOnFailureListener(e -> {
+                            Toast.makeText(holder.itemView.getContext(), "Error deleting group: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
+                    } else {
+                        List<String> newGroupList = group.getMembersId();
+                        newGroupList.remove(userId);
+                        group.setMembersId(newGroupList);
+                        groupHelper.updateGroup(group).addOnSuccessListener(aVoid -> {
+                            onGroupActionListener.onGroupLeft();
+                            dialog.dismiss();
+                        }).addOnFailureListener(e -> {
+                            Toast.makeText(holder.itemView.getContext(), "Error leaving group: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
+                    }
+
+            });
+
+            ImageView closePopup = popupView.findViewById(R.id.closeButton);
+            closePopup.setOnClickListener(v1 -> dialog.dismiss());
+
+            dialog.show();
+        });
+
         holder.itemView.setOnClickListener(v -> {
             if (onItemClickListener != null) {
                 onItemClickListener.onItemClick(group);
@@ -58,6 +151,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
                 holder.itemView.getContext().startActivity(intent);
             }
         });
+
+
 
         holder.memberChips.removeAllViews();
         for (String memberId : group.getMembersId()) {
