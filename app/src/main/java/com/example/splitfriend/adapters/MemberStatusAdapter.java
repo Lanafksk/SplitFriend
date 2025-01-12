@@ -49,14 +49,16 @@ public class MemberStatusAdapter extends RecyclerView.Adapter<MemberStatusAdapte
         String userId = statusMap.get("userId");
         String status = statusMap.get("status");
 
-        // Firestore에서 userId를 기반으로 사용자 이름 가져오기
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("users").document(userId).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         String userName = documentSnapshot.getString("name");
                         double amountPerPerson = totalAmount / participantCount; // 분담 금액 계산
-                        holder.memberNameTextView.setText(userName != null ? userName + " - " + String.format("%.2f ₫", amountPerPerson) : "Unknown");
+
+                        // Safely format the amountPerPerson as an integer with commas
+                        String formattedAmount = String.format("%,d ₫", Math.round(amountPerPerson));
+                        holder.memberNameTextView.setText(userName != null ? userName + " - " + formattedAmount : "Unknown");
                     } else {
                         holder.memberNameTextView.setText("Unknown");
                     }
