@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Initialize Firebase
+        // Firebase 초기화
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
@@ -41,16 +41,16 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         });
 
-        // Connect View
-        etUserId = findViewById(R.id.etUserId); // userId input field
-        etPassword = findViewById(R.id.etPassword); // password input field
+        // 뷰 연결
+        etUserId = findViewById(R.id.etUserId); // userId 입력 필드
+        etPassword = findViewById(R.id.etPassword); // 비밀번호 입력 필드
         btnLogin = findViewById(R.id.btnLogin);
 
-        // Initialize ProgressDialog
+        // ProgressDialog 초기화
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
 
-        // Login button click event
+        // 로그인 버튼 클릭 이벤트
         btnLogin.setOnClickListener(v -> {
             String userId = etUserId.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
@@ -60,26 +60,26 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            // Find an email with userId and try to log in
+            // userId로 이메일을 찾고 로그인 시도
             loginWithUserId(userId, password);
         });
     }
 
     private void loginWithUserId(String userId, String password) {
-        // "Logging in..." display ProgressDialog
+        // "Logging in..." ProgressDialog 표시
         progressDialog.setMessage("Logging in...");
         progressDialog.show();
 
-        // Query Firestore to find the email using userId
+        // Firestore에서 userId로 이메일 조회
         db.collection("users")
-                .whereEqualTo("userId", userId) // inquiry userId
+                .whereEqualTo("userId", userId) // userId로 조회
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null && !task.getResult().isEmpty()) {
-                        // Retrieve the email
+                        // 이메일 가져오기
                         String email = task.getResult().getDocuments().get(0).getString("email");
                         if (email != null) {
-                            // Login with the retrieved email and password
+                            // 이메일과 비밀번호로 로그인
                             loginUser(email, password);
                         } else {
                             progressDialog.dismiss();
@@ -98,20 +98,20 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful() && mAuth.getCurrentUser() != null) {
                         String userId = mAuth.getCurrentUser().getUid();
 
-                        // Update ProgressDialog message to "Checking user role..."
+                        // "Checking user role..." ProgressDialog 메시지 변경
                         progressDialog.setMessage("Checking user role...");
 
                         db.collection("users").document(userId).get()
                                 .addOnSuccessListener(document -> {
-                                    progressDialog.dismiss(); // Close ProgressDialog
+                                    progressDialog.dismiss(); // ProgressDialog 닫기
 
                                     if (document.exists() && document.contains("role")) {
                                         String role = document.getString("role");
                                         if ("admin".equals(role)) {
-                                            // Navigate AdminActivity
+                                            // AdminActivity로 이동
                                             startActivity(new Intent(LoginActivity.this, AdminActivity.class));
                                         } else {
-                                            // Navigate MainActivity
+                                            // MainActivity로 이동
                                             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                                         }
                                         finish();

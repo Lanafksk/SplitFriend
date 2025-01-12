@@ -234,7 +234,7 @@ public class CreateActivityActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
         String formattedDate = dateFormat.format(calendar.getTime());
-        dateTextView.setText(formattedDate);    // Initial Date Settings
+        dateTextView.setText(formattedDate); // 초기 날짜 설정
 
         updateDateInView(calendar);
 
@@ -327,27 +327,27 @@ public class CreateActivityActivity extends AppCompatActivity {
         View billItem = LayoutInflater.from(this).inflate(R.layout.bill_item, billsContainer, false);
 
         // Set the index for the new item
-        TextView itemIndex = billItem.findViewById(R.id.itemIndex); // Assume that the ID of TextView is itemIndex
-        int index = billsContainer.getChildCount() + 1; // Current number of items + 1
-        itemIndex.setText(String.valueOf(index)); // Set Index to TextView
+        TextView itemIndex = billItem.findViewById(R.id.itemIndex); // TextView의 ID가 itemIndex라고 가정
+        int index = billsContainer.getChildCount() + 1; // 현재 아이템 개수 + 1
+        itemIndex.setText(String.valueOf(index)); // 인덱스를 TextView에 설정
 
         // Set click listener for category button
-        ImageButton categoryButton = billItem.findViewById(R.id.categoryButton); // Change ID
-        categoryButton.setOnClickListener(v -> categoryPopupHandle(billItem)); // Deliver billItem
+        ImageButton categoryButton = billItem.findViewById(R.id.categoryButton); // ID 변경
+        categoryButton.setOnClickListener(v -> categoryPopupHandle(billItem)); // billItem 전달
 
         // Add the new bill item to the container
         billsContainer.addView(billItem);
     }
 
     private void categoryPopupHandle(View billItem) {
-        // Initialize BottomSheetDialog
+        // BottomSheetDialog 초기화
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this, R.style.CustomBottomSheetDialogTheme);
 
-        // Pop-up layout settings
+        // 팝업 레이아웃 설정
         View popupView = LayoutInflater.from(this).inflate(R.layout.popup_category_list, null);
         bottomSheetDialog.setContentView(popupView);
 
-        // Close button settings
+        // 닫기 버튼 설정
         ImageButton closeButton = popupView.findViewById(R.id.closeButton);
         closeButton.setOnClickListener(v -> bottomSheetDialog.dismiss());
 

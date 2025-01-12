@@ -17,7 +17,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberView
 
     private final List<String> participantIds;
     private final FirebaseFirestore db;
-    private final String creatorId;    // constructor's userId
+    private final String creatorId; // 생성자의 userId
 
     public MemberAdapter(List<String> participantIds, String creatorId, FirebaseFirestore db) {
         this.participantIds = participantIds;
@@ -36,14 +36,13 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberView
     public void onBindViewHolder(@NonNull MemberViewHolder holder, int position) {
         String userId = participantIds.get(position);
 
-        // Skip the creator's userId from being displayed
+        // 생성자의 userId는 리스트에 표시하지 않음
         if (userId.equals(creatorId)) {
             holder.itemView.setVisibility(View.GONE);
             holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0)); // 공간도 제거
             return;
         }
 
-        // Fetch the user's name from Firestore and display it
         db.collection("users").document(userId).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     String userName = documentSnapshot.getString("name");
@@ -60,7 +59,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberView
     }
 
     public static class MemberViewHolder extends RecyclerView.ViewHolder {
-        TextView memberNameTextView; // TextView to display the participant's name
+        TextView memberNameTextView;
 
         public MemberViewHolder(@NonNull View itemView) {
             super(itemView);

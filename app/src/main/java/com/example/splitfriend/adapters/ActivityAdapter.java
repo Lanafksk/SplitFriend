@@ -1,5 +1,6 @@
 package com.example.splitfriend.adapters;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,6 @@ import com.example.splitfriend.data.models.User;
 
 import com.example.splitfriend.user.ActivityDetailPayeeActivity;
 import com.example.splitfriend.user.ActivityDetailSenderActivity;
-import com.example.splitfriend.user.group.HomeActivity;
 import com.example.splitfriend.viewHolders.ActivityViewHolder;
 import com.google.android.material.chip.Chip;
 import com.google.firebase.auth.FirebaseAuth;
@@ -77,7 +77,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
             userHelper.getUserById(participantId).addOnSuccessListener(documentSnapshot -> {
                 User user = documentSnapshot.toObject(User.class);
                 if (user != null) {
-                    // Dynamically create a Chip for each participant and set its properties
                     Chip chip = new Chip(holder.itemView.getContext());
                     chip.setText(user.getName());
                     chip.setClickable(false);
@@ -95,7 +94,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
                     holder.participantChips.addView(chip);
                 }
             }).addOnFailureListener(e -> {
-                // Handle failure to load user data
                 Toast.makeText(holder.itemView.getContext(), "Failed to load user data", Toast.LENGTH_SHORT).show();
             });
         }
@@ -199,26 +197,23 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
 
             Intent intent;
             if (activity.getCreatorId().equals(currentUserId)) {
-                // Navigate to payee's activity detail page
+                // If current user is the creator
                 intent = new Intent(holder.itemView.getContext(), ActivityDetailPayeeActivity.class);
             } else {
-                // Navigate to sender's activity detail page
+                // If current user is a member
                 intent = new Intent(holder.itemView.getContext(), ActivityDetailSenderActivity.class);
             }
             intent.putExtra("activityId", activity.getId());
             intent.putExtra("groupId", activity.getGroupId());
             holder.itemView.getContext().startActivity(intent);
         });
-        holder.deleteButtonLayout.setVisibility(View.GONE); // Hide delete button initially
     }
 
     @Override
     public int getItemCount() {
-        // Returns the total number of activities in the list
         return activityList.size();
     }
 
-    //  Interface for handling actions related to an activity item
     public interface OnActivityActionListener {
         void reloadActivities();
 

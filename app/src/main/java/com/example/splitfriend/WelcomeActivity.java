@@ -13,17 +13,17 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        // Connect Button
+        // 버튼 연결
         Button btnLogin = findViewById(R.id.btnLogin);
         Button btnRegister = findViewById(R.id.btnRegister);
 
-        // Navigate to LoginActivity when the Login button is clicked
+        // Login 버튼 클릭 시 LoginActivity로 이동
         btnLogin.setOnClickListener(v -> {
             Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
             startActivity(intent);
         });
 
-        // Navigate to RegisterActivity when the Register button is clicked
+        // Register 버튼 클릭 시 RegisterActivity로 이동
         btnRegister.setOnClickListener(v -> {
             Intent intent = new Intent(WelcomeActivity.this, RegisterActivity.class);
             startActivity(intent);

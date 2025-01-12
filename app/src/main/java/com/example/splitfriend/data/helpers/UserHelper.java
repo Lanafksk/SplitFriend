@@ -9,6 +9,26 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
 
+
+// EXAMPLE OF READING DATA FROM FIREBASE
+//  private void setupRealtimeUpdates() {
+//        userHelper.setupRealtimeUpdates((snapshots, e) -> {
+//            if (e != null) {
+//                Log.e("UserActivity", "Listen failed.", e);
+//              return;
+//         }
+//
+//          if (snapshots != null) {
+//                userList.clear();
+//                for (QueryDocumentSnapshot document : snapshots) {
+//                    User user = document.toObject(User.class);
+//                    user.setId(document.getId()); // Set the document ID
+//                  userList.add(user);
+//               }
+//                adapter.notifyDataSetChanged();
+//          }
+//    });
+//  }
 public class UserHelper {
     private final FirebaseFirestore db;
     private ListenerRegistration listener;

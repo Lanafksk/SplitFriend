@@ -2,7 +2,7 @@ package com.example.splitfriend.network;
 
 import com.google.gson.annotations.SerializedName;
 
-// 1) PaymentIntent Creation Request Body
+// 1) PaymentIntent 생성 요청 바디
 public class CreatePaymentIntentRequest {
     @SerializedName("amount")
     public int amount;

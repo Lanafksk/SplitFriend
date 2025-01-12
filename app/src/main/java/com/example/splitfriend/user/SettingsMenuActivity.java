@@ -35,7 +35,7 @@ public class SettingsMenuActivity extends AppCompatActivity {
     private String[] menuItems = {"Edit Profile", "Find Group", "Log out"};
     private FirebaseAuth firebaseAuth;
 
-    // [1] Add fields related to Stripe PaymentSheet
+    // [1] Stripe PaymentSheet 관련 필드 추가
     private PaymentSheet paymentSheet;
     private String paymentIntentClientSecret;
     private static final int PREMIUM_AMOUNT_CENTS = 500000;

@@ -22,8 +22,8 @@ public class MemberStatusAdapter extends RecyclerView.Adapter<MemberStatusAdapte
 
     private final List<Map<String, String>> paymentStatuses;
     private final String currentUserId;
-    private final double totalAmount; // Total amount
-    private final int participantCount; // Number of participant
+    private final double totalAmount; // 총 금액
+    private final int participantCount; // 참가자 수
     private final OnPayButtonClickListener onPayButtonClickListener;
     private final String activityId;
 
@@ -46,19 +46,15 @@ public class MemberStatusAdapter extends RecyclerView.Adapter<MemberStatusAdapte
     @Override
     public void onBindViewHolder(@NonNull MemberStatusViewHolder holder, int position) {
         Map<String, String> statusMap = paymentStatuses.get(position);
-        // Get the current member's payment status data
         String userId = statusMap.get("userId");
         String status = statusMap.get("status");
 
-        // Fetch the member's name from Firestore
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("users").document(userId).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
-                        // Calculate the per-person amount and display it with the member's name
                         String userName = documentSnapshot.getString("name");
-
-                        double amountPerPerson = totalAmount / participantCount; // calculate
+                        double amountPerPerson = totalAmount / participantCount; // 분담 금액 계산
 
                         // Safely format the amountPerPerson as an integer with commas
                         String formattedAmount = String.format("%,d ₫", Math.round(amountPerPerson));
@@ -68,23 +64,47 @@ public class MemberStatusAdapter extends RecyclerView.Adapter<MemberStatusAdapte
                     }
                 });
 
-        // Show "Pay" button if the current user is unpaid
+        // PAY 버튼 동작
         if (userId.equals(currentUserId) && !"paid".equals(status)) {
             holder.payButton.setVisibility(View.VISIBLE);
             holder.statusTextView.setVisibility(View.GONE);
             holder.statusIcon.setVisibility(View.GONE);
 
-            // Handle "Pay" button click
             holder.payButton.setOnClickListener(v -> {
+                // Firestore 업데이트
+//                db.collection("activities").document(activityId)
+//                        .get()
+//                        .addOnSuccessListener(activitySnapshot -> {
+//                            if (activitySnapshot.exists()) {
+//                                List<Map<String, String>> updatedStatuses = (List<Map<String, String>>) activitySnapshot.get("paymentStatusesId");
+//                                for (Map<String, String> updatedStatus : updatedStatuses) {
+//                                    if (updatedStatus.get("userId").equals(userId)) {
+//                                        updatedStatus.put("status", "paid"); // 상태를 paid로 변경
+//                                        break;
+//                                    }
+//                                }
+//
+//                                // Firestore에 업데이트된 상태 저장
+//                                db.collection("activities").document(activityId)
+//                                        .update("paymentStatusesId", updatedStatuses)
+//                                        .addOnSuccessListener(aVoid -> {
+//                                            // 상태 업데이트 후 UI 새로고침
+//                                            statusMap.put("status", "paid"); // 로컬 데이터 업데이트
+//                                            notifyItemChanged(holder.getAdapterPosition()); // RecyclerView 새로고침
+//                                            Toast.makeText(holder.itemView.getContext(), "Payment status updated to Paid", Toast.LENGTH_SHORT).show();
+//                                        })
+//                                        .addOnFailureListener(e -> {
+//                                            Toast.makeText(holder.itemView.getContext(), "Failed to update status: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                                        });
+//                            }
+//                        });
                 onPayButtonClickListener.onPayButtonClick(userId);
             });
         } else {
-            // Show payment status and icon if the user is not the current user or is already paid
             holder.payButton.setVisibility(View.GONE);
             holder.statusTextView.setVisibility(View.VISIBLE);
             holder.statusIcon.setVisibility(View.VISIBLE);
 
-            // Update the status text and icon based on payment status
             if ("paid".equals(status)) {
                 holder.statusIcon.setImageResource(R.drawable.baseline_check_24); // 초록색 체크 아이콘
                 holder.statusTextView.setText("Paid");
