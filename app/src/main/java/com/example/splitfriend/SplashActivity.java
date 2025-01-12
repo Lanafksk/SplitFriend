@@ -19,42 +19,42 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        // Firebase 초기화
+        // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        // 2초 후 로그인 상태 확인
+        // Check login status after 2 seconds
         new Handler().postDelayed(this::checkLoginStatus, 2000);
     }
 
     private void checkLoginStatus() {
         if (mAuth.getCurrentUser() != null) {
-            // 로그인된 사용자가 있으면 사용자 역할 확인
+            // If a user is logged in, check their role
             String userId = mAuth.getCurrentUser().getUid();
             db.collection("users").document(userId).get()
                     .addOnSuccessListener(document -> {
                         if (document.exists() && document.contains("role")) {
                             String role = document.getString("role");
                             if ("admin".equals(role)) {
-                                // AdminActivity로 이동
+                                // Navigate to AdminActivity
                                 startActivity(new Intent(SplashActivity.this, AdminActivity.class));
                             } else {
-                                // MainActivity로 이동
+                                // Navigate to MainActivity
                                 startActivity(new Intent(SplashActivity.this, HomeActivity.class));
                             }
                         } else {
-                            // 역할 정보가 없을 경우 로그인 화면으로 이동
+                            // If role information is missing, navigate to the login screen
                             startActivity(new Intent(SplashActivity.this, WelcomeActivity.class));
                         }
                         finish();
                     })
                     .addOnFailureListener(e -> {
-                        // Firestore 오류 시 로그인 화면으로 이동
+                        // If there is a Firestore error, navigate to the login screen
                         startActivity(new Intent(SplashActivity.this, WelcomeActivity.class));
                         finish();
                     });
         } else {
-            // 로그인된 사용자가 없으면 로그인 화면으로 이동
+            // If no user is logged in, navigate to the login screen
             startActivity(new Intent(SplashActivity.this, WelcomeActivity.class));
             finish();
         }

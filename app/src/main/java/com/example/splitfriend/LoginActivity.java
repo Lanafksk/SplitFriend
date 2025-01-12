@@ -25,20 +25,20 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Firebase 초기화
+        // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        // 뷰 연결
-        etUserId = findViewById(R.id.etUserId); // userId 입력 필드
-        etPassword = findViewById(R.id.etPassword); // 비밀번호 입력 필드
+        // Connect View
+        etUserId = findViewById(R.id.etUserId); // userId input field
+        etPassword = findViewById(R.id.etPassword); // password input field
         btnLogin = findViewById(R.id.btnLogin);
 
-        // ProgressDialog 초기화
+        // Initialize ProgressDialog
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
 
-        // 로그인 버튼 클릭 이벤트
+        // Login button click event
         btnLogin.setOnClickListener(v -> {
             String userId = etUserId.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
@@ -48,26 +48,26 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            // userId로 이메일을 찾고 로그인 시도
+            // Find an email with userId and try to log in
             loginWithUserId(userId, password);
         });
     }
 
     private void loginWithUserId(String userId, String password) {
-        // "Logging in..." ProgressDialog 표시
+        // "Logging in..." display ProgressDialog
         progressDialog.setMessage("Logging in...");
         progressDialog.show();
 
-        // Firestore에서 userId로 이메일 조회
+        // Query Firestore to find the email using userId
         db.collection("users")
                 .whereEqualTo("userId", userId) // userId로 조회
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null && !task.getResult().isEmpty()) {
-                        // 이메일 가져오기
+                        // Retrieve the email
                         String email = task.getResult().getDocuments().get(0).getString("email");
                         if (email != null) {
-                            // 이메일과 비밀번호로 로그인
+                            // Login with the retrieved email and password
                             loginUser(email, password);
                         } else {
                             progressDialog.dismiss();
@@ -86,20 +86,20 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful() && mAuth.getCurrentUser() != null) {
                         String userId = mAuth.getCurrentUser().getUid();
 
-                        // "Checking user role..." ProgressDialog 메시지 변경
+                        // Update ProgressDialog message to "Checking user role..."
                         progressDialog.setMessage("Checking user role...");
 
                         db.collection("users").document(userId).get()
                                 .addOnSuccessListener(document -> {
-                                    progressDialog.dismiss(); // ProgressDialog 닫기
+                                    progressDialog.dismiss(); // Close ProgressDialog
 
                                     if (document.exists() && document.contains("role")) {
                                         String role = document.getString("role");
                                         if ("admin".equals(role)) {
-                                            // AdminActivity로 이동
+                                            // Navigate AdminActivity
                                             startActivity(new Intent(LoginActivity.this, AdminActivity.class));
                                         } else {
-                                            // MainActivity로 이동
+                                            // Navigate MainActivity
                                             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                                         }
                                         finish();

@@ -67,7 +67,7 @@ public class ActivityTotalAmountActivity extends AppCompatActivity {
             return;
         }
 
-        // 해당 docId로 Firestore에서 데이터 가져오기
+        // Retrieve data from Firestore using the given docId
         fetchDataFromFirestore(docId);
 
     }
@@ -165,12 +165,12 @@ public class ActivityTotalAmountActivity extends AppCompatActivity {
             double value = categoryTotals.get(cat);
             if (value > 0) {
                 entries.add(new PieEntry((float) value, cat));
-                colors.add(getCategoryColor(cat)); // 각 카테고리별 색상 추가
+                colors.add(getCategoryColor(cat));    // Add colors for each category
             }
         }
 
         PieDataSet dataSet = new PieDataSet(entries, "Categories");
-        dataSet.setColors(colors); // 색상 리스트 설정
+        dataSet.setColors(colors);        // Set the color list
         dataSet.setValueTextSize(12f);
 
         PieData data = new PieData(dataSet);
@@ -181,11 +181,11 @@ public class ActivityTotalAmountActivity extends AppCompatActivity {
     }
 
     private void updateLegend(Map<String, Double> categoryTotals) {
-        legendLayout.removeAllViews(); // 초기화
+        legendLayout.removeAllViews(); // Initialize
 
         for (String cat : CATEGORIES) {
             double value = categoryTotals.get(cat);
-            if (value <= 0) continue; // 0이면 표시 X
+            if (value <= 0) continue; // If it is 0, do not display
 
             LinearLayout itemLayout = new LinearLayout(this);
             itemLayout.setOrientation(LinearLayout.HORIZONTAL);

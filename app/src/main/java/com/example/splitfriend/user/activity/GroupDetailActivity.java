@@ -80,7 +80,7 @@ public class GroupDetailActivity extends AppCompatActivity implements ActivityAd
 
         updateGroupInfo();
 
-        // RecyclerView 초기화
+        // RecyclerView Initialization
         RecyclerView recyclerView = findViewById(R.id.activityRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         activityList = new ArrayList<>();
