@@ -24,8 +24,8 @@ Basically, our app is an app for the users who want to calculate the money share
 6. [Payer] Pay with Stripe
 
 [Admin]
-1. CRUD group data
-2. ??
+1. Read user list
+2. Update user information
 
 #### Test account for admin
 id: admin
@@ -37,6 +37,7 @@ To manage the data, Firebase Database is implemented.
 To manage the payment, Stripe SDK is implemented with the server of NodeJS.
 
 ## Known issues  (can't fixed)
+
 
 
 # Backend for paying with "Stripe"
