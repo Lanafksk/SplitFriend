@@ -14,6 +14,7 @@ import com.example.splitfriend.data.helpers.ActivityHelper;
 import com.example.splitfriend.data.helpers.UserHelper;
 import com.example.splitfriend.data.models.Activity;
 import com.example.splitfriend.data.models.User;
+
 import com.example.splitfriend.user.ActivityDetailPayeeActivity;
 import com.example.splitfriend.user.ActivityDetailSenderActivity;
 import com.example.splitfriend.user.group.HomeActivity;
@@ -84,6 +85,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
 
         // move to activity detail page
         holder.itemView.setOnClickListener(v -> {
+
             Intent intent;
             if (activity.getCreatorId().equals(currentUserId)) {
                 // If current user is the creator
