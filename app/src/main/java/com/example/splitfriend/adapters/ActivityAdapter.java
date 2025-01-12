@@ -1,9 +1,13 @@
 package com.example.splitfriend.adapters;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,13 +18,18 @@ import com.example.splitfriend.data.helpers.ActivityHelper;
 import com.example.splitfriend.data.helpers.UserHelper;
 import com.example.splitfriend.data.models.Activity;
 import com.example.splitfriend.data.models.User;
-import com.example.splitfriend.user.group.HomeActivity;
+
+import com.example.splitfriend.user.ActivityDetailPayeeActivity;
+import com.example.splitfriend.user.ActivityDetailSenderActivity;
 import com.example.splitfriend.viewHolders.ActivityViewHolder;
 import com.google.android.material.chip.Chip;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 
 public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
     private final List<Activity> activityList;
@@ -55,12 +64,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
 
         holder.activityAmount.setText(String.valueOf(activity.getTotalAmount()));
 
-        if (activity.getCreatorId().equals(currentUserId)) {
-            holder.deleteText.setText("Delete");
-        } else {
-            holder.deleteText.setText("Leave");
-        }
-
         holder.participantChips.removeAllViews(); // Clear all chips
         for (String participantId : activity.getParticipantsId()) {
             UserHelper userHelper = new UserHelper();
@@ -80,13 +83,115 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
             });
         }
 
+        // Set up the onClickListener for the closeButton
+        holder.itemView.findViewById(R.id.closeButton).setOnClickListener(v -> {
+            boolean isCreator, unfinishedPayment;
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            if (mAuth.getCurrentUser() == null) {
+                return;
+            }
+            isCreator = activity.getCreatorId().equals(mAuth.getCurrentUser().getUid());
+            unfinishedPayment = false;
+            if (activity.getPaymentStatusesId() != null) {
+                for (int i = 0; i < activity.getPaymentStatusesId().size(); i++) {
+                    if (activity.getPaymentStatusesId().get(i).get("userId").equals(currentUserId) &&
+                            activity.getPaymentStatusesId().get(i).get("status").equals("unpaid")) {
+                        unfinishedPayment = true;
+                        break;
+                    }
+                }
+            } else if (activity.getCreatorId().equals(currentUserId)) {
+                for (int i = 0; i < activity.getParticipantsId().size(); i++) {
+                    if (activity.getPaymentStatusesId().get(i).get("status").equals("unpaid")) {
+                        unfinishedPayment = true;
+                        break;
+                    }
+                }
+            }
+
+
+            // Inflate the popup_leave_activity layout
+            LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
+            View popupView = inflater.inflate(R.layout.popup_leave_activity, null);
+
+            // Create the AlertDialog
+            AlertDialog.Builder builder = new AlertDialog.Builder(holder.itemView.getContext());
+            builder.setView(popupView);
+            AlertDialog alertDialog = builder.create();
+
+            // Set the leavePromptText
+            TextView leavePromptText = popupView.findViewById(R.id.leavePromptText);
+            if (isCreator) {
+                leavePromptText.setText("Are you sure you want to delete this activity?");
+            } else {
+                leavePromptText.setText("Are you sure you want to leave this activity?");
+            }
+
+            // Set up the leaveButton
+            Button leaveButton = popupView.findViewById(R.id.leaveButton);
+            if (isCreator) {
+                leaveButton.setText("Delete");
+            }
+            boolean finalUnfinishedPayment = unfinishedPayment;
+            leaveButton.setOnClickListener(view -> {
+                ActivityHelper activityHelper = new ActivityHelper();
+                if (isCreator) {
+                    if (finalUnfinishedPayment) {
+                        Toast.makeText(holder.itemView.getContext(), "You cannot delete the activity with unpaid bills", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    activityHelper.deleteActivity(activity.getId()).addOnSuccessListener(aVoid -> {
+                        onActivityActionListener.onActivityDelete(activity.getId());
+                        onActivityActionListener.reloadActivities();
+                        alertDialog.dismiss();
+                    }).addOnFailureListener(e -> {
+                        Toast.makeText(holder.itemView.getContext(), "Failed to delete activity", Toast.LENGTH_SHORT).show();
+                    });
+                } else {
+                    if (finalUnfinishedPayment) {
+                        Toast.makeText(holder.itemView.getContext(), "You cannot leave the activity with unpaid bills", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    List<String> participantsId = activity.getParticipantsId();
+                    participantsId.remove(currentUserId);
+                    activity.setTotalAmount(activity.getTotalAmount() * (activity.getParticipantsId().size() / participantsId.size()));
+                    activity.setParticipantsId(participantsId);
+                    List<Map<String, String>> paymentStatusesId = activity.getPaymentStatusesId();
+                    paymentStatusesId.removeIf(map -> Objects.equals(map.get("userId"), currentUserId));
+                    activity.setPaymentStatusesId(paymentStatusesId);
+                    activityHelper.updateActivity(activity).addOnSuccessListener(aVoid -> {
+                        onActivityActionListener.onActivityLeave(activity.getId());
+                        onActivityActionListener.reloadActivities();
+                        alertDialog.dismiss();
+                    }).addOnFailureListener(e -> {
+                        Toast.makeText(holder.itemView.getContext(), "Failed to leave activity", Toast.LENGTH_SHORT).show();
+                    });
+                }
+            });
+
+            // Set up the closeButton in the popup
+            ImageView closeButton = popupView.findViewById(R.id.closeButton);
+            closeButton.setOnClickListener(view -> alertDialog.dismiss());
+
+            // Show the AlertDialog
+            alertDialog.show();
+        });
+
         // move to activity detail page
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(holder.itemView.getContext(), HomeActivity.class);
+
+            Intent intent;
+            if (activity.getCreatorId().equals(currentUserId)) {
+                // If current user is the creator
+                intent = new Intent(holder.itemView.getContext(), ActivityDetailPayeeActivity.class);
+            } else {
+                // If current user is a member
+                intent = new Intent(holder.itemView.getContext(), ActivityDetailSenderActivity.class);
+            }
             intent.putExtra("activityId", activity.getId());
+            intent.putExtra("groupId", activity.getGroupId());
             holder.itemView.getContext().startActivity(intent);
         });
-        holder.deleteButtonLayout.setVisibility(View.GONE); // Hide delete button initially
     }
 
     @Override
@@ -95,6 +200,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
     }
 
     public interface OnActivityActionListener {
+        void reloadActivities();
+
         void onActivityDelete(String activityId);
         void onActivityLeave(String activityId);
     }

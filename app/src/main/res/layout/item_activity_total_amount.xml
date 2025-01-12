@@ -25,28 +25,23 @@
             android:textStyle="bold"
             android:textColor="@android:color/black" />
 
-        <include
-            android:id="@+id/categoryTagContainer"
-            layout="@layout/item_category_tag" />
+        <TextView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/categoryTag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="4dp"
+            android:background="@drawable/default_category_background"
+            android:text="Category"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 
     <!-- Image Placeholder -->
-    <FrameLayout
-        android:id="@+id/imagePlaceholder"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/gray">
-
-        <ImageView
-            android:id="@+id/imageIcon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center"
-            android:src="@drawable/baseline_image_24"
-            android:contentDescription="Image Placeholder" />
-    </FrameLayout>
+<!--z-->
 
     <!-- Memo and Amount -->
     <LinearLayout

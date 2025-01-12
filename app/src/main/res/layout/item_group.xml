@@ -115,33 +115,4 @@
                 android:background="@color/gray" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
-    <!-- Delete Button -->
-    <LinearLayout
-        android:id="@+id/deleteButtonLayout"
-        android:layout_width="80dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="end"
-        android:background="@color/red"
-        android:gravity="center"
-        android:padding="16dp"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/deleteIcon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:contentDescription="Delete Icon"
-            android:src="@drawable/baseline_delete_outline_24" />
-
-        <TextView
-            android:id="@+id/deleteText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="Delete"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-    </LinearLayout>
 </FrameLayout>

@@ -361,27 +361,37 @@ public class CreateActivityActivity extends AppCompatActivity {
         TextView categoryTitle = billItem.findViewById(R.id.categoryTitle);
         if (categoryTitle != null) {
             categoryTitle.setText(category);
+            // Change background color based on the category
+            int backgroundColor;
             switch (category) {
                 case "Food":
-                    categoryTitle.setBackgroundResource(R.color.category1);
+                    backgroundColor = Color.parseColor("#1E90FF");
                     break;
                 case "Glossary":
-                    categoryTitle.setBackgroundResource(R.color.category2);
+                    backgroundColor = Color.parseColor("#9970CE");
                     break;
                 case "Activity":
-                    categoryTitle.setBackgroundResource(R.color.category3);
+                    backgroundColor = Color.parseColor("#E190A3");
                     break;
                 case "Present":
-                    categoryTitle.setBackgroundResource(R.color.category4);
+                    backgroundColor = Color.parseColor("#FF9800");
                     break;
                 case "Travel":
-                    categoryTitle.setBackgroundResource(R.color.category5);
+                    backgroundColor = Color.parseColor("#EC407A");
+                    break;
+                default:
+                    backgroundColor = Color.parseColor("#A9A9A9");
                     break;
             }
+            categoryTitle.setBackgroundColor(backgroundColor); // Set the background color
+            categoryTitle.setTextColor(Color.WHITE); // Set text color to white for better visibility
+
+            // Display a Toast for feedback
+
             Toast.makeText(this, "Selected category: " + category, Toast.LENGTH_SHORT).show();
-            Log.d("PopupDebug", "카테고리 설정됨: " + category);
+            Log.d("PopupDebug", "Category set: " + category);
         } else {
-            Log.e("PopupDebug", "categoryTitle TextView를 찾을 수 없음");
+            Log.e("PopupDebug", "categoryTitle TextView not found");
         }
     }
 
@@ -445,11 +455,25 @@ public class CreateActivityActivity extends AppCompatActivity {
         if (participantsId.isEmpty()) {
             Toast.makeText(this, "Please select at least one participant", Toast.LENGTH_SHORT).show();
             return;
-        } else if (!participantsId.contains(userId)) {
+        }
+
+        // 항상 액티비티 생성자를 참가자로 포함
+        if (!participantsId.contains(userId)) {
             participantsId.add(userId);
         }
 
         List<String> participants = new ArrayList<>(participantsId);
+
+        // Initialize paymentStatusesId without the creator
+        List<Map<String, String>> paymentStatusesId = new ArrayList<>();
+        for (String participantId : participants) {
+            if (!participantId.equals(userId)) { // 생성자 제외
+                Map<String, String> statusMap = new HashMap<>();
+                statusMap.put("userId", participantId);
+                statusMap.put("status", "unpaid");
+                paymentStatusesId.add(statusMap);
+            }
+        }
 
         // Create a new Activity object
         Activity activity = new Activity(
@@ -465,7 +489,7 @@ public class CreateActivityActivity extends AppCompatActivity {
                 userId
         );
         activity.setParticipantsId(participants);
-
+        activity.setPaymentStatusesId(paymentStatusesId); // Add paymentStatusesId
 
         // Save activity to Firestore
         activityHelper.createActivity(activity)
@@ -477,4 +501,6 @@ public class CreateActivityActivity extends AppCompatActivity {
                     Toast.makeText(this, "Failed to create activity: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
+
+
 }

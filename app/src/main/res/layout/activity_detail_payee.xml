@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -12,7 +13,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/light_blue"
+            android:background="@color/dark_blue"
             android:fitsSystemWindows="true"
             android:elevation="4dp">
 
@@ -37,6 +38,7 @@
                         android:contentDescription="Back" />
 
                     <TextView
+                        android:id="@+id/activityNameTextView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -56,7 +58,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:padding="16dp">
+                    android:padding="16dp"
+                    android:layout_marginBottom="16dp">
 
                     <ImageView
                         android:layout_width="24dp"
@@ -71,22 +74,6 @@
                         android:textColor="@android:color/white"
                         android:textSize="18sp" />
                 </LinearLayout>
-
-                <!-- Bank Account Button -->
-                <com.google.android.material.button.MaterialButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="45dp"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="16dp"
-                    android:background="@drawable/gray_stroke_background"
-                    app:backgroundTint="@null"
-                    android:text="Bank account"
-                    android:textColor="@color/dark_gray"
-                    android:textSize="12sp"
-                    android:paddingHorizontal="24dp"
-                    android:paddingVertical="8dp"
-                    android:textStyle="bold" />
-
             </LinearLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -105,6 +92,7 @@
 
                 <!-- Total Amount Section -->
                 <LinearLayout
+                    android:id="@+id/totalAmountSection"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -121,6 +109,7 @@
                         android:textColor="@color/black" />
 
                     <TextView
+                        android:id="@+id/totalAmountTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
