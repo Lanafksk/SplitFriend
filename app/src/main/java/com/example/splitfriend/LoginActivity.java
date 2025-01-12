@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,6 +30,16 @@ public class LoginActivity extends AppCompatActivity {
         // Firebase 초기화
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+
+        TextView btnRegister = findViewById(R.id.btnRegister);
+        btnRegister.setOnClickListener(v -> {
+            startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+        });
+
+        ImageView btnBack = findViewById(R.id.logoImageView);
+        btnBack.setOnClickListener(v -> {
+            finish();
+        });
 
         // 뷰 연결
         etUserId = findViewById(R.id.etUserId); // userId 입력 필드

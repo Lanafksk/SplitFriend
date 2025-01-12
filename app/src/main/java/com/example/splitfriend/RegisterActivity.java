@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,6 +27,16 @@ public class RegisterActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+
+        TextView btnLogin = findViewById(R.id.btnGotoLogin);
+        btnLogin.setOnClickListener(v -> {
+            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+        });
+
+        ImageView btnBack = findViewById(R.id.logoImageView);
+        btnBack.setOnClickListener(v -> {
+            finish();
+        });
 
         etName = findViewById(R.id.etName);
         etUserId = findViewById(R.id.etUserId);
