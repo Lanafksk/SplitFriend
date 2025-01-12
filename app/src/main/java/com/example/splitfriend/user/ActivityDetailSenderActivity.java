@@ -31,6 +31,7 @@ import com.stripe.android.paymentsheet.PaymentSheetResult;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -111,8 +112,12 @@ public class ActivityDetailSenderActivity extends AppCompatActivity {
                         TextView activityNameTextView = findViewById(R.id.activityNameTextView);
                         TextView totalAmountTextView = findViewById(R.id.totalAmountTextView);
                         activityNameTextView.setText(activityName != null ? activityName : "Unknown Activity");
-                        totalAmountTextView.setText(totalAmount != null
-                                ? String.format("%.2f ₫", totalAmount) : "0 ₫");
+                        // Safely format totalAmount as an integer with commas
+                        String formattedTotalAmount = totalAmount != null
+                                ? String.format(Locale.getDefault(), "%,d ₫", Math.round(totalAmount))
+                                : "0 ₫";
+                        totalAmountTextView.setText(formattedTotalAmount);
+
 
                         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
