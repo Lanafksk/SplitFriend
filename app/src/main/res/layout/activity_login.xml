@@ -32,8 +32,8 @@
 
         <ImageView
             android:id="@+id/logoImageView"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="26dp"
+            android:layout_height="29dp"
             android:src="@drawable/baseline_close_white_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -1,6 +1,7 @@
 package com.example.splitfriend.user;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.example.splitfriend.data.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Collection;
 import java.util.Objects;
 
 public class GroupSettingActivity extends AppCompatActivity {
@@ -60,6 +62,8 @@ public class GroupSettingActivity extends AppCompatActivity {
         inviteCodeTextView = findViewById(R.id.inviteCodeTextView);
         copyInviteCodeButton = findViewById(R.id.copyInviteCodeButton);
         membersLayout = findViewById(R.id.memberListLayout);
+        copyInviteCodeButton = findViewById(R.id.copyInviteCodeButton);
+        copyInviteCodeButton.setOnClickListener(v -> copyInvCode());
 
 
         backButton = findViewById(R.id.backButton);
@@ -81,6 +85,20 @@ public class GroupSettingActivity extends AppCompatActivity {
         });
     }
 
+    private void copyInvCode() {
+        groupHelper.getGroupById(groupId).addOnSuccessListener(documentSnapshot -> {
+            Group group = documentSnapshot.toObject(Group.class);
+            if (group != null) {
+                android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                android.content.ClipData clip = android.content.ClipData.newPlainText("Invite Code", group.getInviteCode());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(this, "Invite code copied to clipboard", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(e -> {
+            Toast.makeText(this, "Error getting group: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        });
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -92,19 +110,28 @@ public class GroupSettingActivity extends AppCompatActivity {
     private void loadFields() {
         groupNameTextView.setText(currentGroup.getName());
         inviteCodeTextView.setText(currentGroup.getInviteCode());
+        groupNameTextView.setEnabled(false);
         populateMembers();
         if (isEditing) {
-            if (groupNameTextView.getText().toString().equals(currentGroup.getName())) {
-                editGroupNameButton.setVisibility(View.VISIBLE);
-            } else {
-                editGroupNameButton.setVisibility(View.GONE);
-            }
-            editGroupNameButton.setOnClickListener(v -> editGroupName());
-            groupNameTextView.setEnabled(true);
+            editGroupNameButton.setVisibility(View.VISIBLE);
+            editGroupNameButton.setOnClickListener(v -> enableEdit());
         } else {
             editGroupNameButton.setVisibility(View.GONE);
-            groupNameTextView.setEnabled(false);
         }
+    }
+
+    private void enableEdit() {
+        groupNameTextView.setEnabled(true);
+        Toast.makeText(this, "Click on the group name to edit!", Toast.LENGTH_SHORT).show();
+        editGroupNameButton.setImageResource(R.drawable.baseline_check_24);
+        editGroupNameButton.setOnClickListener(v -> {
+            editGroupName();
+            groupNameTextView.setEnabled(false);
+            groupNameTextView.setBackgroundResource(Color.TRANSPARENT);
+            editGroupNameButton.setImageResource(R.drawable.baseline_edit_24);
+            editGroupNameButton.setOnClickListener(v1 -> enableEdit());
+        });
+
     }
 
     private void populateMembers() {
@@ -149,5 +176,6 @@ public class GroupSettingActivity extends AppCompatActivity {
 
     private void editGroupName() {
         groupHelper.updateGroupName(groupId, groupNameTextView.getText().toString());
+        Toast.makeText(this, "Group name updated successfully", Toast.LENGTH_SHORT).show();
     }
 }
