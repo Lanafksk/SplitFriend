@@ -71,8 +71,8 @@ public class GroupDetailActivity extends AppCompatActivity implements ActivityAd
             return;
         }
 
-        backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(v -> finish());
+//        backButton = findViewById(R.id.backButton);
+//        backButton.setOnClickListener(v -> finish());
 
         menuButton = findViewById(R.id.menuButton);
         menuButton.setOnClickListener(v -> {
