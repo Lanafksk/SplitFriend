@@ -143,23 +143,31 @@ public class GroupDetailActivity extends AppCompatActivity implements ActivityAd
     private void populateMemberChips(Group group) {
         ChipGroup memberChipGroup = findViewById(R.id.memberChips);
         memberChipGroup.removeAllViews();
+        String leaderId = group.getLeaderId();
         Map<String, Boolean> processedUserIds = new HashMap<>();
+
         for (String memberId : group.getMembersId()) {
             if (!processedUserIds.containsKey(memberId)) {
                 processedUserIds.put(memberId, true);
                 UserHelper userHelper = new UserHelper();
-                userHelper.getUserById(memberId).addOnSuccessListener(documentSnapshot1 -> {
-                    User user = documentSnapshot1.toObject(User.class);
+                userHelper.getUserById(memberId).addOnSuccessListener(documentSnapshot -> {
+                    User user = documentSnapshot.toObject(User.class);
                     if (user != null) {
                         Chip chip = new Chip(memberChipGroup.getContext());
                         chip.setText(user.getName());
                         chip.setTextSize(12);
                         chip.setClickable(false);
                         chip.setFocusable(false);
-                        chip.setTextColor(Color.DKGRAY);
-                        chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor("#33FFFFFF")));
-                        chip.setChipStrokeWidth(1);
-                        chip.setChipStrokeColor(ColorStateList.valueOf(Color.DKGRAY));
+
+                        if (memberId.equals(leaderId)) {
+                            chip.setChipBackgroundColor(ColorStateList.valueOf(getResources().getColor(R.color.red)));
+                            chip.setTextColor(getResources().getColor(android.R.color.white));
+                        } else {
+                            chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor("#33FFFFFF")));
+                            chip.setChipStrokeColor(ColorStateList.valueOf(Color.DKGRAY));
+                            chip.setChipStrokeWidth(1);
+                            chip.setTextColor(Color.DKGRAY);
+                        }
 
                         memberChipGroup.addView(chip);
                     }
@@ -169,6 +177,7 @@ public class GroupDetailActivity extends AppCompatActivity implements ActivityAd
             }
         }
     }
+
     private void loadActivities() {
         activityHelper.geActivityList(groupId)
                 .addOnCompleteListener(task -> {

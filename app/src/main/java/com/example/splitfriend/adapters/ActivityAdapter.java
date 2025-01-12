@@ -65,6 +65,9 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
         holder.activityAmount.setText(String.valueOf(activity.getTotalAmount()));
 
         holder.participantChips.removeAllViews(); // Clear all chips
+
+        String creatorId = activity.getCreatorId();
+
         for (String participantId : activity.getParticipantsId()) {
             UserHelper userHelper = new UserHelper();
             userHelper.getUserById(participantId).addOnSuccessListener(documentSnapshot -> {
@@ -74,8 +77,16 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityViewHolder> {
                     chip.setText(user.getName());
                     chip.setClickable(false);
                     chip.setFocusable(false);
-                    chip.setChipBackgroundColorResource(R.color.dark_gray);
-                    chip.setTextColor(holder.itemView.getContext().getResources().getColor(R.color.white));
+
+                    // Different color for the activity leader (creator)
+                    if (participantId.equals(creatorId)) {
+                        chip.setChipBackgroundColorResource(R.color.red);
+                        chip.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.white));
+                    } else {
+                        chip.setChipBackgroundColorResource(R.color.dark_gray);
+                        chip.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.white));
+                    }
+
                     holder.participantChips.addView(chip);
                 }
             }).addOnFailureListener(e -> {

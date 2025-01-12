@@ -58,6 +58,42 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
         holder.groupName.setText(group.getName());
         holder.memberCount.setText(String.valueOf(group.getMembersId().size()));
 
+        String leaderId = group.getLeaderId();
+        holder.memberChips.removeAllViews();
+
+        List<String> addedMembers = new ArrayList<>();
+
+        for (String memberId : group.getMembersId()) {
+            if (addedMembers.contains(memberId)) {
+                continue;
+            }
+
+            UserHelper userHelper = new UserHelper();
+            userHelper.getUserById(memberId).addOnSuccessListener(documentSnapshot -> {
+                User user = documentSnapshot.toObject(User.class);
+                if (user != null) {
+                    if (addedMembers.contains(memberId)) return;
+
+                    Chip chip = new Chip(holder.itemView.getContext());
+                    chip.setText(user.getName());
+                    chip.setClickable(false);
+                    chip.setFocusable(false);
+
+                    if (Objects.equals(memberId, leaderId)) {
+                        chip.setChipBackgroundColorResource(R.color.red);
+                    } else {
+                        chip.setChipBackgroundColorResource(R.color.dark_gray);
+                    }
+                    chip.setTextColor(holder.itemView.getContext().getResources().getColor(R.color.white));
+
+                    holder.memberChips.addView(chip);
+                    addedMembers.add(memberId);
+                }
+            }).addOnFailureListener(e -> {
+                Toast.makeText(holder.itemView.getContext(), "Error getting user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            });
+        }
+
         ImageView closeButton = holder.itemView.findViewById(R.id.closeButton);
         closeButton.setOnClickListener(v -> {
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -170,27 +206,6 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
                 holder.itemView.getContext().startActivity(intent);
             }
         });
-
-
-
-        holder.memberChips.removeAllViews();
-        for (String memberId : group.getMembersId()) {
-            UserHelper userHelper = new UserHelper();
-            userHelper.getUserById(memberId).addOnSuccessListener(documentSnapshot -> {
-                User user = documentSnapshot.toObject(User.class);
-                if (user != null) {
-                    Chip chip = new Chip(holder.itemView.getContext());
-                    chip.setText(user.getName());
-                    chip.setClickable(false);
-                    chip.setFocusable(false);
-                    chip.setChipBackgroundColorResource(R.color.dark_gray);
-                    chip.setTextColor(holder.itemView.getContext().getResources().getColor(R.color.white));
-                    holder.memberChips.addView(chip);
-                }
-            }).addOnFailureListener(e -> {
-                Toast.makeText(holder.itemView.getContext(), "Error getting user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            });
-        }
     }
 
     @Override
