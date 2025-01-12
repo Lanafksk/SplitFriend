@@ -70,32 +70,33 @@ public class MemberStatusAdapter extends RecyclerView.Adapter<MemberStatusAdapte
 
             holder.payButton.setOnClickListener(v -> {
                 // Firestore 업데이트
-                db.collection("activities").document(activityId)
-                        .get()
-                        .addOnSuccessListener(activitySnapshot -> {
-                            if (activitySnapshot.exists()) {
-                                List<Map<String, String>> updatedStatuses = (List<Map<String, String>>) activitySnapshot.get("paymentStatusesId");
-                                for (Map<String, String> updatedStatus : updatedStatuses) {
-                                    if (updatedStatus.get("userId").equals(userId)) {
-                                        updatedStatus.put("status", "paid"); // 상태를 paid로 변경
-                                        break;
-                                    }
-                                }
-
-                                // Firestore에 업데이트된 상태 저장
-                                db.collection("activities").document(activityId)
-                                        .update("paymentStatusesId", updatedStatuses)
-                                        .addOnSuccessListener(aVoid -> {
-                                            // 상태 업데이트 후 UI 새로고침
-                                            statusMap.put("status", "paid"); // 로컬 데이터 업데이트
-                                            notifyItemChanged(holder.getAdapterPosition()); // RecyclerView 새로고침
-                                            Toast.makeText(holder.itemView.getContext(), "Payment status updated to Paid", Toast.LENGTH_SHORT).show();
-                                        })
-                                        .addOnFailureListener(e -> {
-                                            Toast.makeText(holder.itemView.getContext(), "Failed to update status: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                        });
-                            }
-                        });
+//                db.collection("activities").document(activityId)
+//                        .get()
+//                        .addOnSuccessListener(activitySnapshot -> {
+//                            if (activitySnapshot.exists()) {
+//                                List<Map<String, String>> updatedStatuses = (List<Map<String, String>>) activitySnapshot.get("paymentStatusesId");
+//                                for (Map<String, String> updatedStatus : updatedStatuses) {
+//                                    if (updatedStatus.get("userId").equals(userId)) {
+//                                        updatedStatus.put("status", "paid"); // 상태를 paid로 변경
+//                                        break;
+//                                    }
+//                                }
+//
+//                                // Firestore에 업데이트된 상태 저장
+//                                db.collection("activities").document(activityId)
+//                                        .update("paymentStatusesId", updatedStatuses)
+//                                        .addOnSuccessListener(aVoid -> {
+//                                            // 상태 업데이트 후 UI 새로고침
+//                                            statusMap.put("status", "paid"); // 로컬 데이터 업데이트
+//                                            notifyItemChanged(holder.getAdapterPosition()); // RecyclerView 새로고침
+//                                            Toast.makeText(holder.itemView.getContext(), "Payment status updated to Paid", Toast.LENGTH_SHORT).show();
+//                                        })
+//                                        .addOnFailureListener(e -> {
+//                                            Toast.makeText(holder.itemView.getContext(), "Failed to update status: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                                        });
+//                            }
+//                        });
+                onPayButtonClickListener.onPayButtonClick(userId);
             });
         } else {
             holder.payButton.setVisibility(View.GONE);
