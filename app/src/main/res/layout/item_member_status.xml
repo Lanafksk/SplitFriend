@@ -1,0 +1,44 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <!-- 사용자 이름 -->
+    <TextView
+        android:id="@+id/memberNameTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Member Name"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <!-- 상태 아이콘 -->
+    <ImageView
+        android:id="@+id/statusIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/baseline_check_24" />
+
+    <!-- 상태 텍스트 -->
+    <TextView
+        android:id="@+id/statusTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Paid/Unpaid"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <!-- PAY 버튼 -->
+    <Button
+        android:id="@+id/payButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="PAY"
+        android:backgroundTint="@color/red"
+        android:textColor="@android:color/white" />
+</LinearLayout>
